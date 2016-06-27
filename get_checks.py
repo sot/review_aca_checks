@@ -54,8 +54,8 @@ def get_single_warn(fname, ftext, idx, context_range=[-15, 10]):
     min_line = max(idx + context_range[0], 0)
     max_line = min(idx + context_range[1], len(ftext) - 1)
     context_lines = [line.strip() for line in ftext[min_line:max_line]]
-    context_lines.insert(abs(context_range[0]), "XXXXXXXXXXXXX MARKED WARNING XXXXXXXXXXXXX")
-    context_lines.insert(abs(context_range[0]) + 2, "XXXXXXXXXXXXX MARKED WARNING XXXXXXXXXXXXX")
+    context_lines.insert(abs(context_range[0]), "# XXXXXXXXXXXXX MARKED WARNING XXXXXXXXXXXXX")
+    context_lines.insert(abs(context_range[0]) + 2, "# XXXXXXXXXXXXX MARKED WARNING XXXXXXXXXXXXX")
     context = "\n".join(context_lines)
     return {'filename': fname,
             'line_number': idx,
