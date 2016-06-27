@@ -15,12 +15,11 @@ def get_options():
     parser.set_defaults()
     parser.add_argument("scdir",
                         help="starcheck git repo directory")
-    parser.add_argument("--srcfile",
+    parser.add_argument("--infile",
+                        default="checks.yaml",
                         help="file of checks (output from previous run of tool)")
     parser.add_argument("--outfile",
                         default="checks.yaml")
-    parser.add_argument("--clobber",
-                        action="store_true")
     args = parser.parse_args()
     return args
 
@@ -136,8 +135,8 @@ def main(opt):
     with chdir(opt.scdir):
         checks = get_sc()
     add_github_urls(checks, scversion)
-    if opt.srcfile:
-        previous_checks = yaml.load(open(opt.srcfile).read())
+    if os.path.exists(opt.infile):
+        previous_checks = yaml.load(open(opt.infile).read())
         preserve_manual_content(checks, previous_checks)
         confirm_no_lost_checks(checks, previous_checks)
     open(opt.outfile, 'w').write(yaml.dump(checks, default_style="|"))
@@ -145,6 +144,4 @@ def main(opt):
 
 if __name__ == '__main__':
     opt = get_options()
-    if os.path.exists(opt.outfile) and not opt.clobber:
-        raise IOError("Output file {} exists and clobber set to no.  Exiting".format(opt.outfile))
     main(opt)
