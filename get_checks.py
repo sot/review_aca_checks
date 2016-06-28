@@ -26,7 +26,10 @@ def get_options():
 
 # Add helper code to be able to print certain fields (context) as literal blocks
 
-class literal_str(str): pass
+
+class literal_str(str):
+    pass
+
 
 def change_style(style, representer):
     def new_representer(dumper, data):
@@ -98,8 +101,9 @@ def get_sc():
                 or re.search("\$warn\s*=", line)
                 or re.search("push @\S*warn", line)
                 or re.search("push @\{\$error\}", line)
+                or re.search("push @\S*fyi", line)
                 ):
-                   checks.append(get_single_warn(f, text, idx))
+                    checks.append(get_single_warn(f, text, idx))
     return checks
 
 
@@ -133,6 +137,7 @@ def assign_ids(checks):
     for idx, c in enumerate(no_id_checks):
         c['id'] = prev_max + idx
         print("Assigning new id {} to check {}".format(c['id'], c['text']))
+
 
 def preserve_manual_content(checks, previous_checks):
     """
