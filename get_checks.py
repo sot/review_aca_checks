@@ -1,6 +1,7 @@
 import os
 import re
 import yaml
+from yaml.representer import SafeRepresenter
 from Ska.Shell import bash
 from Ska.File import chdir
 
@@ -22,6 +23,20 @@ def get_options():
                         default="checks.yaml")
     args = parser.parse_args()
     return args
+
+# Add helper code to be able to print certain fields (context) as literal blocks
+
+class literal_str(str): pass
+
+def change_style(style, representer):
+    def new_representer(dumper, data):
+        scalar = representer(dumper, data)
+        scalar.style = style
+        return scalar
+    return new_representer
+
+represent_literal_str = change_style('|', SafeRepresenter.represent_str)
+yaml.add_representer(literal_str, represent_literal_str)
 
 
 def get_dir_version(dirname):
@@ -53,10 +68,10 @@ def get_single_warn(fname, ftext, idx, context_range=[-15, 10]):
             break
     min_line = max(idx + context_range[0], 0)
     max_line = min(idx + context_range[1], len(ftext) - 1)
-    context_lines = [line.strip() for line in ftext[min_line:max_line]]
+    context_lines = [line.strip().replace("\t", "    ") for line in ftext[min_line:max_line]]
     context_lines.insert(abs(context_range[0]), "# XXXXXXXXXXXXX MARKED WARNING XXXXXXXXXXXXX")
     context_lines.insert(abs(context_range[0]) + 2, "# XXXXXXXXXXXXX MARKED WARNING XXXXXXXXXXXXX")
-    context = "\n".join(context_lines)
+    context = literal_str("\n".join(context_lines))
     return {'filename': fname,
             'line_number': idx + 1,
             'text': warn_text,
@@ -161,7 +176,7 @@ def main(opt):
         preserve_manual_content(checks, previous_checks)
         confirm_no_lost_checks(checks, previous_checks)
     assign_ids(checks)
-    open(opt.outfile, 'w').write(yaml.dump(checks, default_style="|"))
+    open(opt.outfile, 'w').write(yaml.dump(checks))
 
 
 if __name__ == '__main__':
