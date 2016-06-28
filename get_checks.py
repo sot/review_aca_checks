@@ -58,7 +58,7 @@ def get_single_warn(fname, ftext, idx, context_range=[-15, 10]):
     context_lines.insert(abs(context_range[0]) + 2, "# XXXXXXXXXXXXX MARKED WARNING XXXXXXXXXXXXX")
     context = "\n".join(context_lines)
     return {'filename': fname,
-            'line_number': idx,
+            'line_number': idx + 1,
             'text': warn_text,
             'context': context}
 
@@ -95,8 +95,8 @@ def add_github_urls(checks, sha):
     """
     url = "https://github.com/sot/starcheck/blob/"
     for check in checks:
-        check['github_url'] = "{url}{sha}/{filename}#L{idx}".format(
-            url=url, filename=check['filename'], sha=sha, idx=check['line_number'] + 1)
+        check['github_url'] = "{url}{sha}/{filename}#L{line_number}".format(
+            url=url, filename=check['filename'], sha=sha, line_number=check['line_number'])
 
 
 def copy_manual_fields(c, pc):
