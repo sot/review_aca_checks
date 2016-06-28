@@ -109,6 +109,16 @@ def copy_manual_fields(c, pc):
             pc['copied'] = 1
 
 
+def assign_ids(checks):
+    prev_ids = [int(c['id']) for c in checks if 'id' in c]
+    prev_max = 0
+    if len(prev_ids):
+        prev_max = 1 + max(prev_ids)
+    no_id_checks = [c for c in checks if 'id' not in c]
+    for idx, c in enumerate(no_id_checks):
+        c['id'] = prev_max + idx
+        print("Assigning new id {} to check {}".format(c['id'], c['text']))
+
 def preserve_manual_content(checks, previous_checks):
     """
     For each new check, see if it was in a previous version of the output
@@ -116,9 +126,13 @@ def preserve_manual_content(checks, previous_checks):
     """
     for c in checks:
         for pc in previous_checks:
-            if pc['text'] == c['text']:
+            if (pc['text'] == c['text']):
                 pc['has_match'] = 1
-                copy_manual_fields(c, pc)
+                if 'id' not in c:
+                    c['id'] = pc['id']
+                    copy_manual_fields(c, pc)
+                else:
+                    print("Conflict on id {}".format(c['id']))
 
 
 def confirm_no_lost_checks(checks, previous_checks):
@@ -127,7 +141,13 @@ def confirm_no_lost_checks(checks, previous_checks):
     """
     for pc in previous_checks:
         if 'has_match' not in pc:
-            raise ValueError("test {} is now missing".format(pc['text']))
+            # if this is a by-hand/manual addition, re-add it
+            if pc['byhand']:
+                checks.extend(pc)
+            else:
+                print("test {} is now missing".format(pc['text']))
+                pc['missing'] = 1
+                checks.extend(pc)
 
 
 def main(opt):
@@ -137,8 +157,10 @@ def main(opt):
     add_github_urls(checks, scversion)
     if os.path.exists(opt.infile):
         previous_checks = yaml.load(open(opt.infile).read())
+        assign_ids(previous_checks)
         preserve_manual_content(checks, previous_checks)
         confirm_no_lost_checks(checks, previous_checks)
+    assign_ids(checks)
     open(opt.outfile, 'w').write(yaml.dump(checks, default_style="|"))
 
 
