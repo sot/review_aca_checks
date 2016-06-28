@@ -74,7 +74,7 @@ def get_single_warn(fname, ftext, idx, context_range=[-15, 10]):
     context = literal_str("\n".join(context_lines))
     return {'filename': fname,
             'line_number': idx + 1,
-            'text': warn_text,
+            'text': literal_str("\n".join(warn_text)),
             'context': context}
 
 
