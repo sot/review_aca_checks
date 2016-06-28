@@ -1,0 +1,31 @@
+<HTML>
+<HEAD>
+<style>
+table.sortable
+th:not(.sorttable_sorted):not(.sorttable_sorted_reverse):not(.sorttable_nosort):
+after {
+    content: " \25B4\25BE"
+}
+</style>
+<script type='text/javascript' src='sorttable.js'></script>
+</HEAD>
+<BODY>
+
+<table class="sortable" border cellpadding=5>
+<thead><tr>{% for col in displaycols %}<th>{{ col }}</th>{% endfor %}</tr></thead>
+{% for row in table %}<tr>
+{% for col in displaycols -%}
+{% if col == 'github_link' %}
+<td><a href="{{ row['github_url'] }}">github_link</a></td>
+{% elif col == 'link' %}
+<td><a href="{{ row['report_page'] }}">link</a></td>
+{% else %}
+<td>{{ row[col] }}</td>
+{% endif %}
+{% endfor %}</tr>
+{% endfor %}
+</table>
+
+
+</BODY>
+</HTML>

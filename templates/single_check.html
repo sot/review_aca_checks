@@ -1,0 +1,26 @@
+<HTML>
+<HEAD>
+  <link href="prism_ocadia.css" rel="stylesheet" />
+  <script src="prism.js"></script>
+</HEAD>
+<BODY>
+
+<DL>
+{% for col in displaycols %}
+<DT style="font-weight: bold;">{{ col }}</DT>
+{% if col == 'github_link' %}
+<DD><a href="{{ check['github_url'] }}">github_link</a></DD>
+{% elif col == 'link' %}
+<DD><a href="{{ check['report_page'] }}">link</a></DD>
+{% else %}
+<DD>{{ check[col] }}</DD>
+{% endif %}
+{% endfor %}
+</DL>
+
+<PRE><code class="language-perl">
+{{ context }}
+</code></PRE>
+
+</BODY>
+</HTML>
