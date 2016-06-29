@@ -6,7 +6,7 @@ from Ska.Shell import bash
 from Ska.File import chdir
 
 # If content in these fields is present in the input yaml, it should be preserved
-SAVE_FIELDS = ['title', 'aca_cl_id', 'notes', 'hopper', 'ignore', 'type', 'severity', 'byhand', 'missing']
+SAVE_FIELDS = ['title', 'aca_cl_id', 'notes', 'hopper', 'ignore', 'type', 'severity', 'missing']
 
 
 def get_options():
@@ -128,7 +128,7 @@ def copy_manual_fields(c, pc):
 
 
 def assign_ids(checks):
-    prev_ids = [int(c['id']) for c in checks if 'id' in c]
+    prev_ids = [int(c['id']) for c in checks if 'id' in c and not str(c['id']).startswith('m')]
     prev_max = 0
     if len(prev_ids):
         prev_max = 1 + max(prev_ids)
@@ -161,7 +161,7 @@ def confirm_no_lost_checks(checks, previous_checks):
     for pc in previous_checks:
         if 'has_match' not in pc:
             # if this is a by-hand/manual addition, re-add it
-            if pc['byhand']:
+            if pc['id'].startswith('m'):
                 checks.extend(pc)
             else:
                 print("test {} is now missing".format(pc['text']))
