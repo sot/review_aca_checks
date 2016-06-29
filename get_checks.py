@@ -56,7 +56,7 @@ def get_dir_version(dirname):
 
 def get_single_warn(fname, ftext, idx, context_range=[-15, 10]):
     """
-    Extra the context and text of a warning
+    Extract the context and text of a warning
 
     :param fname: file name with code and warning lines
     :param ftext: the text lines of that file
