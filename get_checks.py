@@ -54,24 +54,24 @@ def get_dir_version(dirname):
         return bash("git rev-parse HEAD")[0]
 
 
-def get_single_warn(fname, ftext, idx, context_range=[-15, 10]):
+def get_single_warn(fname, lines, idx, context_range=[-15, 10]):
     """
     Extract the context and text of a warning
 
     :param fname: file name with code and warning lines
-    :param ftext: the text lines of that file
+    :param lines: the text lines of that file
     :param idx: line index of a warning
     :param context_range: lines back and forward of idx to fetch for context
     :return: dictionary of the warning
     """
     warn_text = []
-    for fline in ftext[idx:]:
-        warn_text.append(fline.strip())
-        if re.search(";", fline):
+    for line in lines[idx:]:
+        warn_text.append(line.strip())
+        if ";" in line:
             break
     min_line = max(idx + context_range[0], 0)
     max_line = idx + context_range[1]
-    context_lines = [line.strip().replace("\t", "    ") for line in ftext[min_line:max_line]]
+    context_lines = [line.strip().replace("\t", "    ") for line in lines[min_line:max_line]]
     context_lines.insert(abs(context_range[0]), "# XXXXXXXXXXXXX MARKED WARNING XXXXXXXXXXXXX")
     context_lines.insert(abs(context_range[0]) + 2, "# XXXXXXXXXXXXX MARKED WARNING XXXXXXXXXXXXX")
     return {'filename': fname,
@@ -92,8 +92,8 @@ def get_sc():
                   'src/lib/Ska/Parse_CM_File.pm']
     checks = []
     for f in perl_files:
-        text = open(f).readlines()
-        for idx, line in enumerate(text):
+        lines = open(f).readlines()
+        for idx, line in enumerate(lines):
             if re.match("^\s*#", line):
                 continue
             if (re.search('[^\$]warning\s*\(', line)
@@ -102,7 +102,7 @@ def get_sc():
                 or re.search("push @\{\$error\}", line)
                 or re.search("push @\S*fyi", line)
                 ):
-                    checks.append(get_single_warn(f, text, idx))
+                    checks.append(get_single_warn(f, lines, idx))
     return checks
 
 
