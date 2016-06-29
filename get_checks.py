@@ -71,7 +71,7 @@ def get_single_warn(fname, lines, idx, context_range=[-15, 10]):
             break
     min_line = max(idx + context_range[0], 0)
     max_line = idx + context_range[1]
-    context_lines = [line.strip().replace("\t", "    ") for line in lines[min_line:max_line + 1]]
+    context_lines = [line.replace("\t", "    ").rstrip() for line in lines[min_line:max_line + 1]]
     context_lines.insert(abs(context_range[0]), "# XXXXXXXXXXXXX MARKED WARNING XXXXXXXXXXXXX")
     context_lines.insert(abs(context_range[0]) + 2, "# XXXXXXXXXXXXX MARKED WARNING XXXXXXXXXXXXX")
     return {'filename': fname,
