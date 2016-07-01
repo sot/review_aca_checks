@@ -161,12 +161,12 @@ def confirm_no_lost_checks(checks, previous_checks):
     for pc in previous_checks:
         if 'has_match' not in pc:
             # if this is a by-hand/manual addition, re-add it
-            if pc['id'].startswith('m'):
-                checks.extend(pc)
+            if str(pc['id']).startswith('m'):
+                checks.append(pc)
             else:
                 print("test {} is now missing".format(pc['text']))
                 pc['missing'] = 1
-                checks.extend(pc)
+                checks.append(pc)
 
 
 def main(opt):
