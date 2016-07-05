@@ -30,7 +30,7 @@ shutil.copy("prism_ocadia.css", opt.outdir)
 shutil.copy("prism.js", opt.outdir)
 shutil.copy("sorttable.js", opt.outdir)
 
-checks = yaml.load(open(opt.infile).read())
+checks = yaml.load(open(opt.infile).read())['checks']
 
 displaycols = ['id', 'link', 'filename', 'line_number',
                'title', 'github_link',

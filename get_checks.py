@@ -177,12 +177,13 @@ def main(opt):
         checks = get_sc()
     add_github_urls(checks, scversion)
     if os.path.exists(opt.infile):
-        previous_checks = yaml.load(open(opt.infile).read())
+        previous_checks = yaml.load(open(opt.infile).read())['checks']
         assign_ids(previous_checks)
         preserve_manual_content(checks, previous_checks)
         confirm_no_lost_checks(checks, previous_checks)
     assign_ids(checks)
-    open(opt.outfile, 'w').write(yaml.dump(checks))
+    out = {'checks': checks, 'info': {'starcheck_commit': scversion, 'tags': tags}}
+    open(opt.outfile, 'w').write(yaml.dump(out))
 
 
 if __name__ == '__main__':
