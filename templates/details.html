@@ -1,0 +1,29 @@
+<HTML>
+<HEAD>
+  <link href="prism_ocadia.css" rel="stylesheet" />
+  <script src="prism.js"></script>
+</HEAD>
+<BODY>
+
+{% for row in table %}</tr>
+<H2 id="{{ row['str_id'] }}"></H2>
+<table border>
+<thead><tr>{% for col in displaycols %}<th>{{ col }}</th>{% endfor %}</tr></thead>
+{% for col in displaycols -%}
+{% if (col == 'id') or (col == 'title') %}
+<td><a href="#{{ row['str_id'] }}">{{ row[col] }}</a></td>
+{% elif col == 'file' %}
+<td><a href="{{ row['github_url'] }}">{{ row['filename'] }}:{{ row['line_number'] }}</a></td>
+{% else %}
+<td>{{ row[col] }}</td>
+{% endif %}
+{% endfor %}</tr>
+</table>
+
+<PRE><code class="language-perl">
+{{ row['context'] }}
+</code></PRE>
+{% endfor %}
+
+</BODY>
+</HTML>

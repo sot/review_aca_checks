@@ -12,20 +12,19 @@ after {
 <BODY>
 
 <table class="sortable" border cellpadding=5>
-<thead><tr>{% for col in displaycols %}<th>{{ col }}</th>{% endfor %}</tr></thead>
+<thead><tr>{% for col in headercols %}<th>{{ col }}</th>{% endfor %}</tr></thead>
 {% for row in table %}<tr>
-{% for col in displaycols -%}
-{% if col == 'github_link' %}
-<td><a href="{{ row['github_url'] }}">github_link</a></td>
-{% elif col == 'link' %}
-<td><a href="{{ row['report_page'] }}">link</a></td>
+{% for col in headercols -%}
+{% if (col == 'id') or (col == 'title') %}
+<td><a href="{{ detailpage }}#{{ row['str_id'] }}">{{ row[col] }}</a></td>
+{% elif col == 'file' %}
+<td><a href="{{ row['github_url'] }}">{{ row['filename'] }}:{{ row['line_number'] }}</a></td>
 {% else %}
 <td>{{ row[col] }}</td>
 {% endif %}
 {% endfor %}</tr>
 {% endfor %}
 </table>
-
 
 </BODY>
 </HTML>

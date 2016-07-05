@@ -32,26 +32,32 @@ shutil.copy("sorttable.js", opt.outdir)
 
 checks = yaml.load(open(opt.infile).read())['checks']
 
-displaycols = ['id', 'link', 'filename', 'line_number',
-               'title', 'github_link',
-               'ignore', 'missing', 'text', 'notes',
-               'aca_cl_id', 'type', 'byhand', 'severity', 'hopper']
+for check in checks:
+    if str(check['id']).startswith('m'):
+        check['str_id'] = check['id']
+    else:
+        check['str_id'] = "{:03d}".format(check['id'])
 
-single_check = jinja_env.get_template('single_check.html')
-for c in checks:
-    page = single_check.render(context=c['context'],
-                               displaycols=displaycols,
-                               check=c)
-    report_filename = "{:05d}_check.html".format(c['id'])
-    c['report_page'] = report_filename
-    f = open(os.path.join(opt.outdir, report_filename), 'w')
-    f.write(page)
-    f.close()
-    c['filename'] = os.path.basename(c['filename'])
+headercols = ['id', 'title', 'file',
+              'type', 'severity', 'aca_cl_id',
+              'text', 'notes', 'missing']
+
+displaycols = headercols
+
+
+details = jinja_env.get_template('details.html')
+detailpage = "details.html"
+page = details.render(table=checks,
+                      displaycols=displaycols)
+f = open(os.path.join(opt.outdir, detailpage), 'w')
+f.write(page)
+f.close()
+
 
 toc = jinja_env.get_template('toc.html')
 page = toc.render(table=checks,
-           displaycols=displaycols)
+                       headercols=headercols,
+                       detailpage=detailpage)
 f = open(os.path.join(opt.outdir, "index.html"), 'w')
 f.write(page)
 f.close()
