@@ -33,12 +33,6 @@ shutil.copy("sorttable.js", opt.outdir)
 check_data = yaml.load(open(opt.infile).read())
 checks = check_data['checks']
 
-for check in checks:
-    if str(check['id']).startswith('m'):
-        check['str_id'] = check['id']
-    else:
-        check['str_id'] = "{:03d}".format(check['id'])
-
 headercols = ['id', 'title', 'file',
               'type', 'severity', 'aca_cl_id',
               'text', 'notes', 'missing']

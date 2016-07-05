@@ -11,7 +11,7 @@
 <thead><tr>{% for col in displaycols %}<th>{{ col }}</th>{% endfor %}</tr></thead>
 {% for col in displaycols -%}
 {% if (col == 'id') or (col == 'title') %}
-<td><a href="#{{ row['str_id'] }}">{{ row[col] }}</a></td>
+<td><a href="#{{ row['id'] }}">{{ row[col] }}</a></td>
 {% elif col == 'file' %}
 <td><a href="{{ row['github_url'] }}">{{ row['filename'] }}:{{ row['line_number'] }}</a></td>
 {% else %}

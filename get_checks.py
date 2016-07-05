@@ -133,7 +133,7 @@ def assign_ids(checks):
         prev_max = 1 + max(prev_ids)
     no_id_checks = [c for c in checks if 'id' not in c]
     for idx, c in enumerate(no_id_checks):
-        c['id'] = prev_max + idx
+        c['id'] = "{:03d}".format(prev_max + idx)
         print("Assigning new id {} to check {}".format(c['id'], c['text']))
 
 

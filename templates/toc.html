@@ -21,7 +21,7 @@ starcheck_tags: {% for tag in tags %}{{ tag }}, {% endfor %}
 {% for row in table %}<tr>
 {% for col in headercols -%}
 {% if (col == 'id') or (col == 'title') %}
-<td><a href="{{ detailpage }}#{{ row['str_id'] }}">{{ row[col] }}</a></td>
+<td><a href="{{ detailpage }}#{{ row['id'] }}">{{ row[col] }}</a></td>
 {% elif col == 'file' %}
 <td><a href="{{ row['github_url'] }}">{{ row['filename'] }}:{{ row['line_number'] }}</a></td>
 {% else %}
