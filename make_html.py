@@ -30,7 +30,8 @@ shutil.copy("prism_ocadia.css", opt.outdir)
 shutil.copy("prism.js", opt.outdir)
 shutil.copy("sorttable.js", opt.outdir)
 
-checks = yaml.load(open(opt.infile).read())['checks']
+check_data = yaml.load(open(opt.infile).read())
+checks = check_data['checks']
 
 for check in checks:
     if str(check['id']).startswith('m'):
@@ -55,9 +56,12 @@ f.close()
 
 
 toc = jinja_env.get_template('toc.html')
-page = toc.render(table=checks,
-                       headercols=headercols,
-                       detailpage=detailpage)
+page = toc.render(
+    starcheck_commit=check_data['info']['starcheck_commit'],
+    tags=check_data['info']['tags'],
+    table=checks,
+    headercols=headercols,
+    detailpage=detailpage)
 f = open(os.path.join(opt.outdir, "index.html"), 'w')
 f.write(page)
 f.close()

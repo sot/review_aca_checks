@@ -11,6 +11,11 @@ after {
 </HEAD>
 <BODY>
 
+
+starcheck_commit: {{ starcheck_commit }}
+
+starcheck_tags: {% for tag in tags %}{{ tag }}, {% endfor %}
+
 <table class="sortable" border cellpadding=5>
 <thead><tr>{% for col in headercols %}<th>{{ col }}</th>{% endfor %}</tr></thead>
 {% for row in table %}<tr>
