@@ -6,7 +6,7 @@
 <BODY>
 
 {% for row in table %}</tr>
-<H2 id="{{ row['str_id'] }}"></H2>
+<H2 id="{{ row['id'] }}"></H2>
 <table border>
 <thead><tr>{% for col in displaycols %}<th>{{ col }}</th>{% endfor %}</tr></thead>
 {% for col in displaycols -%}
