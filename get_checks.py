@@ -98,12 +98,9 @@ def get_sc():
         for idx, line in enumerate(lines):
             if re.match("^\s*#", line):
                 continue
-            if (re.search('[^\$]warning\s*\(', line)
-                or re.search("\$warn\s*=", line)
-                or re.search("push @\S*warn", line)
-                or re.search("push @\{\$error\}", line)
-                or re.search("push @\S*fyi", line)
-                ):
+            re_warns = ['[^\$]warning\s*\(', '\$warn\s*=',
+                        'push @\S*warn', 'push @\{\$error\}', 'push @\S*fyi']
+            if any(re.search(re_warn, line) for re_warn in re_warns):
                     checks.append(get_single_warn(f, lines, idx))
     return checks
 
