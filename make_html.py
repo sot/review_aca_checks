@@ -35,10 +35,11 @@ checks = check_data['checks']
 
 headercols = ['id', 'title', 'file',
               'type', 'severity', 'aca_cl_id',
+              'missing']
+
+displaycols = ['id', 'title', 'file',
+              'type', 'severity', 'aca_cl_id',
               'text', 'notes', 'missing']
-
-displaycols = headercols
-
 
 details = jinja_env.get_template('details.html')
 detailpage = "details.html"
