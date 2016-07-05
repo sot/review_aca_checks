@@ -145,7 +145,7 @@ def preserve_manual_content(checks, previous_checks):
     """
     for c in checks:
         for pc in previous_checks:
-            if (pc['text'] == c['text']):
+            if (pc['text'] == c['text']) and 'has_match' not in pc:
                 pc['has_match'] = 1
                 if 'id' not in c:
                     c['id'] = pc['id']
