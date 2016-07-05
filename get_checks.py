@@ -159,6 +159,9 @@ def confirm_no_lost_checks(checks, previous_checks):
     Check that no warnings/checks went missing.
     """
     for pc in previous_checks:
+        # preserve the type of these fields for reuse
+        pc['context'] = literal_str(pc['context'])
+        pc['text'] = literal_str(pc['text'])
         if 'has_match' not in pc:
             # if this is a by-hand/manual addition, re-add it
             if str(pc['id']).startswith('m'):
