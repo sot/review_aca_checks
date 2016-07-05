@@ -1,5 +1,6 @@
 import os
 import re
+from operator import itemgetter
 import yaml
 from yaml.representer import SafeRepresenter
 from Ska.Shell import bash
@@ -179,6 +180,8 @@ def main(opt):
         preserve_manual_content(checks, previous_checks)
         confirm_no_lost_checks(checks, previous_checks)
     assign_ids(checks)
+    # make sure this is sorted by id
+    checks = sorted(checks, key=itemgetter('id'))
     out = {'checks': checks, 'info': {'starcheck_commit': scversion, 'tags': tags}}
     open(opt.outfile, 'w').write(yaml.dump(out))
 
