@@ -44,14 +44,16 @@ yaml.add_representer(literal_str, represent_literal_str)
 
 def get_dir_version(dirname):
     """
-    Get git revision of the supplied repo dir
+    Get git revision of the supplied repo dir and a tags if it has any
     Print a warning if the try looks dirty.
     """
     with chdir(dirname):
         changes = int(bash("git diff-index --quiet HEAD ; echo $?")[0])
         if changes != 0:
             print "Warning: {} has changes and git version may not map to code".format(dirname)
-        return bash("git rev-parse HEAD")[0]
+        commit = bash("git rev-parse HEAD")[0]
+        tags = bash("git tag --points-at {}".format(commit))
+        return commit, tags
 
 
 def get_single_warn(fname, lines, idx, context_range=[-15, 10]):
@@ -170,7 +172,7 @@ def confirm_no_lost_checks(checks, previous_checks):
 
 
 def main(opt):
-    scversion = get_dir_version(opt.scdir)
+    scversion, tags = get_dir_version(opt.scdir)
     with chdir(opt.scdir):
         checks = get_sc()
     add_github_urls(checks, scversion)
