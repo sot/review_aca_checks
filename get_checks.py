@@ -6,7 +6,7 @@ from Ska.Shell import bash
 from Ska.File import chdir
 
 # If content in these fields is present in the input yaml, it should be preserved
-SAVE_FIELDS = ['title', 'aca_cl_id', 'notes', 'hopper', 'ignore', 'type', 'severity', 'missing']
+SAVE_FIELDS = ['title', 'aca_cl_id', 'notes', 'type', 'severity', 'missing']
 
 
 def get_options():
