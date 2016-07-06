@@ -20,7 +20,7 @@ starcheck_tags: {% for tag in tags %}{{ tag }}, {% endfor %}
 <thead><tr>{% for col in headercols %}<th>{{ col }}</th>{% endfor %}</tr></thead>
 {% for row in table %}<tr>
 {% for col in headercols -%}
-{% if (col == 'id') or (col == 'title') %}
+{% if (col == 'id') %}
 <td><a href="{{ detailpage }}#{{ row['id'] }}">{{ row[col] }}</a></td>
 {% elif col == 'file' %}
 <td><a href="{{ row['github_url'] }}">{{ row['filename'] }}:{{ row['line_number'] }}</a></td>
