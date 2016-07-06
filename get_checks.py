@@ -188,7 +188,7 @@ def main(opt):
     # make sure this is sorted by id
     checks = sorted(checks, key=itemgetter('id'))
     out = {'checks': checks, 'info': {'starcheck_commit': scversion, 'tags': tags}}
-    open(opt.outfile, 'w').write(yaml.dump(out))
+    open(opt.outfile, 'w').write(yaml.dump(out, default_flow_style=False))
 
 
 if __name__ == '__main__':
