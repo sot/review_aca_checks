@@ -1,0 +1,37 @@
+<HTML>
+<HEAD>
+  <link href="prism_ocadia.css" rel="stylesheet" />
+  <script src="prism.js"></script>
+  <link href="/mta/ASPECT/aspect.css" rel="stylesheet" type="text/css" media="all" />
+  <style type="text/css">
+      body { min-width:1200px;
+      background:url('http://cxc.harvard.edu/mta/ASPECT/blue_paper.gif');   }
+      td {
+        padding-left: 0.1cm;
+        padding-right: 0.1cm;
+     }
+  </style>
+</HEAD>
+<BODY>
+
+{% for row in table %}</tr>
+<H2 id="{{ row['id'] }}">{{ row['title']}}</H2>
+<table border>
+{% for col in displaycols -%}
+<tr><th>{{ col }}</th><td>
+{% if col == 'file' -%}
+<a href="{{ row['github_url'] }}">{{ row['filename'] }}:{{ row['line_number'] }}</a>
+{% else -%}
+{{ row[col] }}
+{% endif %}
+</td></tr>
+{% endfor %}
+</table>
+
+<PRE><code class="language-perl">
+{{ row['context'] }}
+</code></PRE>
+{% endfor %}
+
+</BODY>
+</HTML>
