@@ -673,6 +673,7 @@ checks:
   line_number: 681
   text: |-
     push @{$save_hash{processing_warning}}, $_;
+  title: Print all collected warnings to starcheck output
   type: code
 - context: |2-
         my $set = 0;
@@ -860,6 +861,7 @@ checks:
   line_number: 1169
   text: |-
     warning($warn);
+  title: Additional steps of assignment of warning created in '021'.
   type: code
 - context: |
     ##***************************************************************************
