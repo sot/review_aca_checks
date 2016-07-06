@@ -141,15 +141,16 @@ def preserve_manual_content(checks, previous_checks):
     For each new check, see if it was in a previous version of the output
     and call the routine to copy over manual content.
     """
-    for c in checks:
+    for idx, c in enumerate(checks):
         for pc in previous_checks:
             if str(pc['id']).startswith('m'):
                 continue
             if (pc['text'] == c['text']) and 'has_match' not in pc:
-                pc['has_match'] = 1
+                pc['has_match'] = idx
                 if 'id' not in c:
                     c['id'] = pc['id']
                     copy_manual_fields(c, pc)
+                    break
                 else:
                     print("Conflict on id {}".format(c['id']))
 
