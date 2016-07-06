@@ -6,10 +6,6 @@ from yaml.representer import SafeRepresenter
 from Ska.Shell import bash
 from Ska.File import chdir
 
-# If content in these fields is present in the input yaml, it should be preserved
-SAVE_FIELDS = ['title', 'aca_cl_id', 'note', 'type', 'severity', 'missing', 'orvdot']
-OTHER_FIELDS = ['id', 'context', 'text', 'filename', 'line_number', 'github_url']
-
 
 def get_options():
     import argparse
@@ -122,8 +118,9 @@ def copy_manual_fields(c, pc):
     """
     Copy the manually-entered fields from a previous file into new output.
     """
-    for field in SAVE_FIELDS:
-        if field in pc.keys():
+    fields = pc.keys()
+    for field in fields:
+        if field not in ['id', 'line_number', 'filename', 'context', 'text', 'github_url', 'has_match']:
             c[field] = pc[field]
             pc['copied'] = 1
 
@@ -148,9 +145,6 @@ def preserve_manual_content(checks, previous_checks):
         for pc in previous_checks:
             if str(pc['id']).startswith('m'):
                 continue
-            for key in pc:
-                if key not in (SAVE_FIELDS + OTHER_FIELDS + ['copied', 'has_match']):
-                    print("Warning: field {} for entry {} will be discarded".format(key, pc['id']))
             if (pc['text'] == c['text']) and 'has_match' not in pc:
                 pc['has_match'] = 1
                 if 'id' not in c:
