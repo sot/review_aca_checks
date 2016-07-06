@@ -36,7 +36,7 @@ checks:
     perl.warning("Error with Inline::Python imports {}\n".format(err))
     return make_plots_for_obsid(**kwargs)
     };
-  title: "Error running Python from Perl"
+  title: Error running Python from Perl
   type: code
 - context: |-
     my @ps = Ska::Parse_CM_File::PS($ps_file) if ($ps_file);
@@ -73,7 +73,7 @@ checks:
   line_number: 270
   text: |-
     map { warning("$_\n") } @{$error};
-  title: "Put out errors recorded before creation of warning function"
+  title: Put out errors recorded before creation of warning function
   type: code
 - context: |2-
 
@@ -110,7 +110,7 @@ checks:
   line_number: 277
   text: |-
     warning("Ska::AGASC call to mp_get_agasc failed.  Output not approved for authoritative load review. \n");
-  title: "Could not find/run mp_get_agasc"
+  title: Could not find/run mp_get_agasc
   type: process
 - context: |-
     # characteristics) and parse; use fid_time_violation later (when global_warn set up
@@ -145,9 +145,10 @@ checks:
   github_url: https://github.com/sot/starcheck/blob/cef8d8482300904b9335f968a8f852a6ae72b435/src/starcheck.pl#L282
   id: '003'
   line_number: 282
+  notes: Delete from starcheck, overtaken by events.
   text: |-
     warning("uname == SunOS; starcheck is only approved on Linux \n");
-  title: "Do not run on SunOS"
+  title: Do not run on SunOS
   type: process
 - context: |2-
 
@@ -184,10 +185,9 @@ checks:
   line_number: 294
   text: |-
     warning("Unable to connect to Sybase server; links generated for all AGASC ids by default \n");
-  title: "Could not read from Sybase database"
+  title: Could not read from Sybase database
   type: process
-- aca_cl_id: ACA-045
-  context: |2-
+- context: |2-
         warning("Unable to connect to Sybase server; links generated for all AGASC ids by default \n");
     }
     else{
@@ -222,8 +222,8 @@ checks:
   line_number: 309
   text: |-
     warning("Dark Cal Checker Failed $@ \n");
-  title: "Dark Cal Checker Failed"
-  type: aca_check
+  title: Dark Cal Checker Failed
+  type: process
 - context: |-
     eval{
         $dark_cal_checker = Ska::Starcheck::Dark_Cal_Checker->new({ dir => $par{dir},
@@ -259,7 +259,7 @@ checks:
   line_number: 318
   text: |-
     warning("DOT file not modified by SAUSAGE! \n");
-  title: "DOT file not modified by SAUSAGE"
+  title: DOT file not modified by SAUSAGE
   type: process
 - context: |2-
 
@@ -296,7 +296,7 @@ checks:
   line_number: 342
   text: |-
     } else { warning("Could not find Maneuver Error file in output/ directory\n") };
-  title: "Missing Maneuver Error file"
+  title: Missing Maneuver Error file
   type: process
 - context: |-
     set_acq_model_ms_filter($MSF_ENABLED);
@@ -331,9 +331,10 @@ checks:
   github_url: https://github.com/sot/starcheck/blob/cef8d8482300904b9335f968a8f852a6ae72b435/src/starcheck.pl#L351
   id: 008
   line_number: 351
+  orvdot: Need a replan interrupt and a replan reopen to test history files.
   text: |-
     warning("Dither History runs into load\n");
-  title: "Dither History runs into load"
+  title: Dither History runs into load
   type: process
 - context: |2-
         @manerr = Ska::Parse_CM_File::man_err($manerr_file);
@@ -368,9 +369,10 @@ checks:
   github_url: https://github.com/sot/starcheck/blob/cef8d8482300904b9335f968a8f852a6ae72b435/src/starcheck.pl#L356
   id: 009
   line_number: 356
+  orvdot: Need a replan interrupt and a replan reopen to test history files.
   text: |-
     warning("Radmon History runs into load\n");
-  title: "Radmon History runs into load"
+  title: Radmon History runs into load
   type: process
 - context: |2-
 
@@ -405,9 +407,10 @@ checks:
   github_url: https://github.com/sot/starcheck/blob/cef8d8482300904b9335f968a8f852a6ae72b435/src/starcheck.pl#L361
   id: '010'
   line_number: 361
+  orvdot: Need a replan interrupt and a replan reopen to test history files.
   text: |-
     warning("Fidsel History runs into load\n");
-  title: "Fidsel History runs into load"
+  title: Fidsel History runs into load
   type: process
 - context: |-
     # and the next obsid
@@ -444,7 +447,7 @@ checks:
   line_number: 458
   text: |-
     warning("OFLS ID $oflsid in Guide Summ but not in DOT! \n");
-  title: "OFLS ID in guide summary but not in DOT"
+  title: OFLS ID in guide summary but not in DOT
   type: process
 - context: |2-
         warning("OFLS ID $oflsid in Guide Summ but not in DOT! \n");
@@ -479,10 +482,11 @@ checks:
   github_url: https://github.com/sot/starcheck/blob/cef8d8482300904b9335f968a8f852a6ae72b435/src/starcheck.pl#L473
   id: '012'
   line_number: 473
+  orvdot: No expected coverage due to removal of SIR concept (OK).
   text: |-
     push @{$obs{$oflsid}->{fyi}},
     sprintf(">> INFO   : No Guide Star Summary for obsid $obsid ($oflsid). OK for '$ofls_string' ER. \n");
-  title: "No guide summary (as expected) for SIR ER"
+  title: No guide summary (as expected) for SIR ER
   type: process
 - context: |-
     # Add guide_summary data to MP_STARCAT cmd for each obsid.
@@ -519,7 +523,7 @@ checks:
   line_number: 477
   text: |-
     push @{$obs{$oflsid}->{warn}}, sprintf(">> WARNING: No Guide Star Summary for obsid $obsid ($oflsid). \n");
-  title: "No Guide Summary for obsid"
+  title: No Guide Summary for obsid
   type: process
 - context: |2-
 
@@ -557,7 +561,7 @@ checks:
   notes: Should this be added to aca checks?
   text: |-
     push @global_warn, "Error getting temperatures from get_ccd_temps\n";
-  title: "Error getting temperatures from get_ccd_temps"
+  title: Error getting temperatures from get_ccd_temps
   type: process
 - context: |2-
         my $cat = Ska::Starcheck::Obsid::find_command($obs{$obsid}, "MP_STARCAT");
@@ -594,7 +598,7 @@ checks:
   line_number: 601
   text: |-
     push @global_warn, "Error Python plotting catalog\n";
-  title: "Error Python plotting catalog"
+  title: Error Python plotting catalog
   type: code
 - context: |2-
             $obs{$obsid}->{plot_field_file} = "$STARCHECK/star_view_$obs{$obsid}->{obsid}.png";
@@ -632,7 +636,7 @@ checks:
   text: |-
     warning ("More than one star catalog assigned to Obsid $obsid\n")
     if ($obs{$obsid}->find_command('MP_STARCAT',2));
-  title: "More than one star catalog assigned to obsid"
+  title: More than one star catalog assigned to obsid
   type: process
 - context: |2-
         $out .= "Using ACABadPixel file from $ACA_badpix_date Dark Cal \n";
@@ -705,7 +709,7 @@ checks:
   line_number: 1078
   text: |-
     warning ("Found MP_TARGQUAT at $date[$i] without corresponding AOMANUVR\n");
-  title: "No AOMANUVR found for MP_TARGQUAT"
+  title: No AOMANUVR found for MP_TARGQUAT
   type: process
 - context: |2-
         if ($dot_cmd{$cmd_identifier} eq $cmd ){
@@ -742,7 +746,7 @@ checks:
   line_number: 1142
   text: |-
     warning("Could not find a match in DOT for $cmd at $date\n");
-  title: "Missing cmd in DOT"
+  title: Could not find a match in DOT for cmd near date
   type: process
 - context: |2-
                 die "Couldn't parse obsid_index = '$obsid_index' in get_obsid()\n";
@@ -777,9 +781,10 @@ checks:
   github_url: https://github.com/sot/starcheck/blob/cef8d8482300904b9335f968a8f852a6ae72b435/src/starcheck.pl#L1149
   id: '020'
   line_number: 1149
+  orvdot: Replan/reopen schedule that has star catalogs prior to the start of DOT.
   text: |-
     warning("Creating bogus obsid $obsid\n") unless ($obs{$obsid});
-  title: "Creating bogus obsid"
+  title: Creating fake obsid for star catalog in backstop but not in DOT
   type: process
 - context: |2-
         }
@@ -818,7 +823,7 @@ checks:
     my $warn = ((@files == 0) ?
     "$warning: No $name file matching $glob\n"
     : "$warning: Found more than one file matching $glob, using none\n");
-  title: "Exactly one file of each required kind was found"
+  title: Exactly one file of each required kind was found
   type: process
 - context: |2-
 
@@ -890,7 +895,7 @@ checks:
   line_number: 1195
   text: |-
     push @global_warn, $text;
-  title: "This is the general-purpose warning function"
+  title: This is the general-purpose warning function
   type: code
 - context: |-
     # Use the following (in order of preference):
@@ -928,7 +933,7 @@ checks:
   text: |-
     push @{$self->{warn}}, sprintf("$alarm Obsid mismatch: guide summary %d != backstop %d\n",
     $gs_obsid, $bs_obsid);
-  title: "Guide summary backstop obsid mismatch"
+  title: Mismatch between obsid in guide summary vs. backstop
   type: process
 - context: |2-
             foreach (keys %{$m}) {
@@ -965,7 +970,7 @@ checks:
   line_number: 362
   text: |-
     push @{$self->{warn}}, sprintf("$alarm Uplink quaternion norm value $norm is too far from 1.0\n");
-  title: "Quaternion is not normalized"
+  title: Quaternion is not normalized
   type: aca_check
 - context: |2-
             if (abs(1.0 - $norm) > 1e-6){
@@ -1006,7 +1011,7 @@ checks:
     . "   Use Q1,Q2,Q3,Q4 = %.12f %.12f %.12f %.12f\n",
     $q_diff->{ra0}*3600, $q_diff->{dec}*3600, $q_diff->{roll0}*3600,
     $q_man[0], $q_man[1], $q_man[2], $q_man[3]);
-  title: "Quaternion has poor precision"
+  title: Quaternion has poor precision
   type: aca_check
 - context: |2-
             my $q_obc = Quat->new(@c_quat_norm);
@@ -1044,7 +1049,7 @@ checks:
   text: |-
     push @{$self->{yellow_warn}}, sprintf("$alarm Did not find match in MAN summary for MP_TARGQUAT at $c->{date}\n")
     unless ($found);
-  title: "No match in maneuver summary for MP_TARGQUAT"
+  title: No match in maneuver summary for MP_TARGQUAT
   type: process
 - context: |2-
         while ($c = find_command($self, "MP_TARGQUAT", $n)) {
@@ -1081,7 +1086,7 @@ checks:
   line_number: 418
   text: |-
     push @{$self->{yellow_warn}}, sprintf("$alarm Mismatch in target quaternion ($c->{date}) and maneuver error file\n");
-  title: "Mismatch between target quaternion at time and entry in maneuver error file"
+  title: Mismatch between target quaternion at time and entry in maneuver error file
   type: process
 - context: |2-
             my $length = length($obsid);
@@ -1118,7 +1123,7 @@ checks:
   line_number: 457
   text: |-
     push @{$self->{warn}}, "$alarm Could not find obsid $obsid in processing summary\n";
-  title: "Could not find obsid in processing summary"
+  title: Could not find obsid in MSCH processing summary (mps/ms*.sum)
   type: process
 - context: |2-
         }
@@ -1155,7 +1160,7 @@ checks:
   line_number: 504
   text: |-
     push @{$self->{fyi}}, "$info Next obsid has no manvr; using next obs start date for checks (dither, momentum)\n";
-  title: "Next obsid has no manvr, using next obsid star for time checks."
+  title: Next obsid has no manvr, using next obsid start for time checks
   type: process
 - context: |2+
                 # if the next obsid doesn't have a maneuver (ACIS undercover or whatever)
@@ -1191,7 +1196,7 @@ checks:
   line_number: 515
   text: |-
     push @{$self->{warn}}, "$alarm Could not determine obsid start and stop times for checks (dither, momentum)\n";
-  title: "Could not determine star or stop time(s) for obsid"
+  title: Could not determine start or stop time(s) for obsid
   type: process
 - context: |2-
 
@@ -1229,7 +1234,7 @@ checks:
   severity: red
   text: |-
     push @{$self->{warn}}, "$alarm Dither status not checked\n";
-  title: "Dither status not checked"
+  title: Dither status not checked
   type: aca_check
 - context: |2-
 
@@ -1266,7 +1271,7 @@ checks:
   line_number: 638
   text: |-
     push @{$self->{warn}}, "$alarm Dither states unavailable. Dither not checked\n";
-  title: "Dither states/history unavailable"
+  title: Dither states/history unavailable
   type: aca_check
 - context: |2-
         # the start of observation (+ 8 minutes)
@@ -1305,7 +1310,7 @@ checks:
   text: |-
     push @{$self->{warn}}, "$alarm Dither mismatch - OR: $or_val != Backstop: $bs_val\n"
     if ($or_val ne $bs_val);
-  title: "Dither OR/Backstop mismatch in ENAB/DISA"
+  title: Mismatch between dither enable status in OR vs. Backstop
   type: aca_check
 - context: |2-
                 $dither = $dither_state;
@@ -1343,7 +1348,7 @@ checks:
   text: |-
     push @{$self->{warn}},
     "$alarm Unable to determine dither from OR list\n";
-  title: "Could not determine dither ENAB/DISA from OR list"
+  title: Could not determine dither enable status from OR list
   type: process
 - context: |2-
                 if ($or_val ne $bs_val);
@@ -1378,12 +1383,14 @@ checks:
   github_url: https://github.com/sot/starcheck/blob/cef8d8482300904b9335f968a8f852a6ae72b435/src/lib/Ska/Starcheck/Obsid.pm#L678
   id: '036'
   line_number: 678
+  orvdot: Need change in commanded dither amplitude (e.g. HRC observation or large
+    dither)
   text: |-
     my $warn = sprintf("$alarm Dither amp. mismatch - OR: (Y %.1f, Z %.1f) "
     . "!= Backstop: (Y %.1f, Z %.1f)\n",
     $y_amp, $z_amp,
     $dither->{ampl_y}, $dither->{ampl_p});
-  title: "Dither amplitude mismatch OR/Backstop"
+  title: Dither amplitude mismatch OR/Backstop
   type: aca_check
 - context: |2-
                 "$alarm Unable to determine dither from OR list\n";
@@ -1420,7 +1427,7 @@ checks:
   line_number: 682
   text: |-
     push @{$self->{warn}}, $warn;
-  title: "Really just part of check '036'"
+  title: Really just part of check '036'
   type: code
 - context: |2-
                     and defined $dither->{ampl_p}
@@ -1458,7 +1465,7 @@ checks:
   severity: yellow
   text: |-
     push @{$self->{yellow_warn}}, "$alarm Non-standard dither\n";
-  title: "Non-standard dither"
+  title: Non-standard dither
   type: aca_check
 - context: |2-
                 push @{$self->{yellow_warn}}, "$alarm Non-standard dither\n";
@@ -1496,7 +1503,7 @@ checks:
   text: |-
     push @{$self->{warn}},
     "$alarm Unable to determine obs tstop; could not check for dither changes during obs\n";
-  title: "Could not use stop time for dither check"
+  title: Could not use stop time for dither check
   type: process
 - context: |2+
                     $obs_end_pad = 5.5 * 60;
@@ -1533,7 +1540,7 @@ checks:
   severity: red
   text: |-
     push @{$self->{warn}}, "$alarm Dither commanding at $dither->{time}.  During observation.\n";
-  title: "Unexpected dither commanding during observation"
+  title: Unexpected dither commanding during observation
   type: aca_check
 - context: |2-
         # from the actual command timing. Fix this here.
@@ -1568,12 +1575,13 @@ checks:
   github_url: https://github.com/sot/starcheck/blob/cef8d8482300904b9335f968a8f852a6ae72b435/src/lib/Ska/Starcheck/Obsid.pm#L780
   id: '041'
   line_number: 780
+  orvdot: Need observation with large dither commanding
   severity: red
   text: |-
     push @{$self->{warn}},
     sprintf("$alarm Large Dither not enabled 5 min after EOM (%s)\n",
     time2date($obs_tstart));
-  title: "Large dither not enabled 5 min after EOM"
+  title: Large dither not enabled 5 min after EOM
   type: aca_check
 - context: |2-
             push @{$self->{warn}},
@@ -1608,11 +1616,12 @@ checks:
   github_url: https://github.com/sot/starcheck/blob/cef8d8482300904b9335f968a8f852a6ae72b435/src/lib/Ska/Starcheck/Obsid.pm#L795
   id: '042'
   line_number: 795
+  orvdot: Need observation with large dither commanding
   severity: red
   text: |-
     push @{$self->{warn}},
     sprintf("$alarm Dither should be disabled 1 min before obs start for Large Dither\n");
-  title: "Dither not disabled 1 min before obs star for large dither obs"
+  title: Dither not disabled 1 min before obs star for large dither obs
   type: aca_check
 - context: |2
                 sprintf("$alarm Dither should be disabled 1 min before obs start for Large Dither\n");
@@ -1646,11 +1655,12 @@ checks:
   github_url: https://github.com/sot/starcheck/blob/cef8d8482300904b9335f968a8f852a6ae72b435/src/lib/Ska/Starcheck/Obsid.pm#L811
   id: '043'
   line_number: 811
+  orvdot: Need observation with large dither commanding
   severity: red
   text: |-
     push @{$self->{warn}},
     sprintf("$alarm Last dither state for Large Dither should start 5 minutes before obs end.\n");
-  title: "Change at end of large dither observation happens too early"
+  title: Change at end of large dither observation happens too early
   type: aca-check
 - context: |2-
         my $obs_stop_dither;
@@ -1685,11 +1695,13 @@ checks:
   github_url: https://github.com/sot/starcheck/blob/cef8d8482300904b9335f968a8f852a6ae72b435/src/lib/Ska/Starcheck/Obsid.pm#L816
   id: '044'
   line_number: 816
+  orvdot: Need observation with large dither commanding
   severity: red
   text: |-
     push @{$self->{warn}},
     sprintf("$alarm Dither parameters not set to standard values before obs end\n");
-  title: "Dither parameters for large dither obsid not reset to standard before obs end"
+  title: Dither parameters for large dither obsid not reset to standard before obs
+    end
   type: aca_check
 - context: |2-
 
@@ -1726,7 +1738,8 @@ checks:
   line_number: 839
   text: |-
     push @{$self->{warn}}, "$alarm Perigee bright stars not being checked, no rad zone info available\n";
-  title: "Rad zone data unavailable; could not figure out which obsids are perigee obs"
+  title: Rad zone data unavailable; could not figure out which obsids are perigee
+    obs
   type: process
 - context: |2-
         # if this is an OR, just return
@@ -1763,7 +1776,7 @@ checks:
   line_number: 849
   text: |-
     push @{$self->{warn}}, "$alarm Perigee bright stars not being checked, no obs tstop available\n";
-  title: "No obsid end time, so could not run perigee bright star check"
+  title: No obsid end time, so could not run perigee bright star check
   type: process
 - context: |2
         }
@@ -1797,11 +1810,12 @@ checks:
   github_url: https://github.com/sot/starcheck/blob/cef8d8482300904b9335f968a8f852a6ae72b435/src/lib/Ska/Starcheck/Obsid.pm#L878
   id: '047'
   line_number: 878
+  note: Expect special-case to be removed in ORVdot, can remove these checks post-transition.
   severity: info
   text: |-
     push @{$self->{fyi}}, "$info Only $bright_count star(s) brighter than $min_mag mag. "
     . "Acceptable for Special Case ER\n";
-  title: "Enough bright stars for a Special Case Er"
+  title: Enough bright stars for a Special Case Er
   type: aca-check
 - context: |2-
 
@@ -1840,7 +1854,7 @@ checks:
   text: |-
     push @{$self->{warn}}, "$alarm $bright_count star(s) brighter than $min_mag mag. "
     . "Perigee requires at least $min_n_stars\n";
-  title: "Not enough bright stars for perigee observation"
+  title: Not enough bright stars for perigee observation
   type: aca_check
 - context: |2-
             }
@@ -1877,7 +1891,7 @@ checks:
   line_number: 899
   text: |-
     push @{$self->{warn}}, "$alarm Momentum Unloads not checked.\n";
-  title: "Could not determine obsid time, so could not check for mom unloads"
+  title: Could not determine obsid time, so could not check for momentum unloads
   type: process
 - context: |-
     sub check_momentum_unload{
@@ -1915,7 +1929,7 @@ checks:
   severity: info
   text: |-
     push @{$self->{fyi}}, "$info Momentum Unload (AOMUNLGR) in NPM at " . $entry->{date} . "\n";
-  title: "Unload in NPM"
+  title: Unload in NPM
 - context: |2-
         # and the pointings are the same
         # it is a special case ER
@@ -1949,10 +1963,11 @@ checks:
   github_url: https://github.com/sot/starcheck/blob/cef8d8482300904b9335f968a8f852a6ae72b435/src/lib/Ska/Starcheck/Obsid.pm#L936
   id: '051'
   line_number: 936
+  note: Expect special-case to be removed in ORVdot, can remove these checks post-transition.
   severity: info
   text: |-
     push @{$self->{fyi}}, "$info Special Case ER\n";
-  title: "Observation is a special case ER"
+  title: Observation is a special case ER
   type: aca_check
 - context: |2-
         if ($self->{obsid} =~ /^\d+$/
@@ -1987,11 +2002,12 @@ checks:
   github_url: https://github.com/sot/starcheck/blob/cef8d8482300904b9335f968a8f852a6ae72b435/src/lib/Ska/Starcheck/Obsid.pm#L939
   id: '052'
   line_number: 939
+  note: Expect special-case to be removed in ORVdot, can remove these checks post-transition.
   severity: info
   text: |-
     push @{$self->{fyi}},
     sprintf("$info Same attitude as last obsid but too long (%.1f min) for Special Case ER\n", ($self->{obs_tstop} - $self->{obs_tstart})/60.);
-  title: "Obsid almost a special case ER"
+  title: Obsid almost a special case ER
   type: aca_check
 - context: |2-
                 push @{$self->{fyi}},
@@ -2028,7 +2044,7 @@ checks:
   line_number: 954
   text: |-
     push @{$self->{warn}}, "$alarm Missing MP_TARGQUAT cmd\n";
-  title: "Missing MP_TARGQUAT"
+  title: Missing MP_TARGQUAT
   type: process
 - context: |2-
         my $self = shift;
@@ -2065,7 +2081,7 @@ checks:
   line_number: 963
   text: |-
     push @{$self->{warn}}, "Maneuver times not defined; SIM checking failed!\n";
-  title: "Could not set SIM position due to misisng maneuver time"
+  title: Could not check SIM position due to missing maneuver time
   type: process
 - context: |2-
         my $sim_z = $Default_SIM_Z{$self->{SI}} + $self->{SIM_OFFSET_Z};
@@ -2102,7 +2118,7 @@ checks:
   line_number: 974
   text: |-
     push @{$self->{warn}}, "$alarm SIM position mismatch:  OR=$sim_z  BACKSTOP=$par{POS}\n";
-  title: "SIM position mismatch OR vs Backstop"
+  title: SIM position mismatch OR vs Backstop
   type: aca_check
 - context: |2-
         my @yellow_warn = ();
@@ -2137,10 +2153,11 @@ checks:
   github_url: https://github.com/sot/starcheck/blob/cef8d8482300904b9335f968a8f852a6ae72b435/src/lib/Ska/Starcheck/Obsid.pm#L1100
   id: '056'
   line_number: 1100
+  orvdot: No expected coverage due to removal of SIR concept (OK).
   severity: info
   text: |-
     push @{$self->{fyi}}, "$info No target/maneuver for obsid $obsid ($oflsid). OK for '$ok_no_starcat' ER. \n";
-  title: "SIR ER has no target/maneuver"
+  title: SIR ER has no target/maneuver
   type: process
 - context: |2-
         my $obsid = $self->{obsid};
@@ -2178,7 +2195,7 @@ checks:
   severity: red
   text: |-
     push @{$self->{warn}}, "$alarm No target/maneuver for obsid $obsid ($oflsid). \n";
-  title: "Observation has no target/maneuver"
+  title: Observation has no target/maneuver
   type: process
 - context: |2
         else{
@@ -2212,10 +2229,11 @@ checks:
   github_url: https://github.com/sot/starcheck/blob/cef8d8482300904b9335f968a8f852a6ae72b435/src/lib/Ska/Starcheck/Obsid.pm#L1112
   id: 058
   line_number: 1112
+  orvdot: No expected coverage due to removal of SIR concept (OK).
   severity: info
   text: |-
     push @{$self->{fyi}}, "$info No star catalog for obsid $obsid ($oflsid). OK for '$ok_no_starcat' ER. \n";
-  title: "SIR ER has no star catalog"
+  title: SIR ER has no star catalog
   type: aca_check
 - context: |2
           push @{$self->{fyi}}, "$info No target/maneuver for obsid $obsid ($oflsid). OK for '$ok_no_starcat' ER. \n";
@@ -2252,7 +2270,7 @@ checks:
   severity: red
   text: |-
     push @{$self->{warn}}, "$alarm No star catalog for obsid $obsid ($oflsid). \n";
-  title: "Observation has no star catalog"
+  title: Observation has no star catalog
   type: aca_check
 - context: |2-
         if (defined $ok_no_starcat){
@@ -2289,7 +2307,7 @@ checks:
   line_number: 1126
   text: |-
     push @warn,"$alarm Too Few Fid Lights\n" if (@{$self->{fid}} < $min_fid && $is_science);
-  title: "Too few fid lights"
+  title: Too few fid lights
   type: aca_check
 - context: |2-
             push @{$self->{fyi}}, "$info No star catalog for obsid $obsid ($oflsid). OK for '$ok_no_starcat' ER. \n";
@@ -2327,7 +2345,7 @@ checks:
   text: |-
     push @warn,"$alarm Too Many Fid Lights\n" if ( (@{$self->{fid}} > 0 && $is_er) ||
     (@{$self->{fid}} > $min_fid && $is_science) ) ;
-  title: "Too many fid lights"
+  title: Too many fid lights
   type: aca_check
 - context: |2-
         }
@@ -2364,7 +2382,7 @@ checks:
   line_number: 1129
   text: |-
     push @warn,"$alarm Too Few Acquisition Stars\n" if (@{$self->{acq}} < $min_acq);
-  title: "Too few acquistion stars"
+  title: Too few acquistion stars
   type: aca_check
 - context: |2-
         push @{$self->{warn}}, "$alarm No star catalog for obsid $obsid ($oflsid). \n";
@@ -2401,7 +2419,7 @@ checks:
   line_number: 1130
   text: |-
     push @warn,"$alarm Too Few Guide Stars\n" if (@{$self->{gui}} < $min_guide);
-  title: "Too few guide stars"
+  title: Too few guide stars
   type: aca_check
 - context: |2
         return;
@@ -2437,7 +2455,7 @@ checks:
   line_number: 1131
   text: |-
     push @warn,"$alarm Too Many GUIDE + FID\n" if (@{$self->{gui}} + @{$self->{fid}} + @{$self->{mon}} > 8);
-  title: "Too many guide + fid"
+  title: Too many guide + fid
   type: aca_check
 - context: |2-
         }
@@ -2474,9 +2492,9 @@ checks:
   line_number: 1132
   text: |-
     push @warn,"$alarm Too Many Acquisition Stars\n" if (@{$self->{acq}} > 8);
-  title: "Too many acquisition stars"
+  title: Too many acquisition stars
   type: aca_check
-- aca_cl_id: ACA-043
+- aca_cl_id: '043'
   context: |2-
         my $search_err = ( (defined $type) and ($type =~ /BOT|ACQ/)) ? $slew_err : 4.0;
 
@@ -2512,7 +2530,7 @@ checks:
   line_number: 1168
   text: |-
     push @warn, sprintf("$alarm [%2d] Missing Star. No AGASC star near search center \n", $i);
-  title: "No AGASC star near search box center"
+  title: No AGASC star near search box center
   type: aca_check
 - context: |2-
             $max_y = ($max_y > $yag ) ? $max_y : $yag;
@@ -2551,7 +2569,7 @@ checks:
     push @yellow_warn, sprintf "$alarm [%2d] Centroid Perturbation Warning.  %s: ASPQ1 = %2d\n",
     $i, $sid, $c->{"GS_ASPQ$i"}
     if ($type =~ /BOT|ACQ|GUI/ && defined $c->{"GS_ASPQ$i"} && $c->{"GS_ASPQ$i"} != 0);
-  title: "Centroid Perturbation warning"
+  title: Centroid Perturbation warning
   type: aca_check
 - context: |2-
         push @yellow_warn, sprintf "$alarm [%2d] Centroid Perturbation Warning.  %s: ASPQ1 = %2d\n",
@@ -2590,7 +2608,7 @@ checks:
     push @yellow_warn, sprintf
     "$alarm [%2d] Bad Acquisition Star. %s has %2d failed out of %2d attempts\n",
     $i, $sid, $n_noids, $n_obs;
-  title: "Acquisition star has failed N out of M attempts"
+  title: Acquisition star has failed N out of M attempts
   type: aca_check
 - context: |2-
                 push @yellow_warn, sprintf
@@ -2629,7 +2647,7 @@ checks:
     push @yellow_warn, sprintf
     "$alarm [%2d] Bad Guide Star. %s has bad data %2d of %2d attempts\n",
     $i, $sid, $n_nbad, $n_obs;
-  title: "Guide star has had bad data N out of M attempts"
+  title: Guide star has had bad data N out of M attempts
   type: aca_check
 - context: |2-
         if ($type =~ /BOT|GUI/){
@@ -2667,7 +2685,7 @@ checks:
   severity: yellow
   text: |-
     push @yellow_warn,sprintf "$alarm [%2d] Non-numeric AGASC ID.  %s\n",$i,$sid if ($sid ne '---' && $sid =~ /\D/);
-  title: "AGASC ID is non-numeric"
+  title: AGASC ID is non-numeric
   type: aca_check
 - context: |2-
             my $n_obs = $bad_gui{$sid}{n_obs};
@@ -2702,9 +2720,10 @@ checks:
   github_url: https://github.com/sot/starcheck/blob/cef8d8482300904b9335f968a8f852a6ae72b435/src/lib/Ska/Starcheck/Obsid.pm#L1210
   id: '071'
   line_number: 1210
+  note: Fix the warning text since it is misleading.
   text: |-
     push @warn,sprintf "$alarm [%2d] Bad AGASC ID.  %s\n",$i,$sid if ($bad_id{$sid});
-  title: "Bad AGASC ID"
+  title: Star is in bad star list
   type: aca_check
 - context: |2-
             $c->{"GS_NOTES$i"} .= 'b' if ($c->{"GS_CLASS$i"} != 0);
@@ -2742,7 +2761,7 @@ checks:
   severity: red
   text: |-
     push @warn, $marginal_note;
-  title: "Marginal star (0.7 color on BOT or GUI)"
+  title: Marginal star (0.7 color on BOT or GUI)
   type: aca_check
 - context: |2-
             $c->{"GS_NOTES$i"} .= 'c' if ($color eq '0.7000000'); # ACA-033
@@ -2780,7 +2799,7 @@ checks:
   severity: yellow
   text: |-
     push @yellow_warn, $marginal_note;
-  title: "Marginal star (1.5 color or bad poserr or magerr)"
+  title: Marginal star (1.5 color or bad poserr or magerr)
   type: aca_check
 - context: |2-
             $c->{"GS_NOTES$i"} .= 'p' if ($c->{"GS_POSERR$i"} > 399);
@@ -2818,7 +2837,7 @@ checks:
   severity: red
   text: |-
     push @warn, sprintf("$alarm [%2d] Bad star.  Class = %s %s\n", $i,$c->{"GS_CLASS$i"},$note) if ($c->{"GS_NOTES$i"} =~ /b/);
-  title: "Bad star class"
+  title: Bad star class
   type: aca_check
 - context: |2-
                 }
@@ -2856,7 +2875,7 @@ checks:
   severity: red
   text: |-
     push @warn, sprintf "$alarm [%2d] Angle Off CCD.\n",$i;
-  title: "Star or Fid off CCD"
+  title: Star or Fid off CCD
   type: aca_check
 - context: |2-
 
@@ -2893,7 +2912,7 @@ checks:
   line_number: 1255
   text: |-
     push @warn, sprintf "$alarm [%2d] Boundary Checks failed. toPixels() said: $@ \n",$i,$i;
-  title: "Code to calculate CCD position failed"
+  title: Code to calculate CCD position failed
   type: code
 - context: |2-
             };
@@ -2930,7 +2949,7 @@ checks:
   line_number: 1261
   text: |-
     push @warn,sprintf "$alarm [%2d] Angle Too Large.\n",$i;
-  title: "Star or fid outside allowed CCD region"
+  title: Star or fid outside allowed CCD region
   type: aca_check
 - context: |2-
             if ($@ =~ /.*Coordinate off of CCD.*/ ){
@@ -2969,7 +2988,7 @@ checks:
     push @yellow_warn, sprintf "$alarm [%2d] Quadrant Boundary. \n",$i
     unless ($type eq 'ACQ' or $type eq 'MON' or
     (abs($yag-$y0) > $qb_dist + $slot_dither and abs($zag-$z0) > $qb_dist + $slot_dither ));
-  title: "Guide star or fid too close to quadrant boundary"
+  title: Guide star or fid too close to quadrant boundary
   type: aca_check
 - context: |2-
             if (   $pixel_row > $row_max - $pix_slot_dither || $pixel_row < $row_min + $pix_slot_dither
@@ -3007,7 +3026,7 @@ checks:
   severity: red
   text: |-
     push @warn, sprintf "$alarm [%2d] Magnitude.  %6.3f\n",$i,$mag;
-  title: "Star too bright or too faint (red limit)"
+  title: Star too bright or too faint (red limit)
   type: aca_check
 - context: |2-
             }
@@ -3045,7 +3064,7 @@ checks:
   severity: yellow
   text: |-
     push @yellow_warn, sprintf "$alarm [%2d] Magnitude.  %6.3f\n",$i,$mag;
-  title: "Star too faint (yellow limit)"
+  title: Star too faint (yellow limit)
   type: aca_check
 - context: |2-
         # Faint and bright limits ~ACA-009 ACA-010
@@ -3082,7 +3101,7 @@ checks:
   line_number: 1285
   text: |-
     push @warn, sprintf "$alarm [%2d] Magnitude.  %6.3f\n",$i, $mag =~ /---/ ? 0 : $mag;
-  title: "Fid magnitude limit violation"
+  title: Fid magnitude limit violation
   type: aca_check
 - context: |2-
         }
@@ -3120,7 +3139,7 @@ checks:
   severity: yellow
   text: |-
     push @yellow_warn, sprintf "$alarm [%2d] Fid light in search box\n", $i;
-  title: "Fid light in search box (acquisition star)"
+  title: Fid light in search box (acquisition star)
   type: aca_check
 - context: |2-
         if ($type eq 'FID') {
@@ -3158,7 +3177,7 @@ checks:
   severity: red
   text: |-
     push @warn, sprintf "$alarm [%2d] Fid light in search box\n", $i;
-  title: "Fid light in search box (BOT)"
+  title: Fid light in search box (BOT)
   type: aca_check
 - context: |2+
                 for my $fpos (@fid_positions){
@@ -3194,7 +3213,7 @@ checks:
   line_number: 1307
   text: |-
     push @warn, sprintf "$alarm [%2d] Magnitude.  MAG or MAGMAX not defined \n",$i;
-  title: "Star magnitude error.  MAG or MAXMAG not defined"
+  title: Star magnitude error.  MAG or MAXMAG not defined
   type: aca_check
 - context: |2
                         else{
@@ -3230,7 +3249,7 @@ checks:
   line_number: 1312
   text: |-
     push @warn, sprintf "$alarm [%2d] Magnitude.  MAXMAG - MAG = %1.2f < $mag_faint_slot_diff \n",$i,$slot_diff;
-  title: "Magnitude error.  MAXMAG - MAG < required amount"
+  title: Magnitude error.  MAXMAG - MAG < required amount
   type: aca_check
 - context: |2-
         if ($type =~ /BOT|GUI|ACQ/){
@@ -3267,7 +3286,7 @@ checks:
   line_number: 1320
   text: |-
     push @warn, sprintf "$alarm [%2d] Search Box Size. Search Box Too Large. \n",$i;
-  title: "Search box too large"
+  title: Search box too large
   type: aca_check
 - context: |2-
             if (($maxmag - $mag) < $mag_faint_slot_diff){
@@ -3304,7 +3323,7 @@ checks:
   line_number: 1325
   text: |-
     push @warn, sprintf "$alarm [%2d] Search Box Size. Search Box smaller than slew error \n",$i;
-  title: "Search box smaller than slew error"
+  title: Search box smaller than maneuver error
   type: aca_check
 - context: |2-
 
@@ -3341,7 +3360,7 @@ checks:
   line_number: 1332
   text: |-
     push @{$self->{fyi}}, sprintf("$info [%2d] Readout Size. 8x8 Stealth MON?", $i);
-  title: "Unexpected 8x8 readout size, MON in OR. GUI as MON?"
+  title: Unexpected 8x8 readout size, MON in OR. GUI as MON?
   type: aca_check
 - context: |2-
             push @warn, sprintf "$alarm [%2d] Search Box Size. Search Box Too Large. \n",$i;
@@ -3378,7 +3397,7 @@ checks:
   line_number: 1335
   text: |-
     push @warn, sprintf("$alarm [%2d] Readout Size. %s Should be 6x6\n", $i, $c->{"SIZE$i"});
-  title: "Readout size should be 6x6 (OR BOT/GUI/ACQ)"
+  title: Readout size should be 6x6 (OR BOT/GUI/ACQ)
   type: aca_check
 - context: |2
         }
@@ -3414,7 +3433,7 @@ checks:
   line_number: 1341
   text: |-
     push @warn, sprintf("$alarm [%2d] Readout Size.  %s Should be 8x8\n", $i, $c->{"SIZE$i"});
-  title: "Readout size should be 8x8 (ER BOT/GUI/ACQ)"
+  title: Readout size should be 8x8 (ER BOT/GUI/ACQ)
   type: aca_check
 - context: |2-
         if ($is_science && $type =~ /BOT|GUI|ACQ/  && $c->{"SIZE$i"} ne "6x6"){
@@ -3452,7 +3471,7 @@ checks:
   text: |-
     push @warn, sprintf("$alarm [%2d] Readout Size.  %s Should be 8x8\n", $i, $c->{"SIZE$i"})
     if ($type =~ /FID/  && $c->{"SIZE$i"} ne "8x8");
-  title: "Readout size should be 8x8 (FID)"
+  title: Readout size should be 8x8 (FID)
   type: aca_check
 - context: |2-
           else{
@@ -3490,7 +3509,7 @@ checks:
   text: |-
     push @warn, sprintf("$alarm [%2d] Readout Size. %s Should be 8x8\n", $i, $c->{"SIZE$i"})
     if ($type =~ /MON/  && $c->{"SIZE$i"} ne "8x8");
-  title: "Readout size should be 8x8 (MON)"
+  title: Readout size should be 8x8 (MON)
   type: aca_check
 - context: |2-
 
@@ -3529,7 +3548,7 @@ checks:
     my $warn = sprintf("$alarm [%2d] Nearby ACA bad pixel. " .
     "Y,Z,Radial seps: " . $close_pixels[$closest],
     $i); #Only warn for the closest pixel
-  title: "Nearby ACA bad pixel"
+  title: Nearby ACA bad pixel
   type: aca_check
 - context: |2-
             my @dr;
@@ -3566,7 +3585,7 @@ checks:
   line_number: 1370
   text: |-
     push @warn, $warn;
-  title: "Really part of '093'"
+  title: Really part of '093'
   type: code
 - context: |2-
                 # Skip tests if $star is the same as the catalog star
@@ -3604,7 +3623,7 @@ checks:
   text: |-
     my $warn = sprintf("$alarm [%2d] Fid spoiler.  %10d: " .
     "Y,Z,Radial,Mag seps: %3d %3d %3d %4s\n",$i,$star->{id},$dy,$dz,$dr,$dm_string);
-  title: "Text for warning that is used in '096' or '097'"
+  title: Text for warning that is used in '096' or '097'
   type: code
 - context: |2-
                    ( abs($star->{yag} - $yag) < $ID_DIST_LIMIT
@@ -3649,7 +3668,7 @@ checks:
     if ($type ne 'MON' and $dz < $halfw + $search_err and $dy < $halfw + $search_err and $dm > -1.0) {
     my $warn = sprintf("$alarm [%2d] Search spoiler. %10d: " .
     "Y,Z,Radial,Mag seps: %3d %3d %3d %4s\n",$i,$star->{id},$dy,$dz,$dr,$dm_string);
-  title: "Fid spoiler"
+  title: Fid spoiler
   type: aca_check
 - context: |2-
                  && abs($star->{zag} - $zag) < $ID_DIST_LIMIT
@@ -3693,7 +3712,7 @@ checks:
     if ($type ne 'MON' and $dz < $halfw + $search_err and $dy < $halfw + $search_err and $dm > -1.0) {
     my $warn = sprintf("$alarm [%2d] Search spoiler. %10d: " .
     "Y,Z,Radial,Mag seps: %3d %3d %3d %4s\n",$i,$star->{id},$dy,$dz,$dr,$dm_string);
-  title: "Fid spoiler"
+  title: Fid spoiler
   type: aca_check
 - context: |2-
             my $dm = $mag ne '---' ? $mag - $star->{mag_aca} : 0.0;
@@ -3731,7 +3750,7 @@ checks:
   text: |-
     my $warn = sprintf("$alarm [%2d] Search spoiler. %10d: " .
     "Y,Z,Radial,Mag seps: %3d %3d %3d %4s\n",$i,$star->{id},$dy,$dz,$dr,$dm_string);
-  title: "Warning text for '099' and '100'"
+  title: Warning text for '099' and '100'
   type: code
 - context: |2-
 
@@ -3780,7 +3799,7 @@ checks:
     and abs($star->{yag}) < 2500) {
     push @warn,sprintf("$alarm [%2d] Common Column. %10d " .
     "at Y,Z,Mag: %5d %5d %5.2f\n",$i,$star->{id},$star->{yag},$star->{zag},$star->{mag_aca});
-  title: "Search spoiler"
+  title: Search spoiler
   type: aca_check
 - context: |2-
             # Fid within $dither + 25 arcsec of a star (yellow) and within 4 mags (red) ACA-024
@@ -3828,7 +3847,7 @@ checks:
     and abs($star->{yag}) < 2500) {
     push @warn,sprintf("$alarm [%2d] Common Column. %10d " .
     "at Y,Z,Mag: %5d %5d %5.2f\n",$i,$star->{id},$star->{yag},$star->{zag},$star->{mag_aca});
-  title: "Search spoiler"
+  title: Search spoiler
   type: aca_check
 - context: |2-
 
@@ -3867,7 +3886,7 @@ checks:
   text: |-
     push @warn,sprintf("$alarm [%2d] Common Column. %10d " .
     "at Y,Z,Mag: %5d %5d %5.2f\n",$i,$star->{id},$star->{yag},$star->{zag},$star->{mag_aca});
-  title: "Common column"
+  title: Common column
   type: aca_check
 - context: |2-
             and $dz < $col_sep_dist
@@ -3906,7 +3925,7 @@ checks:
   text: |-
     push @yellow_warn, "$alarm Guide stars fit in $y_side x $z_side square arc-second box\n"
     if $y_side < $min_y_side && $z_side < $min_z_side;
-  title: "Small box warning for checks '103' and '104'"
+  title: Small box warning for checks '103' and '104'
   type: code
 - context: |2-
             push @warn,sprintf("$alarm [%2d] Common Column. %10d " .
@@ -3944,7 +3963,7 @@ checks:
   severity: red
   text: |-
     push @{$self->{warn}}, @warn;
-  title: "Guide stars fit in small box (red warning)"
+  title: Guide stars fit in small box (red warning)
   type: aca_check
 - context: |2
                        "at Y,Z,Mag: %5d %5d %5.2f\n",$i,$star->{id},$star->{yag},$star->{zag},$star->{mag_aca});
@@ -3981,7 +4000,7 @@ checks:
   severity: yellow
   text: |-
     push @{$self->{yellow_warn}}, @yellow_warn;
-  title: "Guide stars fit in small box (yellow warning)"
+  title: Guide stars fit in small box (yellow warning)
   type: code
 - context: |2-
         my $self = shift;
@@ -4019,7 +4038,7 @@ checks:
   severity: info
   text: |-
     push @{$self->{fyi}}, sprintf("$info Obsid contains flickering pixel MON\n", $mon_star);
-  title: "Obsid has flickering pixel MON window"
+  title: Obsid has flickering pixel MON window
   type: aca_check
 - context: |2-
         return unless ( $self->{obsid} =~ /^\d+$/ and $self->{obsid} > 50000 );
@@ -4058,7 +4077,7 @@ checks:
   text: |-
     push @{$self->{warn}}, sprintf("$alarm [%2d] Monitor Commanding. Size is not 8x8\n", $mon_star)
     unless $c->{"SIZE${mon_star}"} eq "8x8";
-  title: "Flickering Pixel Monitor window not 8x8"
+  title: Flickering Pixel Monitor window not 8x8
   type: aca_check
 - context: |2-
         # Check for existence of a star catalog
@@ -4097,7 +4116,7 @@ checks:
   text: |-
     push @{$self->{warn}}, sprintf("$alarm [%2d] Monitor Commanding. Monitor Window RESTRK should be 0\n", $mon_star)
     unless $c->{"RESTRK${mon_star}"} == 0;
-  title: "Flickering Pixel Monitor Window RESTRK should be 0"
+  title: Flickering Pixel Monitor Window RESTRK should be 0
   type: aca_check
 - context: |2-
         my @mon_stars = grep { $c->{"TYPE$_"} eq 'MON' } (1..16);
@@ -4135,7 +4154,7 @@ checks:
   text: |-
     push @{$self->{warn}}, sprintf("$alarm [%2d] Monitor Commanding. DTS should be set to self\n", $mon_star)
     unless $c->{"DIMDTS${mon_star}"} == $c->{"IMNUM${mon_star}"};
-  title: "Flickering Pixel Monitor DTS should be set to self"
+  title: Flickering Pixel Monitor DTS should be set to self
   type: aca_check
 - context: |2-
 
@@ -4170,9 +4189,10 @@ checks:
   github_url: https://github.com/sot/starcheck/blob/cef8d8482300904b9335f968a8f852a6ae72b435/src/lib/Ska/Starcheck/Obsid.pm#L1506
   id: '109'
   line_number: 1506
+  orvdot: Include monitor window commanding
   text: |-
     push @{$self->{warn}}, sprintf("$alarm MON not in OR, but in catalog. Position not checked.\n");
-  title: "Monitor not in OR but in catalog"
+  title: Monitor not in OR but in catalog
   type: aca_check
 - context: |2-
             = map { $c->{"$_${idx}"} } qw(
@@ -4207,11 +4227,12 @@ checks:
   github_url: https://github.com/sot/starcheck/blob/cef8d8482300904b9335f968a8f852a6ae72b435/src/lib/Ska/Starcheck/Obsid.pm#L1542
   id: '110'
   line_number: 1542
+  orvdot: Include monitor window commanding
   text: |-
     push @{$self->{warn}}, sprintf("$alarm [%2d] Monitor Commanding. Monitor Window is %6.2f arc-seconds off of OR specification\n"
     , $idx_hash{idx}, $idx_hash{sep})
     if $idx_hash{sep} > 2.5;
-  title: "Monitor window off of OR specification"
+  title: Monitor window off of OR specification
   type: aca_check
 - context: |2
                            YANG
@@ -4248,7 +4269,7 @@ checks:
   text: |-
     push @{$self->{warn}}, sprintf("$alarm [%2d] Monitor Commanding. Size is not 8x8\n", $idx_hash{idx})
     unless $idx_hash{size} eq "8x8";
-  title: "Monitor window not 8x8"
+  title: Monitor window not 8x8
   type: aca_check
 - context: |2-
         my $y_sep = $or_yang*$r2a - $idx_hash{yang};
@@ -4287,7 +4308,7 @@ checks:
     push @{$self->{warn}}, sprintf("$alarm [%2d] Monitor Commanding. Monitor Window is in slot %2d and should be in slot 7.\n"
     , $idx_hash{idx}, $idx_hash{imnum})
     if $idx_hash{imnum} != 7;
-  title: "Monitor window in wrong slot"
+  title: Monitor window in wrong slot
   type: aca_check
 - context: |2-
         # if this is a plain commanded MON
@@ -4325,7 +4346,7 @@ checks:
   text: |-
     push @{$self->{warn}}, sprintf("$alarm [%2d] Monitor Commanding. Monitor Window is set to Convert-to-Track\n", $idx_hash{idx})
     if $idx_hash{restrk} == 1;
-  title: "Monitor window is set to convert-to-track"
+  title: Monitor window is set to convert-to-track
   type: aca_check
 - context: |2-
                          , $idx_hash{idx}, $idx_hash{imnum})
@@ -4364,7 +4385,7 @@ checks:
     push @{$self->{warn}}, sprintf("$alarm [%2d] Monitor Commanding. DTS for [%2d] is set to slot %2d which does not contain a guide star.\n",
     $idx_hash{idx}, $idx_hash{idx}, $dts_slot)
     if $dts_type =~ /NULL/;
-  title: "Monitor window DTS is set to slot without guide star"
+  title: Monitor window DTS is set to slot without guide star
   type: aca_check
 - context: |2-
           my $dts_slot = $idx_hash{dimdts};
@@ -4402,7 +4423,7 @@ checks:
   text: |-
     push @{$self->{fyi}}, sprintf("$info [%2d] Appears to be MON used as GUI/BOT.  Has Magnitude been checked?\n",
     $idx);
-  title: "Slot appears to have MON used as GUI/BOT"
+  title: Slot appears to have MON used as GUI/BOT
   type: aca_check
 - context: |2
         }
@@ -4438,7 +4459,7 @@ checks:
   line_number: 1585
   text: |-
     push @{$self->{fyi}}, sprintf("$info [%2d] Commanded at intended OR MON position; but not configured for MON\n",
-  title: "Slot has star at OR MON position but not configured correctly"
+  title: Slot has star at OR MON position but not configured correctly
   type: aca_check
 - context: |2-
                          , $idx_hash{idx}, $idx_hash{sep})
@@ -4476,7 +4497,7 @@ checks:
   text: |-
     push @{$self->{warn}}, sprintf("$alarm MON requested in OR, but none found in catalog\n")
     unless ( $found_mon or $stealth_mon );
-  title: "MON in OR but not found in catalog"
+  title: MON in OR but not found in catalog
   type: aca_check
 - context: |2-
 
@@ -4513,7 +4534,7 @@ checks:
   line_number: 1605
   text: |-
     push @{$self->{warn}}, sprintf("$alarm Cannot find maneuver for checking monitor commanding\n");
-  title: "No MP_TARGQUAT to check maneuver for MON commanding"
+  title: No MP_TARGQUAT to check maneuver for MON commanding
   type: process
 - context: |2
         my %param = Ska::Parse_CM_File::parse_params($bs->{params});
@@ -4549,7 +4570,7 @@ checks:
   line_number: 1636
   text: |-
     push @{$self->{warn}}, "$alarm Found $cnt{$cmd} $cmd commands near " . time2date($t_manv+$dt{$cmd}) . "\n";
-  title: "Monitor window setup does not have expected dither commands"
+  title: Monitor window setup does not have expected dither commands
   type: aca_check
 - context: |2-
         }
@@ -4585,7 +4606,7 @@ checks:
   id: '121'
   line_number: 1645
   text: "my $warn = shift;\t\t# Array ref to warnings for this obsid"
-  title: "Code to pass the warnings array by reference to this check function"
+  title: Code to pass the warnings array by reference to this check function
   type: code
 - context: |-
     sub check_fids {
@@ -4622,6 +4643,7 @@ checks:
   line_number: 1656
   text: |-
     push @{$warn}, "$alarm Unable to check fids because SI undefined\n";
+  title: Unable to check fids because SI undefined
   type: aca_check
 - context: |2-
         my $warn = shift;        # Array ref to warnings for this obsid
@@ -4658,7 +4680,7 @@ checks:
   line_number: 1660
   text: |-
     push @{$warn}, "$alarm Unable to check fids because SIM_OFFSET_Z undefined\n";
-  title: "Unable to check fids because SIM_OFFSET_Z undefined"
+  title: Unable to check fids because SIM_OFFSET_Z undefined
   type: aca_check
 - context: |2-
         }
@@ -4693,10 +4715,10 @@ checks:
   github_url: https://github.com/sot/starcheck/blob/cef8d8482300904b9335f968a8f852a6ae72b435/src/lib/Ska/Starcheck/Obsid.pm#L1673
   id: '124'
   line_number: 1673
+  notes: This is really at https://github.com/sot/starcheck/blob/cef8d8482300904b9335f968a8f852a6ae72b435/src/lib/Ska/Starcheck/Obsid.pm#L1731
   text: |-
     push @{$warn}, "$alarm $error\n";
-  title: "Commanded fid light does not correspond to detector"
-  notes: "This is really at https://github.com/sot/starcheck/blob/cef8d8482300904b9335f968a8f852a6ae72b435/src/lib/Ska/Starcheck/Obsid.pm#L1731"
+  title: Commanded fid light does not correspond to detector
   type: aca_check
 - context: |2
         my $fidsel_ok = 0;
@@ -4734,7 +4756,7 @@ checks:
     push @{$warn}, sprintf("$alarm Fid $self->{SI} FIDSEL $fid not found within 10 arcsec of (%.1f, %.1f)\n",
     $yag, $zag)
     unless ($fidsel_ok);
-  title: "Fid light from FIDSEL not found within 10 arcsec of yag,zag"
+  title: Fid light from FIDSEL not found within 10 arcsec of yag,zag
   type: aca_check
 - context: |2-
             # Check if starcat fid matches fidsel fid position to within 10 arcsec
@@ -4772,7 +4794,7 @@ checks:
   text: |-
     push @{$warn}, "$alarm Fid with IDX=\[$self->{fid}[$i_fid]\] is in star catalog but is not turned on via FIDSEL\n"
     unless ($fid_ok[$i_fid]);
-  title: "Fid in star catalog but not FIDSEL"
+  title: Fid in star catalog but not FIDSEL
   type: aca_check
 - context: |2-
             $c->{"GS_PASS$j"} = defined $f[7] ? ($f[7] =~ /\*+/ ? length $f[7] : $f[7]) : ' ';
@@ -4809,7 +4831,7 @@ checks:
   line_number: 2108
   text: |-
     push @{$self->{warn}}, ">> WARNING: Guide summary does not match commanded catalog.\n";
-  title: "Guide star summary does not match commanded catalog"
+  title: Guide star summary does not match commanded catalog
   type: process
 - context: |2-
         }
@@ -4847,7 +4869,7 @@ checks:
   text: |-
     push @{$self->{warn}}, sprintf("$alarm Star with bad mag %.1f or magerr %.1f at (yag,zag)=%.1f,%.1f\n",
     $star->mag_aca(), $star->mag_aca_err(), $yag, $zag);
-  title: "Star in field has very bad mag or magerr"
+  title: Star in field has very bad mag or magerr
   type: aca_check
 - context: |2
         next if ($type eq 'NUL');
@@ -4884,7 +4906,7 @@ checks:
   text: |-
     push @{$self->{warn}},
     sprintf("$alarm [%2d] Star $gs_id is not in retrieved AGASC region by RA and DEC! \n", $i);
-  title: "Guide star not found in agasc by RA/Dec"
+  title: Guide star not found in AGASC by RA/Dec
   type: aca_check
 - context: |2
         # the information from the agasc to the catalog
@@ -4922,7 +4944,7 @@ checks:
   text: |-
     push @{$self->{warn}},
     sprintf("$alarm [%2d] Backstop YAG,ZAG differs from AGASC by > 3 arcsec: dyag = %2.2f dzag = %2.2f \n", $i, $dyag, $dzag);
-  title: "Star position in AGASC off from backstop by > 3 arcsecs"
+  title: Star position in AGASC off from backstop by > 3 arcsecs
   type: aca_check
 - context: |2-
 
@@ -4961,8 +4983,9 @@ checks:
   text: |-
     push @{$self->{yellow_warn}},
     sprintf("$alarm [%2d] Backstop YAG,ZAG differs from AGASC by > 1.5 arcsec: dyag = %2.2f dzag = %2.2f \n", $i, $dyag, $dzag);
+  title: Star position in AGASC off from backstop by > 1.5 arcsecs (and less than
+    3)
   type: aca_check
-  title: "Star position in AGASC off from backstop by > 1.5 arcsecs (and less than 3)"
 - context: |2-
             last;
         }
@@ -4998,7 +5021,7 @@ checks:
   line_number: 2558
   text: |-
     push @{$self->{warn}}, "$alarm No CCD temperature prediction for obsid\n";
-  title: "No CCD temperature prediction for obsid"
+  title: No CCD temperature prediction for obsid
   type: process
 - context: |2-
         }
@@ -5036,7 +5059,7 @@ checks:
   text: |-
     push @{$self->{warn}}, sprintf("$alarm Using %s (planning limit) for t_ccd for mag limits\n",
     $config{ccd_temp_red_limit});
-  title: "Using default/planning limit for CCD temperature"
+  title: Using default/planning limit for CCD temperature
   type: process
 - context: |2-
         my $obsid_temps = shift;
@@ -5072,7 +5095,7 @@ checks:
   text: |-
     push @{$self->{warn}}, sprintf("$alarm CCD temperature exceeds %.1f C\n",
     $config{ccd_temp_red_limit});
-  title: "CCD temperature prediction exceeds red limit"
+  title: CCD temperature prediction exceeds red limit
   type: process
 - context: |2-
             push @{$self->{warn}}, "$alarm No CCD temperature prediction for obsid\n";
@@ -5104,7 +5127,7 @@ checks:
   text: |-
     push @{$self->{fyi}}, sprintf("$info CCD temperature exceeds %.1f C\n",
     $config{ccd_temp_yellow_limit});
-  title: "CCD temperature prediction exceeds yellow limit"
+  title: CCD temperature prediction exceeds yellow limit
   type: process
 - context: |2
             push @probs, $star_prob;
@@ -5140,7 +5163,7 @@ checks:
   line_number: 76
   text: |-
     push @{$self->{warn}}, ">> WARNING: Probability of 2 or fewer stars > $CUM_PROB_LIMIT\n";
-  title: "Overall acquisition probability is poor"
+  title: Overall acquisition probability is poor
   type: aca_check
 - context: |2-
         if (($mag < 8.5) or ($prob > $max_star_prob)){
@@ -5177,8 +5200,8 @@ checks:
   line_number: 133
   text: |-
     my ($failed, $total) = parse_bad_acq_warning($warning);
-  title: "Subroutine has word 'warning' in its name"
-  type: code
+  title: Spurious check entry due to unexpected regex match
+  type: spurious
 - context: |2-
 
         for (my $i = 0; $i <= $#{$times}; $i++) {
@@ -5214,87 +5237,8 @@ checks:
   line_number: 262
   text: |-
     push @{$error}, "Parse_cm_file::fidsel: WARNING - Could not parse $actions->[$i]";
-  title: "Could not parse fidsel file"
+  title: Could not parse fidsel file
   type: process
-- context: |2-
-        # Check that the dither state at the end of the observation started 5 minutes before
-        # the end (within time_tol)
-        if ((abs($obs_tstop - $obs_stop_dither->{time} - 300) > $time_tol)){
-            $warn_free = 0;
-            push @{$self->{warn}},
-                sprintf("$alarm Last dither state for Large Dither should start 5 minutes before obs end.\n");
-        }
-        # Check that the dither state at the end of the observation is standard
-        if (not standard_dither($obs_stop_dither)){
-            $warn_free = 0;
-            push @{$self->{warn}},
-                sprintf("$alarm Dither parameters not set to standard values before obs end\n");
-        }
-
-        if ($warn_free){
-    # XXXXXXXXXXXXX MARKED WARNING XXXXXXXXXXXXX
-            push @{$self->{fyi}},
-    # XXXXXXXXXXXXX MARKED WARNING XXXXXXXXXXXXX
-                sprintf("$info Observation passes 'big dither' checks\n");
-        }
-    }
-
-
-
-
-
-    #############################################################################################
-    sub check_bright_perigee{
-  filename: src/lib/Ska/Starcheck/Obsid.pm
-  github_url: https://github.com/sot/starcheck/blob/6c532d381070fdc60db777ec6255521c3aba5e39/src/lib/Ska/Starcheck/Obsid.pm#L827
-  id: '139'
-  line_number: 827
-  missing: 1
-  severity: info
-  text: |-
-    push @{$self->{fyi}},
-    sprintf("$info Observation passes 'big dither' checks\n");
-  title: "Observation passes big dither checks"
-- context: |2-
-            next unless $c->{"IMNUM$dts_index"} == $dts_slot and $c->{"TYPE$dts_index"} =~ /GUI|BOT/;
-            $dts_type = $c->{"TYPE$dts_index"};
-            last;
-          }
-          push @{$self->{warn}}, sprintf("$alarm [%2d] Monitor Commanding. DTS for [%2d] is set to slot %2d which does not contain a guide star.\n",
-                         $idx_hash{idx}, $idx_hash{idx}, $dts_slot)
-            if $dts_type =~ /NULL/;
-          next IDX;
-        }
-
-        if (($idx_hash{type} =~ /GUI|BOT/) and ($idx_hash{size} eq '8x8') and ($idx_hash{imnum} == 7)){
-          $stealth_mon = 1;
-          push @{$self->{fyi}}, sprintf("$info [%2d] Appears to be MON used as GUI/BOT.  Has Magnitude been checked?\n",
-                        $idx);
-          # if it doesn't match the requested location
-    # XXXXXXXXXXXXX MARKED WARNING XXXXXXXXXXXXX
-          push @{$self->{warn}}, sprintf("$alarm [%2d] Monitor Commanding. Guide star as MON %6.2f arc-seconds off OR specification\n"
-    # XXXXXXXXXXXXX MARKED WARNING XXXXXXXXXXXXX
-                         , $idx_hash{idx}, $idx_hash{sep})
-            if $idx_hash{sep} > 2.5;
-
-          next IDX;
-        }
-        if ((not $found_mon) and ($idx_hash{sep} < 2.5)){
-          # if there *should* be one there...
-          push @{$self->{fyi}}, sprintf("$info [%2d] Commanded at intended OR MON position; but not configured for MON\n",
-                        $idx);
-        }
-  filename: src/lib/Ska/Starcheck/Obsid.pm
-  github_url: https://github.com/sot/starcheck/blob/85ee2f0535540280cf2beaa8087456713d30b54d/src/lib/Ska/Starcheck/Obsid.pm#L1577
-  id: '140'
-  line_number: 1577
-  missing: 1
-  text: |-
-    push @{$self->{warn}}, sprintf("$alarm [%2d] Monitor Commanding. Guide star as MON %6.2f arc-seconds off OR specification\n"
-    , $idx_hash{idx}, $idx_hash{sep})
-    if $idx_hash{sep} > 2.5;
-  title: "Monitor window off from OR specification (guide star version)"
-  type: aca_check
 - context: |2-
             next unless $c->{"IMNUM$dts_index"} == $dts_slot and $c->{"TYPE$dts_index"} =~ /GUI|BOT/;
             $dts_type = $c->{"TYPE$dts_index"};
@@ -5326,14 +5270,20 @@ checks:
         }
   filename: src/lib/Ska/Starcheck/Obsid.pm
   github_url: https://github.com/sot/starcheck/blob/cef8d8482300904b9335f968a8f852a6ae72b435/src/lib/Ska/Starcheck/Obsid.pm#L1577
-  id: '141'
+  id: '139'
   line_number: 1577
   text: |-
     push @{$self->{warn}}, sprintf("$alarm [%2d] Monitor Commanding. Monitor Window is %6.2f arc-seconds off of OR specification\n"
     , $idx_hash{idx}, $idx_hash{sep})
     if $idx_hash{sep} > 2.5;
-  title: "Monitor window off from OR specification (guide star version)"
+  title: Monitor window off from OR specification (guide star version)
+  type: aca_check
+- aca_cl_id: '045'
+  id: m001
+  orvdot: Include a split dark cal observation
+  title: Dark cal commanding is incorrect
   type: aca_check
 info:
   starcheck_commit: cef8d8482300904b9335f968a8f852a6ae72b435
-  tags: ['11.11']
+  tags:
+  - '11.11'
