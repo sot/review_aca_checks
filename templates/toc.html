@@ -14,9 +14,8 @@ after {
 
 <H2>Audit of Starcheck Checks</H2>
 
-starcheck_commit: {{ starcheck_commit }}
-
-starcheck_tags: {% for tag in tags %}{{ tag }}, {% endfor %}
+<P>This is a table of the individual errors, warnings, and informational statements issued by
+starcheck.  See the key after the table for an explanation of these column values.</P><br/>
 
 <table class="sortable" border cellpadding=5>
 <thead><tr>{% for col in headercols %}<th>{{ col }}</th>{% endfor %}</tr></thead>
@@ -32,6 +31,36 @@ starcheck_tags: {% for tag in tags %}{{ tag }}, {% endfor %}
 {% endfor %}</tr>
 {% endfor %}
 </table>
+
+<H3>Key</H3>
+
+<strong>id</strong>: unique reference id assigned to check.  Checks added to the list
+manually are prepended with 'm'.<br/>
+<strong>title</strong>: brief description of check<br />
+<strong>file</strong>: starcheck source file and line number (links to github at this code
+version)</br>
+<strong>type</strong>:'code', 'process', 'aca_check', or 'spurious'.  'spurious' applies
+     to false matches from the code that collects warnings.  'code' applies to program
+     warning that are related to errors in execution not necessarily driven by problems
+     with the input products.  'code' warnings may be ignored by outside parties.
+     'process' applies to warnings related to inputs or their parsing and processing that
+     are required to be able to perform aca checks.  'aca_check' applies to all other items;
+     both elements on the ACA checklist and items that are now checked as part of standard
+     operating procedure.<br/>
+<strong>severity</strong>: 'info', 'yellow', or 'red'.<br/>
+<strong>aca_cl_id</strong>: ACA checklist ID</br>
+
+
+<H3>Notes</H3>
+
+This list corresponds to version:<br/>
+
+starcheck_commit: <A HREF="https://github.com/sot/starcheck/blob/{{ starcheck_commit
+                           }}">{{starcheck_commit}}</A><br />
+
+with tags:<br />
+starcheck_tags: {% for tag in tags %}{{ tag }}, {% endfor %}
+
 
 </BODY>
 </HTML>
