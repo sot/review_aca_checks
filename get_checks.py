@@ -145,6 +145,8 @@ def preserve_manual_content(checks, previous_checks):
     """
     for c in checks:
         for pc in previous_checks:
+            if str(pc['id']).startswith('m'):
+                continue
             if (pc['text'] == c['text']) and 'has_match' not in pc:
                 pc['has_match'] = 1
                 if 'id' not in c:
@@ -160,8 +162,9 @@ def confirm_no_lost_checks(checks, previous_checks):
     """
     for pc in previous_checks:
         # preserve the type of these fields for reuse
-        pc['context'] = literal_str(pc['context'])
-        pc['text'] = literal_str(pc['text'])
+        for key in ['context', 'text']:
+            if key in pc:
+                pc[key] = literal_str(pc[key])
         if 'has_match' not in pc:
             # if this is a by-hand/manual addition, re-add it
             if str(pc['id']).startswith('m'):
