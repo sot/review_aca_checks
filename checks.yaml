@@ -4266,6 +4266,7 @@ checks:
   github_url: https://github.com/sot/starcheck/blob/cef8d8482300904b9335f968a8f852a6ae72b435/src/lib/Ska/Starcheck/Obsid.pm#L1546
   id: '111'
   line_number: 1546
+  orvdot: Include monitor window commanding
   text: |-
     push @{$self->{warn}}, sprintf("$alarm [%2d] Monitor Commanding. Size is not 8x8\n", $idx_hash{idx})
     unless $idx_hash{size} eq "8x8";
@@ -4304,6 +4305,7 @@ checks:
   github_url: https://github.com/sot/starcheck/blob/cef8d8482300904b9335f968a8f852a6ae72b435/src/lib/Ska/Starcheck/Obsid.pm#L1550
   id: '112'
   line_number: 1550
+  orvdot: Include monitor window commanding
   text: |-
     push @{$self->{warn}}, sprintf("$alarm [%2d] Monitor Commanding. Monitor Window is in slot %2d and should be in slot 7.\n"
     , $idx_hash{idx}, $idx_hash{imnum})
@@ -4343,6 +4345,7 @@ checks:
   github_url: https://github.com/sot/starcheck/blob/cef8d8482300904b9335f968a8f852a6ae72b435/src/lib/Ska/Starcheck/Obsid.pm#L1554
   id: '113'
   line_number: 1554
+  orvdot: Include monitor window commanding
   text: |-
     push @{$self->{warn}}, sprintf("$alarm [%2d] Monitor Commanding. Monitor Window is set to Convert-to-Track\n", $idx_hash{idx})
     if $idx_hash{restrk} == 1;
@@ -4381,6 +4384,7 @@ checks:
   github_url: https://github.com/sot/starcheck/blob/cef8d8482300904b9335f968a8f852a6ae72b435/src/lib/Ska/Starcheck/Obsid.pm#L1566
   id: '114'
   line_number: 1566
+  orvdot: Include monitor window commanding
   text: |-
     push @{$self->{warn}}, sprintf("$alarm [%2d] Monitor Commanding. DTS for [%2d] is set to slot %2d which does not contain a guide star.\n",
     $idx_hash{idx}, $idx_hash{idx}, $dts_slot)
@@ -4420,6 +4424,7 @@ checks:
   github_url: https://github.com/sot/starcheck/blob/cef8d8482300904b9335f968a8f852a6ae72b435/src/lib/Ska/Starcheck/Obsid.pm#L1574
   id: '115'
   line_number: 1574
+  orvdot: Would require MON converted to GUI/BOT.
   text: |-
     push @{$self->{fyi}}, sprintf("$info [%2d] Appears to be MON used as GUI/BOT.  Has Magnitude been checked?\n",
     $idx);
@@ -4494,6 +4499,7 @@ checks:
   github_url: https://github.com/sot/starcheck/blob/cef8d8482300904b9335f968a8f852a6ae72b435/src/lib/Ska/Starcheck/Obsid.pm#L1593
   id: '118'
   line_number: 1593
+  orvdot: Include monitor window commanding
   text: |-
     push @{$self->{warn}}, sprintf("$alarm MON requested in OR, but none found in catalog\n")
     unless ( $found_mon or $stealth_mon );
@@ -4532,6 +4538,7 @@ checks:
   github_url: https://github.com/sot/starcheck/blob/cef8d8482300904b9335f968a8f852a6ae72b435/src/lib/Ska/Starcheck/Obsid.pm#L1605
   id: '119'
   line_number: 1605
+  orvdot: Include monitor window commanding
   text: |-
     push @{$self->{warn}}, sprintf("$alarm Cannot find maneuver for checking monitor commanding\n");
   title: No MP_TARGQUAT to check maneuver for MON commanding
@@ -4568,6 +4575,7 @@ checks:
   github_url: https://github.com/sot/starcheck/blob/cef8d8482300904b9335f968a8f852a6ae72b435/src/lib/Ska/Starcheck/Obsid.pm#L1636
   id: '120'
   line_number: 1636
+  orvdot: Include monitor window commanding
   text: |-
     push @{$self->{warn}}, "$alarm Found $cnt{$cmd} $cmd commands near " . time2date($t_manv+$dt{$cmd}) . "\n";
   title: Monitor window setup does not have expected dither commands
@@ -5272,6 +5280,7 @@ checks:
   github_url: https://github.com/sot/starcheck/blob/cef8d8482300904b9335f968a8f852a6ae72b435/src/lib/Ska/Starcheck/Obsid.pm#L1577
   id: '139'
   line_number: 1577
+  orvdot: Would require MON converted to GUI/BOT.
   text: |-
     push @{$self->{warn}}, sprintf("$alarm [%2d] Monitor Commanding. Monitor Window is %6.2f arc-seconds off of OR specification\n"
     , $idx_hash{idx}, $idx_hash{sep})
