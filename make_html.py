@@ -34,12 +34,11 @@ check_data = yaml.load(open(opt.infile).read())
 checks = check_data['checks']
 
 headercols = ['id', 'title', 'file',
-              'type', 'severity', 'aca_cl_id',
-              'missing']
+              'type', 'severity', 'aca_cl_id']
 
 displaycols = ['id', 'title', 'file',
               'type', 'severity', 'aca_cl_id',
-              'notes', 'missing', 'orvdot']
+              'notes', 'orvdot']
 
 details = jinja_env.get_template('details.html')
 detailpage = "details.html"
