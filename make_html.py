@@ -38,7 +38,7 @@ headercols = ['id', 'title', 'file',
 
 displaycols = ['id', 'title', 'file',
               'type', 'severity', 'aca_cl_id',
-              'notes', 'orvdot']
+              'note', 'orvdot']
 
 details = jinja_env.get_template('details.html')
 detailpage = "details.html"

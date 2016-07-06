@@ -7,7 +7,7 @@ from Ska.Shell import bash
 from Ska.File import chdir
 
 # If content in these fields is present in the input yaml, it should be preserved
-SAVE_FIELDS = ['title', 'aca_cl_id', 'notes', 'type', 'severity', 'missing', 'orvdot']
+SAVE_FIELDS = ['title', 'aca_cl_id', 'note', 'type', 'severity', 'missing', 'orvdot']
 OTHER_FIELDS = ['id', 'context', 'text', 'filename', 'line_number', 'github_url']
 
 
