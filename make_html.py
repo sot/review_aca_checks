@@ -32,6 +32,10 @@ shutil.copy("sorttable.js", opt.outdir)
 
 check_data = yaml.load(open(opt.infile).read())
 checks = check_data['checks']
+for check in checks:
+    check['basename'] = ""
+    if 'filename' in check:
+        check['basename'] = os.path.basename(check['filename'])
 
 headercols = ['id', 'title', 'file',
               'type', 'severity', 'aca_cl_id']
@@ -47,7 +51,6 @@ page = details.render(table=checks,
 f = open(os.path.join(opt.outdir, detailpage), 'w')
 f.write(page)
 f.close()
-
 
 toc = jinja_env.get_template('toc.html')
 page = toc.render(

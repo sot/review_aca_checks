@@ -25,7 +25,7 @@ starcheck.  See the key after the table for an explanation of these column value
 {% if (col == 'id') %}
 <td><a href="{{ detailpage }}#{{ row['id'] }}">{{ row[col] }}</a></td>
 {% elif col == 'file' %}
-<td><a href="{{ row['github_url'] }}">{{ row['filename'] }}:{{ row['line_number'] }}</a></td>
+<td><a href="{{ row['github_url'] }}">{{ row['basename'] }}:{{ row['line_number'] }}</a></td>
 {% else %}
 <td>{{ row[col] }}</td>
 {% endif %}
