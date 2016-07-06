@@ -8,16 +8,15 @@
 {% for row in table %}</tr>
 <H2 id="{{ row['id'] }}"></H2>
 <table border>
-<thead><tr>{% for col in displaycols %}<th>{{ col }}</th>{% endfor %}</tr></thead>
 {% for col in displaycols -%}
-{% if (col == 'id') or (col == 'title') %}
-<td><a href="#{{ row['id'] }}">{{ row[col] }}</a></td>
-{% elif col == 'file' %}
-<td><a href="{{ row['github_url'] }}">{{ row['filename'] }}:{{ row['line_number'] }}</a></td>
-{% else %}
-<td>{{ row[col] }}</td>
+<tr><th>{{ col }}</th><td>
+{% if col == 'file' -%}
+<a href="{{ row['github_url'] }}">{{ row['filename'] }}:{{ row['line_number'] }}</a>
+{% else -%}
+{{ row[col] }}
 {% endif %}
-{% endfor %}</tr>
+</td></tr>
+{% endfor %}
 </table>
 
 <PRE><code class="language-perl">
