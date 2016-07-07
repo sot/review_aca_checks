@@ -15,7 +15,7 @@
 <BODY>
 
 {% for row in table %}</tr>
-<H2 id="{{ row['id'] }}">{{ row['title']}}</H2>
+<H2 id="{{ row['id'] }}">{{ row['id'] }}: {{ row['title']}} [{{ row['type'] }}]</H2>
 <table border>
 {% for col in displaycols -%}
 <tr><th>{{ col }}</th><td>
