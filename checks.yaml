@@ -1338,6 +1338,7 @@ checks:
   github_url: https://github.com/sot/starcheck/blob/cef8d8482300904b9335f968a8f852a6ae72b435/src/lib/Ska/Starcheck/Obsid.pm#L662
   id: '034'
   line_number: 662
+  orvdot: Need dither disabled observation to stress.
   severity: red
   text: |-
     push @{$self->{warn}}, "$alarm Dither mismatch - OR: $or_val != Backstop: $bs_val\n"
@@ -1417,8 +1418,8 @@ checks:
   github_url: https://github.com/sot/starcheck/blob/cef8d8482300904b9335f968a8f852a6ae72b435/src/lib/Ska/Starcheck/Obsid.pm#L678
   id: '036'
   line_number: 678
-  orvdot: Need change in commanded dither amplitude (e.g. HRC observation or large
-    dither)
+  orvdot: Need change in commanded dither amplitude (HRC -> ACIS, ACIS -> HRC, and
+    large dither)
   severity: red
   text: |-
     my $warn = sprintf("$alarm Dither amp. mismatch - OR: (Y %.1f, Z %.1f) "
@@ -5429,7 +5430,7 @@ checks:
   type: aca_check
 - aca_cl_id: '045'
   id: m001
-  orvdot: Include a split dark cal observation
+  orvdot: Include a dark cal and split dark cal observation
   severity: red
   title: Dark cal commanding is incorrect
   type: aca_check
