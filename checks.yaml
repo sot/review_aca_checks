@@ -5223,58 +5223,20 @@ checks:
         # add warnings for limit violations
         if ($self->{ccd_temp} > $config{ccd_temp_red_limit}){
     # XXXXXXXXXXXXX MARKED WARNING XXXXXXXXXXXXX
-            push @{$self->{warn}}, sprintf("$alarm CCD temperature exceeds %.1f C\n",
+            push @{$self->{fyi}}, sprintf("$info CCD temperature exceeds %.1f C\n",
     # XXXXXXXXXXXXX MARKED WARNING XXXXXXXXXXXXX
                                            $config{ccd_temp_red_limit});
         }
-        elsif ($self->{ccd_temp} > $config{ccd_temp_yellow_limit}){
-            push @{$self->{fyi}}, sprintf("$info CCD temperature exceeds %.1f C\n",
-                                                  $config{ccd_temp_yellow_limit});
-        }
     }
   filename: src/lib/Ska/Starcheck/Obsid.pm
-  github_url: https://github.com/sot/starcheck/blob/cef8d8482300904b9335f968a8f852a6ae72b435/src/lib/Ska/Starcheck/Obsid.pm#L2569
+  github_url: https://github.com/sot/starcheck/blob/9f22ad06a785c522e9aafdcebe7335bc303658a3/src/lib/Ska/Starcheck/Obsid.pm#L2569
   id: '134'
   line_number: 2569
-  missing: 1
-  severity: red
-  text: |-
-    push @{$self->{warn}}, sprintf("$alarm CCD temperature exceeds %.1f C\n",
-    $config{ccd_temp_red_limit});
-  title: CCD temperature prediction exceeds red limit
-  type: process
-- context: |2-
-            push @{$self->{warn}}, "$alarm No CCD temperature prediction for obsid\n";
-            push @{$self->{warn}}, sprintf("$alarm Using %s (planning limit) for t_ccd for mag limits\n",
-                                           $config{ccd_temp_red_limit});
-            $self->{ccd_temp} = $config{ccd_temp_red_limit};
-            return;
-        }
-        # set the temperature to the value for the current obsid
-        $self->{ccd_temp} = $obsid_temps->{$self->{obsid}}->{ccd_temp};
-        $self->{n100_warm_frac} = $obsid_temps->{$self->{obsid}}->{n100_warm_frac};
-        # add warnings for limit violations
-        if ($self->{ccd_temp} > $config{ccd_temp_red_limit}){
-            push @{$self->{warn}}, sprintf("$alarm CCD temperature exceeds %.1f C\n",
-                                           $config{ccd_temp_red_limit});
-        }
-        elsif ($self->{ccd_temp} > $config{ccd_temp_yellow_limit}){
-    # XXXXXXXXXXXXX MARKED WARNING XXXXXXXXXXXXX
-            push @{$self->{fyi}}, sprintf("$info CCD temperature exceeds %.1f C\n",
-    # XXXXXXXXXXXXX MARKED WARNING XXXXXXXXXXXXX
-                                                  $config{ccd_temp_yellow_limit});
-        }
-    }
-  filename: src/lib/Ska/Starcheck/Obsid.pm
-  github_url: https://github.com/sot/starcheck/blob/cef8d8482300904b9335f968a8f852a6ae72b435/src/lib/Ska/Starcheck/Obsid.pm#L2573
-  id: '135'
-  line_number: 2573
-  missing: 1
   severity: info
   text: |-
     push @{$self->{fyi}}, sprintf("$info CCD temperature exceeds %.1f C\n",
-    $config{ccd_temp_yellow_limit});
-  title: CCD temperature prediction exceeds yellow limit
+    $config{ccd_temp_red_limit});
+  title: CCD temperature exceeds red limit
   type: process
 - context: |2
             push @probs, $star_prob;
@@ -5406,48 +5368,6 @@ checks:
                         $idx);
           # if it doesn't match the requested location
     # XXXXXXXXXXXXX MARKED WARNING XXXXXXXXXXXXX
-          push @{$self->{warn}}, sprintf("$alarm [%2d] Monitor Commanding. Monitor Window is %6.2f arc-seconds off of OR specification\n"
-    # XXXXXXXXXXXXX MARKED WARNING XXXXXXXXXXXXX
-                         , $idx_hash{idx}, $idx_hash{sep})
-            if $idx_hash{sep} > 2.5;
-
-          next IDX;
-        }
-        if ((not $found_mon) and ($idx_hash{sep} < 2.5)){
-          # if there *should* be one there...
-          push @{$self->{fyi}}, sprintf("$info [%2d] Commanded at intended OR MON position; but not configured for MON\n",
-                        $idx);
-        }
-  filename: src/lib/Ska/Starcheck/Obsid.pm
-  github_url: https://github.com/sot/starcheck/blob/cef8d8482300904b9335f968a8f852a6ae72b435/src/lib/Ska/Starcheck/Obsid.pm#L1577
-  id: '139'
-  line_number: 1577
-  missing: 1
-  orvdot: Would require MON converted to GUI/BOT.
-  severity: red
-  text: |-
-    push @{$self->{warn}}, sprintf("$alarm [%2d] Monitor Commanding. Monitor Window is %6.2f arc-seconds off of OR specification\n"
-    , $idx_hash{idx}, $idx_hash{sep})
-    if $idx_hash{sep} > 2.5;
-  title: Monitor window off from OR specification (guide star version)
-  type: aca_check
-- context: |2-
-            next unless $c->{"IMNUM$dts_index"} == $dts_slot and $c->{"TYPE$dts_index"} =~ /GUI|BOT/;
-            $dts_type = $c->{"TYPE$dts_index"};
-            last;
-          }
-          push @{$self->{warn}}, sprintf("$alarm [%2d] Monitor Commanding. DTS for [%2d] is set to slot %2d which does not contain a guide star.\n",
-                         $idx_hash{idx}, $idx_hash{idx}, $dts_slot)
-            if $dts_type =~ /NULL/;
-          next IDX;
-        }
-
-        if (($idx_hash{type} =~ /GUI|BOT/) and ($idx_hash{size} eq '8x8') and ($idx_hash{imnum} == 7)){
-          $stealth_mon = 1;
-          push @{$self->{fyi}}, sprintf("$info [%2d] Appears to be MON used as GUI/BOT.  Has Magnitude been checked?\n",
-                        $idx);
-          # if it doesn't match the requested location
-    # XXXXXXXXXXXXX MARKED WARNING XXXXXXXXXXXXX
           push @{$self->{warn}}, sprintf("$alarm [%2d] Monitor Commanding. Guide star as MON %6.2f arc-seconds off OR specification\n"
     # XXXXXXXXXXXXX MARKED WARNING XXXXXXXXXXXXX
                          , $idx_hash{idx}, $idx_hash{sep})
@@ -5462,41 +5382,15 @@ checks:
         }
   filename: src/lib/Ska/Starcheck/Obsid.pm
   github_url: https://github.com/sot/starcheck/blob/9f22ad06a785c522e9aafdcebe7335bc303658a3/src/lib/Ska/Starcheck/Obsid.pm#L1577
-  id: '140'
+  id: '139'
   line_number: 1577
+  orvdot: Would require MON converted to GUI/BOT.
+  severity: red
   text: |-
     push @{$self->{warn}}, sprintf("$alarm [%2d] Monitor Commanding. Guide star as MON %6.2f arc-seconds off OR specification\n"
     , $idx_hash{idx}, $idx_hash{sep})
     if $idx_hash{sep} > 2.5;
-- context: |2-
-        my $obsid_temps = shift;
-        # if no temperature data, just return
-        if ((not defined $obsid_temps->{$self->{obsid}})
-            or (not defined $obsid_temps->{$self->{obsid}}->{ccd_temp})){
-            push @{$self->{warn}}, "$alarm No CCD temperature prediction for obsid\n";
-            push @{$self->{warn}}, sprintf("$alarm Using %s (planning limit) for t_ccd for mag limits\n",
-                                           $config{ccd_temp_red_limit});
-            $self->{ccd_temp} = $config{ccd_temp_red_limit};
-            return;
-        }
-        # set the temperature to the value for the current obsid
-        $self->{ccd_temp} = $obsid_temps->{$self->{obsid}}->{ccd_temp};
-        $self->{n100_warm_frac} = $obsid_temps->{$self->{obsid}}->{n100_warm_frac};
-        # add warnings for limit violations
-        if ($self->{ccd_temp} > $config{ccd_temp_red_limit}){
-    # XXXXXXXXXXXXX MARKED WARNING XXXXXXXXXXXXX
-            push @{$self->{fyi}}, sprintf("$info CCD temperature exceeds %.1f C\n",
-    # XXXXXXXXXXXXX MARKED WARNING XXXXXXXXXXXXX
-                                           $config{ccd_temp_red_limit});
-        }
-    }
-  filename: src/lib/Ska/Starcheck/Obsid.pm
-  github_url: https://github.com/sot/starcheck/blob/9f22ad06a785c522e9aafdcebe7335bc303658a3/src/lib/Ska/Starcheck/Obsid.pm#L2569
-  id: '141'
-  line_number: 2569
-  text: |-
-    push @{$self->{fyi}}, sprintf("$info CCD temperature exceeds %.1f C\n",
-    $config{ccd_temp_red_limit});
+  title: Monitor window off from OR specification (guide star version)
 - aca_cl_id: '045'
   id: m001
   orvdot: Include a dark cal and split dark cal observation
