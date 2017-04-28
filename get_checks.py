@@ -86,10 +86,10 @@ def get_sc():
     standard warning patterns, and fetch the context about and warning that starts
     with the matching line.
     """
-    perl_files = ['src/starcheck.pl',
-                  'src/lib/Ska/Starcheck/Obsid.pm',
-                  'src/lib/Ska/Starcheck/FigureOfMerit.pm',
-                  'src/lib/Ska/Parse_CM_File.pm']
+    perl_files = ['starcheck/src/starcheck.pl',
+                  'starcheck/src/lib/Ska/Starcheck/Obsid.pm',
+                  'starcheck/src/lib/Ska/Starcheck/FigureOfMerit.pm',
+                  'starcheck/src/lib/Ska/Parse_CM_File.pm']
     checks = []
     for f in perl_files:
         lines = open(f).readlines()
