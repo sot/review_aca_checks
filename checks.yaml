@@ -1,44 +1,4 @@
 checks:
-- context: |2-
-
-    use Inline Python => q{
-
-    from chandra_aca.star_probs import set_acq_model_ms_filter
-    from starcheck.pcad_att_check import make_pcad_attitude_check_report, check_characteristics_date
-    from starcheck.calc_ccd_temps import get_ccd_temps
-
-    def ccd_temp_wrapper(kwargs):
-        return get_ccd_temps(**kwargs)
-
-    def plot_cat_wrapper(kwargs):
-        try:
-            from starcheck.plot import make_plots_for_obsid
-        except ImportError as err:
-            # write errors to starcheck's global warnings and STDERR
-    # XXXXXXXXXXXXX MARKED WARNING XXXXXXXXXXXXX
-            perl.warning("Error with Inline::Python imports {}\n".format(err))
-    # XXXXXXXXXXXXX MARKED WARNING XXXXXXXXXXXXX
-        return make_plots_for_obsid(**kwargs)
-    };
-
-    # cheat to get the OS (major)
-    my $OS = `uname`;
-    chomp($OS);
-
-
-    # Set some global vars with directory locations
-    my $SKA = $ENV{SKA} || '/proj/sot/ska';
-  filename: src/starcheck.pl
-  github_url: https://github.com/sot/starcheck/blob/9f22ad06a785c522e9aafdcebe7335bc303658a3/src/starcheck.pl#L63
-  id: '000'
-  line_number: 63
-  severity: error
-  text: |-
-    perl.warning("Error with Inline::Python imports {}\n".format(err))
-    return make_plots_for_obsid(**kwargs)
-    };
-  title: Error running Python from Perl
-  type: code
 - context: |-
     my @ps = Ska::Parse_CM_File::PS($ps_file) if ($ps_file);
 
@@ -68,15 +28,15 @@ checks:
     }
 
     ## Warn if we are on Solaris
-  filename: src/starcheck.pl
-  github_url: https://github.com/sot/starcheck/blob/9f22ad06a785c522e9aafdcebe7335bc303658a3/src/starcheck.pl#L275
+  filename: starcheck/src/starcheck.pl
+  github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/starcheck.pl#L289
   id: '001'
-  line_number: 275
+  line_number: 289
   text: |-
     map { warning("$_\n") } @{$error};
   title: Put out errors recorded before creation of warning function
   type: code
-- context: |2-
+- context: |-
 
     # Read OR file and integrate into %obs
     my %or = Ska::Parse_CM_File::OR($or_file) if ($or_file);
@@ -105,10 +65,10 @@ checks:
 
     # See if we have database access
     my $db_handle;
-  filename: src/starcheck.pl
-  github_url: https://github.com/sot/starcheck/blob/9f22ad06a785c522e9aafdcebe7335bc303658a3/src/starcheck.pl#L282
+  filename: starcheck/src/starcheck.pl
+  github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/starcheck.pl#L296
   id: '002'
-  line_number: 282
+  line_number: 296
   severity: red
   text: |-
     warning("Ska::AGASC call to mp_get_agasc failed.  Output not approved for authoritative load review. \n");
@@ -143,10 +103,10 @@ checks:
         $db_handle = Ska::DatabaseUtil::sql_connect( 'sybase-aca-aca_read' );
 
     };
-  filename: src/starcheck.pl
-  github_url: https://github.com/sot/starcheck/blob/9f22ad06a785c522e9aafdcebe7335bc303658a3/src/starcheck.pl#L287
+  filename: starcheck/src/starcheck.pl
+  github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/starcheck.pl#L301
   id: '003'
-  line_number: 287
+  line_number: 301
   notes: Delete from starcheck, overtaken by events.
   severity: red
   text: |-
@@ -182,10 +142,10 @@ checks:
     my $dark_cal_checker;
     eval{
         $dark_cal_checker = Ska::Starcheck::Dark_Cal_Checker->new({ dir => $par{dir},
-  filename: src/starcheck.pl
-  github_url: https://github.com/sot/starcheck/blob/9f22ad06a785c522e9aafdcebe7335bc303658a3/src/starcheck.pl#L299
+  filename: starcheck/src/starcheck.pl
+  github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/starcheck.pl#L313
   id: '004'
-  line_number: 299
+  line_number: 313
   severity: red
   text: |-
     warning("Unable to connect to Sybase server; links generated for all AGASC ids by default \n");
@@ -220,10 +180,10 @@ checks:
     if ($dot_touched_by_sausage == 0 ){
         warning("DOT file not modified by SAUSAGE! \n");
     }
-  filename: src/starcheck.pl
-  github_url: https://github.com/sot/starcheck/blob/9f22ad06a785c522e9aafdcebe7335bc303658a3/src/starcheck.pl#L314
+  filename: starcheck/src/starcheck.pl
+  github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/starcheck.pl#L328
   id: '005'
-  line_number: 314
+  line_number: 328
   severity: red
   text: |-
     warning("Dark Cal Checker Failed $@ \n");
@@ -258,10 +218,10 @@ checks:
                        });
 
     my %odb = Ska::Parse_CM_File::odb($odb_file);
-  filename: src/starcheck.pl
-  github_url: https://github.com/sot/starcheck/blob/9f22ad06a785c522e9aafdcebe7335bc303658a3/src/starcheck.pl#L323
+  filename: starcheck/src/starcheck.pl
+  github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/starcheck.pl#L337
   id: '006'
-  line_number: 323
+  line_number: 337
   severity: red
   text: |-
     warning("DOT file not modified by SAUSAGE! \n");
@@ -296,10 +256,10 @@ checks:
     if ($dither_time_violation){
         warning("Dither History runs into load\n");
     }
-  filename: src/starcheck.pl
-  github_url: https://github.com/sot/starcheck/blob/9f22ad06a785c522e9aafdcebe7335bc303658a3/src/starcheck.pl#L347
+  filename: starcheck/src/starcheck.pl
+  github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/starcheck.pl#L361
   id: '007'
-  line_number: 347
+  line_number: 361
   severity: red
   text: |-
     } else { warning("Could not find Maneuver Error file in output/ directory\n") };
@@ -334,10 +294,10 @@ checks:
     # if fidsel history runs into load
     if ($fid_time_violation){
         warning("Fidsel History runs into load\n");
-  filename: src/starcheck.pl
-  github_url: https://github.com/sot/starcheck/blob/9f22ad06a785c522e9aafdcebe7335bc303658a3/src/starcheck.pl#L356
+  filename: starcheck/src/starcheck.pl
+  github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/starcheck.pl#L370
   id: 008
-  line_number: 356
+  line_number: 370
   orvdot: Need a replan interrupt and a replan reopen to test history files.
   severity: red
   text: |-
@@ -373,10 +333,10 @@ checks:
 
     # Read in the failed acquisition stars
     warning("Could not open ACA bad acquisition stars file $bad_acqs_file\n")
-  filename: src/starcheck.pl
-  github_url: https://github.com/sot/starcheck/blob/9f22ad06a785c522e9aafdcebe7335bc303658a3/src/starcheck.pl#L361
+  filename: starcheck/src/starcheck.pl
+  github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/starcheck.pl#L375
   id: 009
-  line_number: 361
+  line_number: 375
   orvdot: Need a replan interrupt and a replan reopen to test history files.
   severity: red
   text: |-
@@ -412,10 +372,10 @@ checks:
 
     # Read in the troublesome guide stars
     warning("Could not open ACA bad guide star file $bad_gui_file\n")
-  filename: src/starcheck.pl
-  github_url: https://github.com/sot/starcheck/blob/9f22ad06a785c522e9aafdcebe7335bc303658a3/src/starcheck.pl#L366
+  filename: starcheck/src/starcheck.pl
+  github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/starcheck.pl#L380
   id: '010'
-  line_number: 366
+  line_number: 380
   orvdot: Need a replan interrupt and a replan reopen to test history files.
   severity: red
   text: |-
@@ -451,10 +411,10 @@ checks:
         if (defined $guidesumm{$oflsid}){
             $obs{$oflsid}->add_guide_summ($oflsid, \%guidesumm);
         }
-  filename: src/starcheck.pl
-  github_url: https://github.com/sot/starcheck/blob/9f22ad06a785c522e9aafdcebe7335bc303658a3/src/starcheck.pl#L463
+  filename: starcheck/src/starcheck.pl
+  github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/starcheck.pl#L477
   id: '011'
-  line_number: 463
+  line_number: 477
   severity: red
   text: |-
     warning("OFLS ID $oflsid in Guide Summ but not in DOT! \n");
@@ -489,10 +449,10 @@ checks:
 
     # Set up for SIM-Z checking
     # Find SIMTSC continuity statement from mech check file
-  filename: src/starcheck.pl
-  github_url: https://github.com/sot/starcheck/blob/9f22ad06a785c522e9aafdcebe7335bc303658a3/src/starcheck.pl#L478
+  filename: starcheck/src/starcheck.pl
+  github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/starcheck.pl#L492
   id: '012'
-  line_number: 478
+  line_number: 492
   orvdot: No expected coverage due to removal of SIR concept (OK).
   severity: info
   text: |-
@@ -529,10 +489,10 @@ checks:
 
     my @sim_trans = ();
     foreach my $mc (@mc) {
-  filename: src/starcheck.pl
-  github_url: https://github.com/sot/starcheck/blob/9f22ad06a785c522e9aafdcebe7335bc303658a3/src/starcheck.pl#L482
+  filename: starcheck/src/starcheck.pl
+  github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/starcheck.pl#L496
   id: '013'
-  line_number: 482
+  line_number: 496
   severity: red
   text: |-
     push @{$obs{$oflsid}->{warn}}, sprintf(">> WARNING: No Guide Star Summary for obsid $obsid ($oflsid). \n");
@@ -571,12 +531,13 @@ checks:
   github_url: https://github.com/sot/starcheck/blob/9f22ad06a785c522e9aafdcebe7335bc303658a3/src/starcheck.pl#L578
   id: '014'
   line_number: 578
+  missing: 1
   notes: Should this be added to aca checks?
   severity: red
   text: |-
     push @global_warn, "Error getting temperatures from get_ccd_temps\n";
   title: Error getting temperatures from get_ccd_temps
-  type: process
+  type: deprecated/removed process
 - context: |2-
         my $cat = Ska::Starcheck::Obsid::find_command($obs{$obsid}, "MP_STARCAT");
         # If the catalog is empty, don't make plots
@@ -610,16 +571,13 @@ checks:
   github_url: https://github.com/sot/starcheck/blob/9f22ad06a785c522e9aafdcebe7335bc303658a3/src/starcheck.pl#L611
   id: '015'
   line_number: 611
+  missing: 1
   severity: error
   text: |-
     push @global_warn, "Error Python plotting catalog\n";
   title: Error Python plotting catalog
-  type: code
+  type: deprecated/removed code
 - context: |2-
-            $obs{$obsid}->{plot_field_file} = "$STARCHECK/star_view_$obs{$obsid}->{obsid}.png";
-            $obs{$obsid}->{compass_file} = "$STARCHECK/compass$obs{$obsid}->{obsid}.png";
-        }
-        $obs{$obsid}->check_monitor_commanding(\@bs, $or{$obsid});
         $obs{$obsid}->check_flick_pix_mon();
         $obs{$obsid}->set_dynamic_mag_limits();
         $obs{$obsid}->check_dither($dither);
@@ -629,6 +587,10 @@ checks:
         $obs{$obsid}->check_for_special_case_er();
         $obs{$obsid}->check_bright_perigee($radmon);
         $obs{$obsid}->count_good_stars();
+        # Start check for big boxes at FEB1317 (which gets test products but no regress products)
+        if ($bs[0]->{time} > date2time('2017:043:00:00:00.000')){
+            $obs{$obsid}->check_big_box_stars();
+        }
         $obs{$obsid}->make_figure_of_merit();
     # Make sure there is only one star catalog per obsid
     # XXXXXXXXXXXXX MARKED WARNING XXXXXXXXXXXXX
@@ -644,10 +606,10 @@ checks:
     close($JSON_OUT);
 
     # Produce final report
-  filename: src/starcheck.pl
-  github_url: https://github.com/sot/starcheck/blob/9f22ad06a785c522e9aafdcebe7335bc303658a3/src/starcheck.pl#L629
+  filename: starcheck/src/starcheck.pl
+  github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/starcheck.pl#L637
   id: '016'
-  line_number: 629
+  line_number: 637
   severity: red
   text: |-
     warning ("More than one star catalog assigned to Obsid $obsid\n")
@@ -683,10 +645,10 @@ checks:
     if ((defined $char_file) or ($bs[0]->{time} > date2time($ATT_CHECK_AFTER))){
         $out .= "------------  VERIFY ATTITUDE (SI_ALIGN CHECK)  -----------------\n\n";
         # dynamic aimpoint files are required after 21-Aug-2016
-  filename: src/starcheck.pl
-  github_url: https://github.com/sot/starcheck/blob/9f22ad06a785c522e9aafdcebe7335bc303658a3/src/starcheck.pl#L691
+  filename: starcheck/src/starcheck.pl
+  github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/starcheck.pl#L705
   id: '017'
-  line_number: 691
+  line_number: 705
   text: |-
     push @{$save_hash{processing_warning}}, $_;
   title: Print all collected warnings to starcheck output
@@ -720,10 +682,10 @@ checks:
     sub set_dot_cmd {
     ##***************************************************************************
         %dot_cmd    = (ATS_MANVR  =>  'MP_TARGQUAT',
-  filename: src/starcheck.pl
-  github_url: https://github.com/sot/starcheck/blob/9f22ad06a785c522e9aafdcebe7335bc303658a3/src/starcheck.pl#L1099
+  filename: starcheck/src/starcheck.pl
+  github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/starcheck.pl#L1113
   id: 018
-  line_number: 1099
+  line_number: 1113
   severity: red
   text: |-
     warning ("Found MP_TARGQUAT at $date[$i] without corresponding AOMANUVR\n");
@@ -758,10 +720,10 @@ checks:
         $bogus_obsid++ if ($cmd eq 'MP_STARCAT');
         }
         return ($obsid);
-  filename: src/starcheck.pl
-  github_url: https://github.com/sot/starcheck/blob/9f22ad06a785c522e9aafdcebe7335bc303658a3/src/starcheck.pl#L1163
+  filename: starcheck/src/starcheck.pl
+  github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/starcheck.pl#L1177
   id: 019
-  line_number: 1163
+  line_number: 1177
   severity: red
   text: |-
     warning("Could not find a match in DOT for $cmd at $date\n");
@@ -796,10 +758,10 @@ checks:
     sub get_file {
     ##***************************************************************************
         my $glob = shift;
-  filename: src/starcheck.pl
-  github_url: https://github.com/sot/starcheck/blob/9f22ad06a785c522e9aafdcebe7335bc303658a3/src/starcheck.pl#L1170
+  filename: starcheck/src/starcheck.pl
+  github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/starcheck.pl#L1184
   id: '020'
-  line_number: 1170
+  line_number: 1184
   orvdot: Replan/reopen schedule that has star catalogs prior to the start of DOT.
   severity: red
   text: |-
@@ -835,10 +797,10 @@ checks:
         print STDERR "Using $name file $files[0]\n";
         return $files[0];
     }
-  filename: src/starcheck.pl
-  github_url: https://github.com/sot/starcheck/blob/9f22ad06a785c522e9aafdcebe7335bc303658a3/src/starcheck.pl#L1187
+  filename: starcheck/src/starcheck.pl
+  github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/starcheck.pl#L1201
   id: '021'
-  line_number: 1187
+  line_number: 1201
   severity: red
   text: |-
     my $warn = ((@files == 0) ?
@@ -875,10 +837,10 @@ checks:
 
     ##***************************************************************************
     #sub insert_bogus_obsid {
-  filename: src/starcheck.pl
-  github_url: https://github.com/sot/starcheck/blob/9f22ad06a785c522e9aafdcebe7335bc303658a3/src/starcheck.pl#L1190
+  filename: starcheck/src/starcheck.pl
+  github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/starcheck.pl#L1204
   id: '022'
-  line_number: 1190
+  line_number: 1204
   text: |-
     warning($warn);
   title: Additional steps of assignment of warning created in '021'.
@@ -911,10 +873,10 @@ checks:
     ##***************************************************************************
     {
       my ( $exit ) = @_;
-  filename: src/starcheck.pl
-  github_url: https://github.com/sot/starcheck/blob/9f22ad06a785c522e9aafdcebe7335bc303658a3/src/starcheck.pl#L1216
+  filename: starcheck/src/starcheck.pl
+  github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/starcheck.pl#L1230
   id: '023'
-  line_number: 1216
+  line_number: 1230
   text: |-
     push @global_warn, $text;
   title: This is the general-purpose warning function
@@ -948,10 +910,10 @@ checks:
     ##################################################################################
         my $self = shift;
         foreach my $cmd (@{$self->{commands}}) {
-  filename: src/lib/Ska/Starcheck/Obsid.pm
-  github_url: https://github.com/sot/starcheck/blob/9f22ad06a785c522e9aafdcebe7335bc303658a3/src/lib/Ska/Starcheck/Obsid.pm#L247
+  filename: starcheck/src/lib/Ska/Starcheck/Obsid.pm
+  github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/lib/Ska/Starcheck/Obsid.pm#L248
   id: '024'
-  line_number: 247
+  line_number: 248
   severity: red
   text: |-
     push @{$self->{warn}}, sprintf("$alarm Obsid mismatch: guide summary %d != backstop %d\n",
@@ -987,10 +949,10 @@ checks:
             my $q_man = Quat->new($m->{ra}, $m->{dec}, $m->{roll});
             my $q_obc = Quat->new(@c_quat_norm);
             my @q_man = @{$q_man->{q}};
-  filename: src/lib/Ska/Starcheck/Obsid.pm
-  github_url: https://github.com/sot/starcheck/blob/9f22ad06a785c522e9aafdcebe7335bc303658a3/src/lib/Ska/Starcheck/Obsid.pm#L362
+  filename: starcheck/src/lib/Ska/Starcheck/Obsid.pm
+  github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/lib/Ska/Starcheck/Obsid.pm#L363
   id: '025'
-  line_number: 362
+  line_number: 363
   severity: red
   text: |-
     push @{$self->{warn}}, sprintf("$alarm Uplink quaternion norm value $norm is too far from 1.0\n");
@@ -1025,10 +987,10 @@ checks:
 
         }
         push @{$self->{yellow_warn}}, sprintf("$alarm Did not find match in MAN summary for MP_TARGQUAT at $c->{date}\n")
-  filename: src/lib/Ska/Starcheck/Obsid.pm
-  github_url: https://github.com/sot/starcheck/blob/9f22ad06a785c522e9aafdcebe7335bc303658a3/src/lib/Ska/Starcheck/Obsid.pm#L376
+  filename: starcheck/src/lib/Ska/Starcheck/Obsid.pm
+  github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/lib/Ska/Starcheck/Obsid.pm#L377
   id: '026'
-  line_number: 376
+  line_number: 377
   severity: red
   text: |-
     push @{$self->{warn}}, sprintf("$alarm Target uplink precision problem for MP_TARGQUAT at $c->{date}\n"
@@ -1067,10 +1029,10 @@ checks:
     #
     # Set the maneuver error for each MP_TARGQUAT command within the obsid
     # using the more accurate values from Bill Davis' code
-  filename: src/lib/Ska/Starcheck/Obsid.pm
-  github_url: https://github.com/sot/starcheck/blob/9f22ad06a785c522e9aafdcebe7335bc303658a3/src/lib/Ska/Starcheck/Obsid.pm#L386
+  filename: starcheck/src/lib/Ska/Starcheck/Obsid.pm
+  github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/lib/Ska/Starcheck/Obsid.pm#L387
   id: '027'
-  line_number: 386
+  line_number: 387
   severity: yellow
   text: |-
     push @{$self->{yellow_warn}}, sprintf("$alarm Did not find match in MAN summary for MP_TARGQUAT at $c->{date}\n")
@@ -1106,10 +1068,10 @@ checks:
     ##################################################################################
     sub set_ps_times{
     # Get the observation start and stop times from the processing summary
-  filename: src/lib/Ska/Starcheck/Obsid.pm
-  github_url: https://github.com/sot/starcheck/blob/9f22ad06a785c522e9aafdcebe7335bc303658a3/src/lib/Ska/Starcheck/Obsid.pm#L418
+  filename: starcheck/src/lib/Ska/Starcheck/Obsid.pm
+  github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/lib/Ska/Starcheck/Obsid.pm#L419
   id: 028
-  line_number: 418
+  line_number: 419
   severity: yellow
   text: |-
     push @{$self->{yellow_warn}}, sprintf("$alarm Mismatch in target quaternion ($c->{date}) and maneuver error file\n");
@@ -1144,10 +1106,10 @@ checks:
 
 
     }
-  filename: src/lib/Ska/Starcheck/Obsid.pm
-  github_url: https://github.com/sot/starcheck/blob/9f22ad06a785c522e9aafdcebe7335bc303658a3/src/lib/Ska/Starcheck/Obsid.pm#L457
+  filename: starcheck/src/lib/Ska/Starcheck/Obsid.pm
+  github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/lib/Ska/Starcheck/Obsid.pm#L458
   id: 029
-  line_number: 457
+  line_number: 458
   severity: red
   text: |-
     push @{$self->{warn}}, "$alarm Could not find obsid $obsid in processing summary\n";
@@ -1182,10 +1144,10 @@ checks:
         }
 
         if (not defined $obs_tstart or not defined $obs_tstop){
-  filename: src/lib/Ska/Starcheck/Obsid.pm
-  github_url: https://github.com/sot/starcheck/blob/9f22ad06a785c522e9aafdcebe7335bc303658a3/src/lib/Ska/Starcheck/Obsid.pm#L504
+  filename: starcheck/src/lib/Ska/Starcheck/Obsid.pm
+  github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/lib/Ska/Starcheck/Obsid.pm#L505
   id: '030'
-  line_number: 504
+  line_number: 505
   severity: info
   text: |-
     push @{$self->{fyi}}, "$info Next obsid has no manvr; using next obs start date for checks (dither, momentum)\n";
@@ -1217,12 +1179,10 @@ checks:
 
         }
     }
-
-
-  filename: src/lib/Ska/Starcheck/Obsid.pm
-  github_url: https://github.com/sot/starcheck/blob/9f22ad06a785c522e9aafdcebe7335bc303658a3/src/lib/Ska/Starcheck/Obsid.pm#L515
+  filename: starcheck/src/lib/Ska/Starcheck/Obsid.pm
+  github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/lib/Ska/Starcheck/Obsid.pm#L516
   id: '031'
-  line_number: 515
+  line_number: 516
   severity: red
   text: |-
     push @{$self->{warn}}, "$alarm Could not determine obsid start and stop times for checks (dither, momentum)\n";
@@ -1236,7 +1196,7 @@ checks:
         my $manvr;
 
         if ( $self->{obsid} =~ /^\d*$/){
-        return if ($self->{obsid} > 50000); # For eng obs, don't have OR to specify dither
+        return if ($self->{obsid} >= $ER_MIN_OBSID); # For eng obs, don't have OR to specify dither
         }
         # If there's no starcat on purpose, return
         if (defined $self->{ok_no_starcat} and $self->{ok_no_starcat}){
@@ -1257,10 +1217,10 @@ checks:
 
         # set the observation start as the end of the maneuver
         my $obs_tstart = $self->{obs_tstart};
-  filename: src/lib/Ska/Starcheck/Obsid.pm
-  github_url: https://github.com/sot/starcheck/blob/9f22ad06a785c522e9aafdcebe7335bc303658a3/src/lib/Ska/Starcheck/Obsid.pm#L633
+  filename: starcheck/src/lib/Ska/Starcheck/Obsid.pm
+  github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/lib/Ska/Starcheck/Obsid.pm#L634
   id: '032'
-  line_number: 633
+  line_number: 634
   severity: red
   text: |-
     push @{$self->{warn}}, "$alarm Dither status not checked\n";
@@ -1269,7 +1229,7 @@ checks:
 - context: |2-
 
         if ( $self->{obsid} =~ /^\d*$/){
-        return if ($self->{obsid} > 50000); # For eng obs, don't have OR to specify dither
+        return if ($self->{obsid} >= $ER_MIN_OBSID); # For eng obs, don't have OR to specify dither
         }
         # If there's no starcat on purpose, return
         if (defined $self->{ok_no_starcat} and $self->{ok_no_starcat}){
@@ -1295,10 +1255,10 @@ checks:
         # Determine current dither status by finding the last dither commanding before
         # the start of observation (+ 8 minutes)
         my $dither;
-  filename: src/lib/Ska/Starcheck/Obsid.pm
-  github_url: https://github.com/sot/starcheck/blob/9f22ad06a785c522e9aafdcebe7335bc303658a3/src/lib/Ska/Starcheck/Obsid.pm#L638
+  filename: starcheck/src/lib/Ska/Starcheck/Obsid.pm
+  github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/lib/Ska/Starcheck/Obsid.pm#L639
   id: '033'
-  line_number: 638
+  line_number: 639
   severity: red
   text: |-
     push @{$self->{warn}}, "$alarm Dither states unavailable. Dither not checked\n";
@@ -1334,10 +1294,10 @@ checks:
         # If dither is anabled according to the OR, check that parameters match OR vs Backstop
         if ((defined $or_val) and ($or_val eq 'ENAB')){
             my $y_amp = $self->{DITHER_Y_AMP} * 3600;
-  filename: src/lib/Ska/Starcheck/Obsid.pm
-  github_url: https://github.com/sot/starcheck/blob/9f22ad06a785c522e9aafdcebe7335bc303658a3/src/lib/Ska/Starcheck/Obsid.pm#L662
+  filename: starcheck/src/lib/Ska/Starcheck/Obsid.pm
+  github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/lib/Ska/Starcheck/Obsid.pm#L663
   id: '034'
-  line_number: 662
+  line_number: 663
   orvdot: Need dither disabled observation to stress.
   severity: red
   text: |-
@@ -1374,10 +1334,10 @@ checks:
             if (defined $dither->{ampl_y}
                     and defined $dither->{ampl_p}
                         and (abs($y_amp - $dither->{ampl_y}) > 0.1
-  filename: src/lib/Ska/Starcheck/Obsid.pm
-  github_url: https://github.com/sot/starcheck/blob/9f22ad06a785c522e9aafdcebe7335bc303658a3/src/lib/Ska/Starcheck/Obsid.pm#L666
+  filename: starcheck/src/lib/Ska/Starcheck/Obsid.pm
+  github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/lib/Ska/Starcheck/Obsid.pm#L667
   id: '035'
-  line_number: 666
+  line_number: 667
   severity: red
   text: |-
     push @{$self->{warn}},
@@ -1414,10 +1374,10 @@ checks:
         if (($bs_val eq 'ENAB') and (defined $dither->{ampl_y} and defined $dither->{ampl_p})){
             $self->{cmd_dither_y_amp} = $dither->{ampl_y};
             $self->{cmd_dither_z_amp} = $dither->{ampl_p};
-  filename: src/lib/Ska/Starcheck/Obsid.pm
-  github_url: https://github.com/sot/starcheck/blob/9f22ad06a785c522e9aafdcebe7335bc303658a3/src/lib/Ska/Starcheck/Obsid.pm#L678
+  filename: starcheck/src/lib/Ska/Starcheck/Obsid.pm
+  github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/lib/Ska/Starcheck/Obsid.pm#L679
   id: '036'
-  line_number: 678
+  line_number: 679
   orvdot: Need change in commanded dither amplitude (HRC -> ACIS, ACIS -> HRC, and
     large dither)
   severity: red
@@ -1457,10 +1417,10 @@ checks:
                 push @{$self->{yellow_warn}}, "$alarm Non-standard dither\n";
                 if ($dither->{ampl_y} > $large_dith_thresh or $dither->{ampl_p} > $large_dith_thresh){
                     $self->large_dither_checks($dither, $dthr);
-  filename: src/lib/Ska/Starcheck/Obsid.pm
-  github_url: https://github.com/sot/starcheck/blob/9f22ad06a785c522e9aafdcebe7335bc303658a3/src/lib/Ska/Starcheck/Obsid.pm#L682
+  filename: starcheck/src/lib/Ska/Starcheck/Obsid.pm
+  github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/lib/Ska/Starcheck/Obsid.pm#L683
   id: '037'
-  line_number: 682
+  line_number: 683
   text: |-
     push @{$self->{warn}}, $warn;
   title: Really just part of check '036'
@@ -1494,10 +1454,10 @@ checks:
                 }
             }
         }
-  filename: src/lib/Ska/Starcheck/Obsid.pm
-  github_url: https://github.com/sot/starcheck/blob/9f22ad06a785c522e9aafdcebe7335bc303658a3/src/lib/Ska/Starcheck/Obsid.pm#L690
+  filename: starcheck/src/lib/Ska/Starcheck/Obsid.pm
+  github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/lib/Ska/Starcheck/Obsid.pm#L691
   id: 038
-  line_number: 690
+  line_number: 691
   severity: yellow
   text: |-
     push @{$self->{yellow_warn}}, "$alarm Non-standard dither\n";
@@ -1532,10 +1492,10 @@ checks:
                 }
                 if ($dither->{time} < $obs_tstart){
                     last;
-  filename: src/lib/Ska/Starcheck/Obsid.pm
-  github_url: https://github.com/sot/starcheck/blob/9f22ad06a785c522e9aafdcebe7335bc303658a3/src/lib/Ska/Starcheck/Obsid.pm#L705
+  filename: starcheck/src/lib/Ska/Starcheck/Obsid.pm
+  github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/lib/Ska/Starcheck/Obsid.pm#L706
   id: 039
-  line_number: 705
+  line_number: 706
   severity: red
   text: |-
     push @{$self->{warn}},
@@ -1571,10 +1531,10 @@ checks:
     }
 
 
-  filename: src/lib/Ska/Starcheck/Obsid.pm
-  github_url: https://github.com/sot/starcheck/blob/9f22ad06a785c522e9aafdcebe7335bc303658a3/src/lib/Ska/Starcheck/Obsid.pm#L712
+  filename: starcheck/src/lib/Ska/Starcheck/Obsid.pm
+  github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/lib/Ska/Starcheck/Obsid.pm#L713
   id: '040'
-  line_number: 712
+  line_number: 713
   severity: red
   text: |-
     push @{$self->{warn}}, "$alarm Dither commanding at $dither->{time}.  During observation.\n";
@@ -1609,10 +1569,10 @@ checks:
                 $obs_start_dither = $dither;
                 last;
             }
-  filename: src/lib/Ska/Starcheck/Obsid.pm
-  github_url: https://github.com/sot/starcheck/blob/9f22ad06a785c522e9aafdcebe7335bc303658a3/src/lib/Ska/Starcheck/Obsid.pm#L780
+  filename: starcheck/src/lib/Ska/Starcheck/Obsid.pm
+  github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/lib/Ska/Starcheck/Obsid.pm#L784
   id: '041'
-  line_number: 780
+  line_number: 784
   orvdot: Need observation with large dither commanding
   severity: red
   text: |-
@@ -1650,10 +1610,10 @@ checks:
         if ($obs_tstop >= $dither->{time}) {
                 $obs_stop_dither = $dither;
                 last;
-  filename: src/lib/Ska/Starcheck/Obsid.pm
-  github_url: https://github.com/sot/starcheck/blob/9f22ad06a785c522e9aafdcebe7335bc303658a3/src/lib/Ska/Starcheck/Obsid.pm#L795
+  filename: starcheck/src/lib/Ska/Starcheck/Obsid.pm
+  github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/lib/Ska/Starcheck/Obsid.pm#L799
   id: '042'
-  line_number: 795
+  line_number: 799
   orvdot: Need observation with large dither commanding
   severity: red
   text: |-
@@ -1661,7 +1621,7 @@ checks:
     sprintf("$alarm Dither should be disabled 1 min before obs start for Large Dither\n");
   title: Dither not disabled 1 min before obs star for large dither obs
   type: aca_check
-- context: |2
+- context: |2-
                 sprintf("$alarm Dither should be disabled 1 min before obs start for Large Dither\n");
         }
 
@@ -1688,11 +1648,12 @@ checks:
                 sprintf("$alarm Dither parameters not set to standard values before obs end\n");
         }
 
-    }
-  filename: src/lib/Ska/Starcheck/Obsid.pm
-  github_url: https://github.com/sot/starcheck/blob/9f22ad06a785c522e9aafdcebe7335bc303658a3/src/lib/Ska/Starcheck/Obsid.pm#L811
+        # If the number of warnings has not changed during this routine, it passed all checks
+        if (scalar(@{$self->{warn}}) == $n_warn){
+  filename: starcheck/src/lib/Ska/Starcheck/Obsid.pm
+  github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/lib/Ska/Starcheck/Obsid.pm#L815
   id: '043'
-  line_number: 811
+  line_number: 815
   orvdot: Need observation with large dither commanding
   severity: red
   text: |-
@@ -1700,7 +1661,7 @@ checks:
     sprintf("$alarm Last dither state for Large Dither should start 5 minutes before obs end.\n");
   title: Change at end of large dither observation happens too early
   type: aca-check
-- context: |2-
+- context: |2
         my $obs_stop_dither;
         foreach my $dither (reverse @{$all_dither}) {
         if ($obs_tstop >= $dither->{time}) {
@@ -1722,17 +1683,16 @@ checks:
                 sprintf("$alarm Dither parameters not set to standard values before obs end\n");
         }
 
+        # If the number of warnings has not changed during this routine, it passed all checks
+        if (scalar(@{$self->{warn}}) == $n_warn){
+            push @{$self->{fyi}},
+                sprintf("$info Observation passes 'big dither' checks\n");
+        }
     }
-
-
-
-
-
-    #############################################################################################
-  filename: src/lib/Ska/Starcheck/Obsid.pm
-  github_url: https://github.com/sot/starcheck/blob/9f22ad06a785c522e9aafdcebe7335bc303658a3/src/lib/Ska/Starcheck/Obsid.pm#L816
+  filename: starcheck/src/lib/Ska/Starcheck/Obsid.pm
+  github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/lib/Ska/Starcheck/Obsid.pm#L820
   id: '044'
-  line_number: 816
+  line_number: 820
   orvdot: Need observation with large dither commanding
   severity: red
   text: |-
@@ -1753,7 +1713,7 @@ checks:
         my $min_n_stars = 3;
 
         # if this is an OR, just return
-        return if (($self->{obsid} =~ /^\d+$/ && $self->{obsid} < 50000));
+        return if (($self->{obsid} =~ /^\d+$/ && $self->{obsid} < $ER_MIN_OBSID));
 
         # if radmon is undefined, warn and return
         if (not defined $radmon){
@@ -1770,10 +1730,10 @@ checks:
         # if observation stop time is undefined, warn and return
         if (not defined $obs_tstop){
             push @{$self->{warn}}, "$alarm Perigee bright stars not being checked, no obs tstop available\n";
-  filename: src/lib/Ska/Starcheck/Obsid.pm
-  github_url: https://github.com/sot/starcheck/blob/9f22ad06a785c522e9aafdcebe7335bc303658a3/src/lib/Ska/Starcheck/Obsid.pm#L839
+  filename: starcheck/src/lib/Ska/Starcheck/Obsid.pm
+  github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/lib/Ska/Starcheck/Obsid.pm#L848
   id: '045'
-  line_number: 839
+  line_number: 848
   severity: red
   text: |-
     push @{$self->{warn}}, "$alarm Perigee bright stars not being checked, no rad zone info available\n";
@@ -1782,7 +1742,7 @@ checks:
   type: process
 - context: |2-
         # if this is an OR, just return
-        return if (($self->{obsid} =~ /^\d+$/ && $self->{obsid} < 50000));
+        return if (($self->{obsid} =~ /^\d+$/ && $self->{obsid} < $ER_MIN_OBSID));
 
         # if radmon is undefined, warn and return
         if (not defined $radmon){
@@ -1809,10 +1769,10 @@ checks:
           next if ($rad->{time} > $obs_tstop);
           if ($rad->{state} eq 'DISA'){
             $in_perigee = 1;
-  filename: src/lib/Ska/Starcheck/Obsid.pm
-  github_url: https://github.com/sot/starcheck/blob/9f22ad06a785c522e9aafdcebe7335bc303658a3/src/lib/Ska/Starcheck/Obsid.pm#L849
+  filename: starcheck/src/lib/Ska/Starcheck/Obsid.pm
+  github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/lib/Ska/Starcheck/Obsid.pm#L858
   id: '046'
-  line_number: 849
+  line_number: 858
   severity: red
   text: |-
     push @{$self->{warn}}, "$alarm Perigee bright stars not being checked, no obs tstop available\n";
@@ -1846,10 +1806,10 @@ checks:
 
         }
     }
-  filename: src/lib/Ska/Starcheck/Obsid.pm
-  github_url: https://github.com/sot/starcheck/blob/9f22ad06a785c522e9aafdcebe7335bc303658a3/src/lib/Ska/Starcheck/Obsid.pm#L878
+  filename: starcheck/src/lib/Ska/Starcheck/Obsid.pm
+  github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/lib/Ska/Starcheck/Obsid.pm#L887
   id: '047'
-  line_number: 878
+  line_number: 887
   note: Expect special-case to be removed in ORVdot, can remove these checks post-transition.
   severity: info
   text: |-
@@ -1886,10 +1846,10 @@ checks:
     #############################################################################################
     sub check_momentum_unload{
     #############################################################################################
-  filename: src/lib/Ska/Starcheck/Obsid.pm
-  github_url: https://github.com/sot/starcheck/blob/9f22ad06a785c522e9aafdcebe7335bc303658a3/src/lib/Ska/Starcheck/Obsid.pm#L882
+  filename: starcheck/src/lib/Ska/Starcheck/Obsid.pm
+  github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/lib/Ska/Starcheck/Obsid.pm#L891
   id: 048
-  line_number: 882
+  line_number: 891
   severity: red
   text: |-
     push @{$self->{warn}}, "$alarm $bright_count star(s) brighter than $min_mag mag. "
@@ -1925,10 +1885,10 @@ checks:
                     }
                 }
             }
-  filename: src/lib/Ska/Starcheck/Obsid.pm
-  github_url: https://github.com/sot/starcheck/blob/9f22ad06a785c522e9aafdcebe7335bc303658a3/src/lib/Ska/Starcheck/Obsid.pm#L899
+  filename: starcheck/src/lib/Ska/Starcheck/Obsid.pm
+  github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/lib/Ska/Starcheck/Obsid.pm#L908
   id: 049
-  line_number: 899
+  line_number: 908
   severity: red
   text: |-
     push @{$self->{warn}}, "$alarm Momentum Unloads not checked.\n";
@@ -1963,10 +1923,10 @@ checks:
     sub check_for_special_case_er{
     #############################################################################################
         my $self = shift;
-  filename: src/lib/Ska/Starcheck/Obsid.pm
-  github_url: https://github.com/sot/starcheck/blob/9f22ad06a785c522e9aafdcebe7335bc303658a3/src/lib/Ska/Starcheck/Obsid.pm#L906
+  filename: starcheck/src/lib/Ska/Starcheck/Obsid.pm
+  github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/lib/Ska/Starcheck/Obsid.pm#L915
   id: '050'
-  line_number: 906
+  line_number: 915
   severity: info
   text: |-
     push @{$self->{fyi}}, "$info Momentum Unload (AOMUNLGR) in NPM at " . $entry->{date} . "\n";
@@ -1976,11 +1936,11 @@ checks:
         # it is a special case ER
         $self->{special_case_er} = 0;
         if ($self->{obsid} =~ /^\d+$/
-            and $self->{obsid} > 40000
+            and $self->{obsid} >= $ER_MIN_OBSID
             and $self->find_command("MP_STARCAT")
             and $self->{prev}
             and $self->{prev}->{obsid} =~ /^\d+$/
-            and $self->{prev}->{obsid} < 40000
+            and $self->{prev}->{obsid} < $ER_MIN_OBSID
             and $self->{prev}->find_command("MP_STARCAT")
             and abs($self->{ra} - $self->{prev}->{ra}) < 0.001
             and abs($self->{dec} - $self->{prev}->{dec}) < 0.001
@@ -2000,10 +1960,10 @@ checks:
 
     #############################################################################################
     sub check_sim_position {
-  filename: src/lib/Ska/Starcheck/Obsid.pm
-  github_url: https://github.com/sot/starcheck/blob/9f22ad06a785c522e9aafdcebe7335bc303658a3/src/lib/Ska/Starcheck/Obsid.pm#L936
+  filename: starcheck/src/lib/Ska/Starcheck/Obsid.pm
+  github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/lib/Ska/Starcheck/Obsid.pm#L945
   id: '051'
-  line_number: 936
+  line_number: 945
   note: Expect special-case to be removed in ORVdot, can remove these checks post-transition.
   severity: info
   text: |-
@@ -2012,11 +1972,11 @@ checks:
   type: aca_check
 - context: |2-
         if ($self->{obsid} =~ /^\d+$/
-            and $self->{obsid} > 40000
+            and $self->{obsid} >= $ER_MIN_OBSID
             and $self->find_command("MP_STARCAT")
             and $self->{prev}
             and $self->{prev}->{obsid} =~ /^\d+$/
-            and $self->{prev}->{obsid} < 40000
+            and $self->{prev}->{obsid} < $ER_MIN_OBSID
             and $self->{prev}->find_command("MP_STARCAT")
             and abs($self->{ra} - $self->{prev}->{ra}) < 0.001
             and abs($self->{dec} - $self->{prev}->{dec}) < 0.001
@@ -2039,10 +1999,10 @@ checks:
     #############################################################################################
         my $self = shift;
         my @sim_trans = @_;        # Remaining values are SIMTRANS backstop cmds
-  filename: src/lib/Ska/Starcheck/Obsid.pm
-  github_url: https://github.com/sot/starcheck/blob/9f22ad06a785c522e9aafdcebe7335bc303658a3/src/lib/Ska/Starcheck/Obsid.pm#L939
+  filename: starcheck/src/lib/Ska/Starcheck/Obsid.pm
+  github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/lib/Ska/Starcheck/Obsid.pm#L948
   id: '052'
-  line_number: 939
+  line_number: 948
   note: Expect special-case to be removed in ORVdot, can remove these checks post-transition.
   severity: info
   text: |-
@@ -2079,10 +2039,10 @@ checks:
         if (not defined $manvr->{tstop}){
             push @{$self->{warn}}, "Maneuver times not defined; SIM checking failed!\n";
         }
-  filename: src/lib/Ska/Starcheck/Obsid.pm
-  github_url: https://github.com/sot/starcheck/blob/9f22ad06a785c522e9aafdcebe7335bc303658a3/src/lib/Ska/Starcheck/Obsid.pm#L954
+  filename: starcheck/src/lib/Ska/Starcheck/Obsid.pm
+  github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/lib/Ska/Starcheck/Obsid.pm#L963
   id: '053'
-  line_number: 954
+  line_number: 963
   severity: red
   text: |-
     push @{$self->{warn}}, "$alarm Missing MP_TARGQUAT cmd\n";
@@ -2117,10 +2077,10 @@ checks:
     #        print STDERR " sim_offset_z = $self->{SIM_OFFSET_Z}   SI = $self->{SI}\n";
     #        print STDERR " st->{POS} = $par{POS}   sim_z = $sim_z   delta = ", $par{POS}-$sim_z,"\n";
                         # ACA-001
-  filename: src/lib/Ska/Starcheck/Obsid.pm
-  github_url: https://github.com/sot/starcheck/blob/9f22ad06a785c522e9aafdcebe7335bc303658a3/src/lib/Ska/Starcheck/Obsid.pm#L963
+  filename: starcheck/src/lib/Ska/Starcheck/Obsid.pm
+  github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/lib/Ska/Starcheck/Obsid.pm#L972
   id: '054'
-  line_number: 963
+  line_number: 972
   text: |-
     push @{$self->{warn}}, "Maneuver times not defined; SIM checking failed!\n";
   title: Could not check SIM position due to missing maneuver time
@@ -2155,10 +2115,10 @@ checks:
     #############################################################################################
     sub set_ok_no_starcat{
     #############################################################################################
-  filename: src/lib/Ska/Starcheck/Obsid.pm
-  github_url: https://github.com/sot/starcheck/blob/9f22ad06a785c522e9aafdcebe7335bc303658a3/src/lib/Ska/Starcheck/Obsid.pm#L974
+  filename: starcheck/src/lib/Ska/Starcheck/Obsid.pm
+  github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/lib/Ska/Starcheck/Obsid.pm#L983
   id: '055'
-  line_number: 974
+  line_number: 983
   severity: red
   text: |-
     push @{$self->{warn}}, "$alarm SIM position mismatch:  OR=$sim_z  BACKSTOP=$par{POS}\n";
@@ -2193,10 +2153,10 @@ checks:
         # ACA-004
         # if no starcat, warn and quit this subroutine
         unless ($c = find_command($self, "MP_STARCAT")) {
-  filename: src/lib/Ska/Starcheck/Obsid.pm
-  github_url: https://github.com/sot/starcheck/blob/9f22ad06a785c522e9aafdcebe7335bc303658a3/src/lib/Ska/Starcheck/Obsid.pm#L1100
+  filename: starcheck/src/lib/Ska/Starcheck/Obsid.pm
+  github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/lib/Ska/Starcheck/Obsid.pm#L1109
   id: '056'
-  line_number: 1100
+  line_number: 1109
   orvdot: No expected coverage due to removal of SIR concept (OK).
   severity: info
   text: |-
@@ -2232,10 +2192,10 @@ checks:
         if (defined $ok_no_starcat){
             push @{$self->{fyi}}, "$info No star catalog for obsid $obsid ($oflsid). OK for '$ok_no_starcat' ER. \n";
             return;
-  filename: src/lib/Ska/Starcheck/Obsid.pm
-  github_url: https://github.com/sot/starcheck/blob/9f22ad06a785c522e9aafdcebe7335bc303658a3/src/lib/Ska/Starcheck/Obsid.pm#L1103
+  filename: starcheck/src/lib/Ska/Starcheck/Obsid.pm
+  github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/lib/Ska/Starcheck/Obsid.pm#L1112
   id: '057'
-  line_number: 1103
+  line_number: 1112
   severity: red
   text: |-
     push @{$self->{warn}}, "$alarm No target/maneuver for obsid $obsid ($oflsid). \n";
@@ -2269,10 +2229,10 @@ checks:
         $min_guide -= scalar grep { $c->{"TYPE$_"} eq 'MON' } (1..16);
 
         print STDERR "Checking star catalog for obsid $self->{obsid}\n";
-  filename: src/lib/Ska/Starcheck/Obsid.pm
-  github_url: https://github.com/sot/starcheck/blob/9f22ad06a785c522e9aafdcebe7335bc303658a3/src/lib/Ska/Starcheck/Obsid.pm#L1112
+  filename: starcheck/src/lib/Ska/Starcheck/Obsid.pm
+  github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/lib/Ska/Starcheck/Obsid.pm#L1121
   id: 058
-  line_number: 1112
+  line_number: 1121
   orvdot: No expected coverage due to removal of SIR concept (OK).
   severity: info
   text: |-
@@ -2308,10 +2268,10 @@ checks:
 
         # Global checks on star/fid numbers
         # ACA-005 ACA-006 ACA-007 ACA-008 ACA-044
-  filename: src/lib/Ska/Starcheck/Obsid.pm
-  github_url: https://github.com/sot/starcheck/blob/9f22ad06a785c522e9aafdcebe7335bc303658a3/src/lib/Ska/Starcheck/Obsid.pm#L1115
+  filename: starcheck/src/lib/Ska/Starcheck/Obsid.pm
+  github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/lib/Ska/Starcheck/Obsid.pm#L1124
   id: 059
-  line_number: 1115
+  line_number: 1124
   severity: red
   text: |-
     push @{$self->{warn}}, "$alarm No star catalog for obsid $obsid ($oflsid). \n";
@@ -2347,10 +2307,10 @@ checks:
         # Match positions of fids in star catalog with expected, and verify a one to one
         # correspondance between FIDSEL command and star catalog.
         # Skip this for vehicle-only loads since fids will be turned off.
-  filename: src/lib/Ska/Starcheck/Obsid.pm
-  github_url: https://github.com/sot/starcheck/blob/9f22ad06a785c522e9aafdcebe7335bc303658a3/src/lib/Ska/Starcheck/Obsid.pm#L1126
+  filename: starcheck/src/lib/Ska/Starcheck/Obsid.pm
+  github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/lib/Ska/Starcheck/Obsid.pm#L1135
   id: '060'
-  line_number: 1126
+  line_number: 1135
   severity: red
   text: |-
     push @warn,"$alarm Too Few Fid Lights\n" if (@{$self->{fid}} < $min_fid && $is_science);
@@ -2386,10 +2346,10 @@ checks:
         # correspondance between FIDSEL command and star catalog.
         # Skip this for vehicle-only loads since fids will be turned off.
         check_fids($self, $c, \@warn) unless $vehicle;
-  filename: src/lib/Ska/Starcheck/Obsid.pm
-  github_url: https://github.com/sot/starcheck/blob/9f22ad06a785c522e9aafdcebe7335bc303658a3/src/lib/Ska/Starcheck/Obsid.pm#L1127
+  filename: starcheck/src/lib/Ska/Starcheck/Obsid.pm
+  github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/lib/Ska/Starcheck/Obsid.pm#L1136
   id: '061'
-  line_number: 1127
+  line_number: 1136
   text: |-
     push @warn,"$alarm Too Many Fid Lights\n" if ( (@{$self->{fid}} > 0 && $is_er) ||
     (@{$self->{fid}} > $min_fid && $is_science) ) ;
@@ -2425,10 +2385,10 @@ checks:
         check_fids($self, $c, \@warn) unless $vehicle;
 
         # store a list of the fid positions
-  filename: src/lib/Ska/Starcheck/Obsid.pm
-  github_url: https://github.com/sot/starcheck/blob/9f22ad06a785c522e9aafdcebe7335bc303658a3/src/lib/Ska/Starcheck/Obsid.pm#L1129
+  filename: starcheck/src/lib/Ska/Starcheck/Obsid.pm
+  github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/lib/Ska/Starcheck/Obsid.pm#L1138
   id: '062'
-  line_number: 1129
+  line_number: 1138
   severity: red
   text: |-
     push @warn,"$alarm Too Few Acquisition Stars\n" if (@{$self->{acq}} < $min_acq);
@@ -2464,10 +2424,10 @@ checks:
 
         # store a list of the fid positions
         my @fid_positions = map {{'y' => $c->{"YANG$_"}, 'z' => $c->{"ZANG$_"}}} @{$self->{fid}};
-  filename: src/lib/Ska/Starcheck/Obsid.pm
-  github_url: https://github.com/sot/starcheck/blob/9f22ad06a785c522e9aafdcebe7335bc303658a3/src/lib/Ska/Starcheck/Obsid.pm#L1130
+  filename: starcheck/src/lib/Ska/Starcheck/Obsid.pm
+  github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/lib/Ska/Starcheck/Obsid.pm#L1139
   id: '063'
-  line_number: 1130
+  line_number: 1139
   severity: red
   text: |-
     push @warn,"$alarm Too Few Guide Stars\n" if (@{$self->{gui}} < $min_guide);
@@ -2502,10 +2462,10 @@ checks:
 
         # store a list of the fid positions
         my @fid_positions = map {{'y' => $c->{"YANG$_"}, 'z' => $c->{"ZANG$_"}}} @{$self->{fid}};
-  filename: src/lib/Ska/Starcheck/Obsid.pm
-  github_url: https://github.com/sot/starcheck/blob/9f22ad06a785c522e9aafdcebe7335bc303658a3/src/lib/Ska/Starcheck/Obsid.pm#L1131
+  filename: starcheck/src/lib/Ska/Starcheck/Obsid.pm
+  github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/lib/Ska/Starcheck/Obsid.pm#L1140
   id: '064'
-  line_number: 1131
+  line_number: 1140
   note: The warning and title should probably mention monitor windows.
   severity: red
   text: |-
@@ -2542,10 +2502,10 @@ checks:
         my @fid_positions = map {{'y' => $c->{"YANG$_"}, 'z' => $c->{"ZANG$_"}}} @{$self->{fid}};
 
         foreach my $i (1..16) {
-  filename: src/lib/Ska/Starcheck/Obsid.pm
-  github_url: https://github.com/sot/starcheck/blob/9f22ad06a785c522e9aafdcebe7335bc303658a3/src/lib/Ska/Starcheck/Obsid.pm#L1132
+  filename: starcheck/src/lib/Ska/Starcheck/Obsid.pm
+  github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/lib/Ska/Starcheck/Obsid.pm#L1141
   id: '065'
-  line_number: 1132
+  line_number: 1141
   severity: red
   text: |-
     push @warn,"$alarm Too Many Acquisition Stars\n" if (@{$self->{acq}} > 8);
@@ -2581,10 +2541,10 @@ checks:
         my $obs_min_cnt = 2;
         my $obs_bad_frac = 0.3;
         # Bad Acquisition Star
-  filename: src/lib/Ska/Starcheck/Obsid.pm
-  github_url: https://github.com/sot/starcheck/blob/9f22ad06a785c522e9aafdcebe7335bc303658a3/src/lib/Ska/Starcheck/Obsid.pm#L1168
+  filename: starcheck/src/lib/Ska/Starcheck/Obsid.pm
+  github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/lib/Ska/Starcheck/Obsid.pm#L1177
   id: '066'
-  line_number: 1168
+  line_number: 1177
   severity: red
   text: |-
     push @warn, sprintf("$alarm [%2d] Missing Star. No AGASC star near search center \n", $i);
@@ -2619,10 +2579,10 @@ checks:
         my $n_obs = $bad_acqs{$sid}{n_obs};
             my $n_noids = $bad_acqs{$sid}{n_noids};
             if (defined $db_stats->{acq}){
-  filename: src/lib/Ska/Starcheck/Obsid.pm
-  github_url: https://github.com/sot/starcheck/blob/9f22ad06a785c522e9aafdcebe7335bc303658a3/src/lib/Ska/Starcheck/Obsid.pm#L1172
+  filename: starcheck/src/lib/Ska/Starcheck/Obsid.pm
+  github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/lib/Ska/Starcheck/Obsid.pm#L1181
   id: '067'
-  line_number: 1172
+  line_number: 1181
   severity: yellow
   text: |-
     push @yellow_warn, sprintf "$alarm [%2d] Centroid Perturbation Warning.  %s: ASPQ1 = %2d\n",
@@ -2659,10 +2619,10 @@ checks:
             my $n_obs = $bad_gui{$sid}{n_obs};
             my $n_nbad = $bad_gui{$sid}{n_nbad};
             if (defined $db_stats->{gui}){
-  filename: src/lib/Ska/Starcheck/Obsid.pm
-  github_url: https://github.com/sot/starcheck/blob/9f22ad06a785c522e9aafdcebe7335bc303658a3/src/lib/Ska/Starcheck/Obsid.pm#L1187
+  filename: starcheck/src/lib/Ska/Starcheck/Obsid.pm
+  github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/lib/Ska/Starcheck/Obsid.pm#L1196
   id: 068
-  line_number: 1187
+  line_number: 1196
   severity: yellow
   text: |-
     push @yellow_warn, sprintf
@@ -2699,10 +2659,10 @@ checks:
         push @warn,sprintf "$alarm [%2d] Bad AGASC ID.  %s\n",$i,$sid if ($bad_id{$sid});
 
         # Set NOTES variable for marginal or bad star based on AGASC info
-  filename: src/lib/Ska/Starcheck/Obsid.pm
-  github_url: https://github.com/sot/starcheck/blob/9f22ad06a785c522e9aafdcebe7335bc303658a3/src/lib/Ska/Starcheck/Obsid.pm#L1202
+  filename: starcheck/src/lib/Ska/Starcheck/Obsid.pm
+  github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/lib/Ska/Starcheck/Obsid.pm#L1211
   id: 069
-  line_number: 1202
+  line_number: 1211
   severity: yellow
   text: |-
     push @yellow_warn, sprintf
@@ -2740,10 +2700,10 @@ checks:
             $c->{"GS_NOTES$i"} .= 'b' if ($c->{"GS_CLASS$i"} != 0);
             # ignore precision errors in color
             my $color = sprintf('%.7f', $c->{"GS_BV$i"});
-  filename: src/lib/Ska/Starcheck/Obsid.pm
-  github_url: https://github.com/sot/starcheck/blob/9f22ad06a785c522e9aafdcebe7335bc303658a3/src/lib/Ska/Starcheck/Obsid.pm#L1209
+  filename: starcheck/src/lib/Ska/Starcheck/Obsid.pm
+  github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/lib/Ska/Starcheck/Obsid.pm#L1218
   id: '070'
-  line_number: 1209
+  line_number: 1218
   note: This hits 042 to some extent but is also a check on the guide summary completeness.
   severity: yellow
   text: |-
@@ -2780,10 +2740,10 @@ checks:
             # ignore precision errors in color
             my $color = sprintf('%.7f', $c->{"GS_BV$i"});
             $c->{"GS_NOTES$i"} .= 'c' if ($color eq '0.7000000'); # ACA-033
-  filename: src/lib/Ska/Starcheck/Obsid.pm
-  github_url: https://github.com/sot/starcheck/blob/9f22ad06a785c522e9aafdcebe7335bc303658a3/src/lib/Ska/Starcheck/Obsid.pm#L1210
+  filename: starcheck/src/lib/Ska/Starcheck/Obsid.pm
+  github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/lib/Ska/Starcheck/Obsid.pm#L1219
   id: '071'
-  line_number: 1210
+  line_number: 1219
   note: Fix the warning text since it is misleading.
   severity: red
   text: |-
@@ -2820,10 +2780,10 @@ checks:
 
         # Star/fid outside of CCD boundaries
             # ACA-019 ACA-020 ACA-021
-  filename: src/lib/Ska/Starcheck/Obsid.pm
-  github_url: https://github.com/sot/starcheck/blob/9f22ad06a785c522e9aafdcebe7335bc303658a3/src/lib/Ska/Starcheck/Obsid.pm#L1232
+  filename: starcheck/src/lib/Ska/Starcheck/Obsid.pm
+  github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/lib/Ska/Starcheck/Obsid.pm#L1241
   id: '072'
-  line_number: 1232
+  line_number: 1241
   severity: red
   text: |-
     push @warn, $marginal_note;
@@ -2858,10 +2818,10 @@ checks:
         my ($pixel_row, $pixel_col);
         eval{
             ($pixel_row, $pixel_col) = toPixels( $yag, $zag);
-  filename: src/lib/Ska/Starcheck/Obsid.pm
-  github_url: https://github.com/sot/starcheck/blob/9f22ad06a785c522e9aafdcebe7335bc303658a3/src/lib/Ska/Starcheck/Obsid.pm#L1235
+  filename: starcheck/src/lib/Ska/Starcheck/Obsid.pm
+  github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/lib/Ska/Starcheck/Obsid.pm#L1244
   id: '073'
-  line_number: 1235
+  line_number: 1244
   severity: yellow
   text: |-
     push @yellow_warn, $marginal_note;
@@ -2896,10 +2856,10 @@ checks:
             };
 
         # toPixels throws exception if angle off the CCD altogether
-  filename: src/lib/Ska/Starcheck/Obsid.pm
-  github_url: https://github.com/sot/starcheck/blob/9f22ad06a785c522e9aafdcebe7335bc303658a3/src/lib/Ska/Starcheck/Obsid.pm#L1238
+  filename: starcheck/src/lib/Ska/Starcheck/Obsid.pm
+  github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/lib/Ska/Starcheck/Obsid.pm#L1247
   id: '074'
-  line_number: 1238
+  line_number: 1247
   severity: red
   text: |-
     push @warn, sprintf("$alarm [%2d] Bad star.  Class = %s %s\n", $i,$c->{"GS_CLASS$i"},$note) if ($c->{"GS_NOTES$i"} =~ /b/);
@@ -2935,10 +2895,10 @@ checks:
                || $pixel_col > $col_max - $pix_slot_dither || $pixel_col < $col_min + $pix_slot_dither) {
                 push @warn,sprintf "$alarm [%2d] Angle Too Large.\n",$i;
             }
-  filename: src/lib/Ska/Starcheck/Obsid.pm
-  github_url: https://github.com/sot/starcheck/blob/9f22ad06a785c522e9aafdcebe7335bc303658a3/src/lib/Ska/Starcheck/Obsid.pm#L1252
+  filename: starcheck/src/lib/Ska/Starcheck/Obsid.pm
+  github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/lib/Ska/Starcheck/Obsid.pm#L1261
   id: '075'
-  line_number: 1252
+  line_number: 1261
   severity: red
   text: |-
     push @warn, sprintf "$alarm [%2d] Angle Off CCD.\n",$i;
@@ -2973,10 +2933,10 @@ checks:
         }
 
             # Quandrant boundary interference ACA-013 ACA-014 (and ACA-012 if it were actually a check)
-  filename: src/lib/Ska/Starcheck/Obsid.pm
-  github_url: https://github.com/sot/starcheck/blob/9f22ad06a785c522e9aafdcebe7335bc303658a3/src/lib/Ska/Starcheck/Obsid.pm#L1255
+  filename: starcheck/src/lib/Ska/Starcheck/Obsid.pm
+  github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/lib/Ska/Starcheck/Obsid.pm#L1264
   id: '076'
-  line_number: 1255
+  line_number: 1264
   severity: red
   text: |-
     push @warn, sprintf "$alarm [%2d] Boundary Checks failed. toPixels() said: $@ \n",$i,$i;
@@ -3012,10 +2972,10 @@ checks:
 
         # Faint and bright limits ~ACA-009 ACA-010
         if ($type ne 'MON' and $mag ne '---') {
-  filename: src/lib/Ska/Starcheck/Obsid.pm
-  github_url: https://github.com/sot/starcheck/blob/9f22ad06a785c522e9aafdcebe7335bc303658a3/src/lib/Ska/Starcheck/Obsid.pm#L1261
+  filename: starcheck/src/lib/Ska/Starcheck/Obsid.pm
+  github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/lib/Ska/Starcheck/Obsid.pm#L1270
   id: '077'
-  line_number: 1261
+  line_number: 1270
   severity: red
   text: |-
     push @warn,sprintf "$alarm [%2d] Angle Too Large.\n",$i;
@@ -3050,11 +3010,11 @@ checks:
             if ($mag < $mag_bright or $mag > $self->{mag_faint_red}) {
             push @warn, sprintf "$alarm [%2d] Magnitude.  %6.3f\n",$i,$mag;
             }
-            elsif ($mag > $self->{mag_faint_yellow}) {
-  filename: src/lib/Ska/Starcheck/Obsid.pm
-  github_url: https://github.com/sot/starcheck/blob/9f22ad06a785c522e9aafdcebe7335bc303658a3/src/lib/Ska/Starcheck/Obsid.pm#L1266
+                elsif (($type eq 'GUI' or $type eq 'BOT') and $mag > 10.3){
+  filename: starcheck/src/lib/Ska/Starcheck/Obsid.pm
+  github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/lib/Ska/Starcheck/Obsid.pm#L1275
   id: 078
-  line_number: 1266
+  line_number: 1275
   severity: yellow
   text: |-
     push @yellow_warn, sprintf "$alarm [%2d] Quadrant Boundary. \n",$i
@@ -3063,7 +3023,7 @@ checks:
   title: Guide star or fid too close to quadrant boundary
   type: aca_check
 - aca_cl_id: 009,010,011
-  context: |2-
+  context: |2
             if (   $pixel_row > $row_max - $pix_slot_dither || $pixel_row < $row_min + $pix_slot_dither
                || $pixel_col > $col_max - $pix_slot_dither || $pixel_col < $col_min + $pix_slot_dither) {
                 push @warn,sprintf "$alarm [%2d] Angle Too Large.\n",$i;
@@ -3083,19 +3043,18 @@ checks:
             push @warn, sprintf "$alarm [%2d] Magnitude.  %6.3f\n",$i,$mag;
     # XXXXXXXXXXXXX MARKED WARNING XXXXXXXXXXXXX
             }
+                elsif (($type eq 'GUI' or $type eq 'BOT') and $mag > 10.3){
+            push @warn, sprintf "$alarm [%2d] Magnitude. Guide star %6.3f\n",$i,$mag;
+                }
             elsif ($mag > $self->{mag_faint_yellow}) {
             push @yellow_warn, sprintf "$alarm [%2d] Magnitude.  %6.3f\n",$i,$mag;
             }
 
         }
-
-        # FID magnitude limits ACA-011
-        if ($type eq 'FID') {
-            if ($mag =~ /---/ or $mag < $fid_bright or $mag > $fid_faint) {
-  filename: src/lib/Ska/Starcheck/Obsid.pm
-  github_url: https://github.com/sot/starcheck/blob/9f22ad06a785c522e9aafdcebe7335bc303658a3/src/lib/Ska/Starcheck/Obsid.pm#L1274
+  filename: starcheck/src/lib/Ska/Starcheck/Obsid.pm
+  github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/lib/Ska/Starcheck/Obsid.pm#L1283
   id: 079
-  line_number: 1274
+  line_number: 1283
   severity: red
   text: |-
     push @warn, sprintf "$alarm [%2d] Magnitude.  %6.3f\n",$i,$mag;
@@ -3103,9 +3062,6 @@ checks:
   type: aca_check
 - aca_cl_id: 009,010,011
   context: |2-
-            }
-        }
-
             # Quandrant boundary interference ACA-013 ACA-014 (and ACA-012 if it were actually a check)
         push @yellow_warn, sprintf "$alarm [%2d] Quadrant Boundary. \n",$i
             unless ($type eq 'ACQ' or $type eq 'MON' or
@@ -3117,6 +3073,9 @@ checks:
             if ($mag < $mag_bright or $mag > $self->{mag_faint_red}) {
             push @warn, sprintf "$alarm [%2d] Magnitude.  %6.3f\n",$i,$mag;
             }
+                elsif (($type eq 'GUI' or $type eq 'BOT') and $mag > 10.3){
+            push @warn, sprintf "$alarm [%2d] Magnitude. Guide star %6.3f\n",$i,$mag;
+                }
             elsif ($mag > $self->{mag_faint_yellow}) {
     # XXXXXXXXXXXXX MARKED WARNING XXXXXXXXXXXXX
             push @yellow_warn, sprintf "$alarm [%2d] Magnitude.  %6.3f\n",$i,$mag;
@@ -3131,10 +3090,10 @@ checks:
             push @warn, sprintf "$alarm [%2d] Magnitude.  %6.3f\n",$i, $mag =~ /---/ ? 0 : $mag;
             }
         }
-  filename: src/lib/Ska/Starcheck/Obsid.pm
-  github_url: https://github.com/sot/starcheck/blob/9f22ad06a785c522e9aafdcebe7335bc303658a3/src/lib/Ska/Starcheck/Obsid.pm#L1277
+  filename: starcheck/src/lib/Ska/Starcheck/Obsid.pm
+  github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/lib/Ska/Starcheck/Obsid.pm#L1289
   id: 080
-  line_number: 1277
+  line_number: 1289
   severity: yellow
   text: |-
     push @yellow_warn, sprintf "$alarm [%2d] Magnitude.  %6.3f\n",$i,$mag;
@@ -3142,12 +3101,12 @@ checks:
   type: aca_check
 - aca_cl_id: '011'
   context: |2-
-        # Faint and bright limits ~ACA-009 ACA-010
-        if ($type ne 'MON' and $mag ne '---') {
-
             if ($mag < $mag_bright or $mag > $self->{mag_faint_red}) {
             push @warn, sprintf "$alarm [%2d] Magnitude.  %6.3f\n",$i,$mag;
             }
+                elsif (($type eq 'GUI' or $type eq 'BOT') and $mag > 10.3){
+            push @warn, sprintf "$alarm [%2d] Magnitude. Guide star %6.3f\n",$i,$mag;
+                }
             elsif ($mag > $self->{mag_faint_yellow}) {
             push @yellow_warn, sprintf "$alarm [%2d] Magnitude.  %6.3f\n",$i,$mag;
             }
@@ -3170,10 +3129,10 @@ checks:
                     if (abs($fpos->{y} - $yag) < $halfw and abs($fpos->{z} - $zag) < $halfw){
                         if ($type =~ /ACQ/){
                             push @yellow_warn, sprintf "$alarm [%2d] Fid light in search box\n", $i;
-  filename: src/lib/Ska/Starcheck/Obsid.pm
-  github_url: https://github.com/sot/starcheck/blob/9f22ad06a785c522e9aafdcebe7335bc303658a3/src/lib/Ska/Starcheck/Obsid.pm#L1285
+  filename: starcheck/src/lib/Ska/Starcheck/Obsid.pm
+  github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/lib/Ska/Starcheck/Obsid.pm#L1297
   id: 081
-  line_number: 1285
+  line_number: 1297
   severity: red
   text: |-
     push @warn, sprintf "$alarm [%2d] Magnitude.  %6.3f\n",$i, $mag =~ /---/ ? 0 : $mag;
@@ -3208,10 +3167,10 @@ checks:
 
             # ACA-041
         if ($type =~ /BOT|GUI|ACQ/){
-  filename: src/lib/Ska/Starcheck/Obsid.pm
-  github_url: https://github.com/sot/starcheck/blob/9f22ad06a785c522e9aafdcebe7335bc303658a3/src/lib/Ska/Starcheck/Obsid.pm#L1295
+  filename: starcheck/src/lib/Ska/Starcheck/Obsid.pm
+  github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/lib/Ska/Starcheck/Obsid.pm#L1307
   id: 082
-  line_number: 1295
+  line_number: 1307
   severity: yellow
   text: |-
     push @yellow_warn, sprintf "$alarm [%2d] Fid light in search box\n", $i;
@@ -3246,10 +3205,10 @@ checks:
             if (( $maxmag =~ /---/) or ($mag =~ /---/)){
             push @warn, sprintf "$alarm [%2d] Magnitude.  MAG or MAGMAX not defined \n",$i;
             }
-  filename: src/lib/Ska/Starcheck/Obsid.pm
-  github_url: https://github.com/sot/starcheck/blob/9f22ad06a785c522e9aafdcebe7335bc303658a3/src/lib/Ska/Starcheck/Obsid.pm#L1298
+  filename: starcheck/src/lib/Ska/Starcheck/Obsid.pm
+  github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/lib/Ska/Starcheck/Obsid.pm#L1310
   id: 083
-  line_number: 1298
+  line_number: 1310
   note: This is related to checklist 023, though the concern is that the fid light
     would be the spoiler
   severity: red
@@ -3286,10 +3245,10 @@ checks:
             }
         }
 
-  filename: src/lib/Ska/Starcheck/Obsid.pm
-  github_url: https://github.com/sot/starcheck/blob/9f22ad06a785c522e9aafdcebe7335bc303658a3/src/lib/Ska/Starcheck/Obsid.pm#L1307
+  filename: starcheck/src/lib/Ska/Starcheck/Obsid.pm
+  github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/lib/Ska/Starcheck/Obsid.pm#L1319
   id: 084
-  line_number: 1307
+  line_number: 1319
   severity: red
   text: |-
     push @warn, sprintf "$alarm [%2d] Magnitude.  MAG or MAGMAX not defined \n",$i;
@@ -3324,10 +3283,10 @@ checks:
         if ($type ne 'MON' and $c->{"HALFW$i"} > 200) {
             push @warn, sprintf "$alarm [%2d] Search Box Size. Search Box Too Large. \n",$i;
         }
-  filename: src/lib/Ska/Starcheck/Obsid.pm
-  github_url: https://github.com/sot/starcheck/blob/9f22ad06a785c522e9aafdcebe7335bc303658a3/src/lib/Ska/Starcheck/Obsid.pm#L1312
+  filename: starcheck/src/lib/Ska/Starcheck/Obsid.pm
+  github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/lib/Ska/Starcheck/Obsid.pm#L1324
   id: 085
-  line_number: 1312
+  line_number: 1324
   severity: red
   text: |-
     push @warn, sprintf "$alarm [%2d] Magnitude.  MAXMAG - MAG = %1.2f < $mag_faint_slot_diff \n",$i,$slot_diff;
@@ -3360,13 +3319,13 @@ checks:
             push @warn, sprintf "$alarm [%2d] Search Box Size. Search Box smaller than slew error \n",$i;
         }
 
-
-        # Check that readout sizes are all 6x6 for science observations ACA-027
-        if ($is_science && $type =~ /BOT|GUI|ACQ/  && $c->{"SIZE$i"} ne "6x6"){
-  filename: src/lib/Ska/Starcheck/Obsid.pm
-  github_url: https://github.com/sot/starcheck/blob/9f22ad06a785c522e9aafdcebe7335bc303658a3/src/lib/Ska/Starcheck/Obsid.pm#L1320
+            # Double check that 180 and 160 boxes are only applied to bright stars
+            if (($type =~ /BOT|ACQ/) and ($c->{"HALFW$i"} > 160)
+                and (($mag + $c->{"GS_MAGERR$i"} * 3 / 100) > 9.2)){
+  filename: starcheck/src/lib/Ska/Starcheck/Obsid.pm
+  github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/lib/Ska/Starcheck/Obsid.pm#L1332
   id: 086
-  line_number: 1320
+  line_number: 1332
   severity: red
   text: |-
     push @warn, sprintf "$alarm [%2d] Search Box Size. Search Box Too Large. \n",$i;
@@ -3394,18 +3353,18 @@ checks:
     # XXXXXXXXXXXXX MARKED WARNING XXXXXXXXXXXXX
         }
 
-
-        # Check that readout sizes are all 6x6 for science observations ACA-027
-        if ($is_science && $type =~ /BOT|GUI|ACQ/  && $c->{"SIZE$i"} ne "6x6"){
-          if (($c->{"SIZE$i"} eq "8x8") and ($or->{HAS_MON}) and ($c->{"IMNUM$i"} == 7 )){
-            push @{$self->{fyi}}, sprintf("$info [%2d] Readout Size. 8x8 Stealth MON?", $i);
-          }
-          else{
-            push @warn, sprintf("$alarm [%2d] Readout Size. %s Should be 6x6\n", $i, $c->{"SIZE$i"});
-  filename: src/lib/Ska/Starcheck/Obsid.pm
-  github_url: https://github.com/sot/starcheck/blob/9f22ad06a785c522e9aafdcebe7335bc303658a3/src/lib/Ska/Starcheck/Obsid.pm#L1325
+            # Double check that 180 and 160 boxes are only applied to bright stars
+            if (($type =~ /BOT|ACQ/) and ($c->{"HALFW$i"} > 160)
+                and (($mag + $c->{"GS_MAGERR$i"} * 3 / 100) > 9.2)){
+                push @warn, sprintf "$alarm [%2d] Search Box Size. Star too faint for > 160 box. \n",$i;
+            }
+            if (($type =~ /BOT|ACQ/) and ($c->{"HALFW$i"} > 120)
+                and (($mag + $c->{"GS_MAGERR$i"} * 1 / 100) > 10.2)){
+                push @warn, sprintf "$alarm [%2d] Search Box Size. Star too faint for > 120 box. \n",$i;
+  filename: starcheck/src/lib/Ska/Starcheck/Obsid.pm
+  github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/lib/Ska/Starcheck/Obsid.pm#L1337
   id: 087
-  line_number: 1325
+  line_number: 1337
   severity: red
   text: |-
     push @warn, sprintf "$alarm [%2d] Search Box Size. Search Box smaller than slew error \n",$i;
@@ -3413,17 +3372,17 @@ checks:
   type: aca_check
 - aca_cl_id: 030,027
   context: |2-
-
-        # Search box too large ACA-018
-        if ($type ne 'MON' and $c->{"HALFW$i"} > 200) {
-            push @warn, sprintf "$alarm [%2d] Search Box Size. Search Box Too Large. \n",$i;
         }
 
-        # ACQ/BOTH search box smaller than slew error ACA-015
-        if (($type =~ /BOT|ACQ/) and $c->{"HALFW$i"} < $slew_err) {
-            push @warn, sprintf "$alarm [%2d] Search Box Size. Search Box smaller than slew error \n",$i;
-        }
-
+            # Double check that 180 and 160 boxes are only applied to bright stars
+            if (($type =~ /BOT|ACQ/) and ($c->{"HALFW$i"} > 160)
+                and (($mag + $c->{"GS_MAGERR$i"} * 3 / 100) > 9.2)){
+                push @warn, sprintf "$alarm [%2d] Search Box Size. Star too faint for > 160 box. \n",$i;
+            }
+            if (($type =~ /BOT|ACQ/) and ($c->{"HALFW$i"} > 120)
+                and (($mag + $c->{"GS_MAGERR$i"} * 1 / 100) > 10.2)){
+                push @warn, sprintf "$alarm [%2d] Search Box Size. Star too faint for > 120 box. \n",$i;
+            }
 
         # Check that readout sizes are all 6x6 for science observations ACA-027
         if ($is_science && $type =~ /BOT|GUI|ACQ/  && $c->{"SIZE$i"} ne "6x6"){
@@ -3441,10 +3400,10 @@ checks:
         if ($is_er && $type =~ /BOT|GUI|ACQ/  && $c->{"SIZE$i"} ne "8x8"){
             push @warn, sprintf("$alarm [%2d] Readout Size.  %s Should be 8x8\n", $i, $c->{"SIZE$i"});
         }
-  filename: src/lib/Ska/Starcheck/Obsid.pm
-  github_url: https://github.com/sot/starcheck/blob/9f22ad06a785c522e9aafdcebe7335bc303658a3/src/lib/Ska/Starcheck/Obsid.pm#L1332
+  filename: starcheck/src/lib/Ska/Starcheck/Obsid.pm
+  github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/lib/Ska/Starcheck/Obsid.pm#L1353
   id: 088
-  line_number: 1332
+  line_number: 1353
   severity: info
   text: |-
     push @{$self->{fyi}}, sprintf("$info [%2d] Readout Size. 8x8 Stealth MON?", $i);
@@ -3452,14 +3411,14 @@ checks:
   type: aca_check
 - aca_cl_id: '027'
   context: |2-
-            push @warn, sprintf "$alarm [%2d] Search Box Size. Search Box Too Large. \n",$i;
-        }
-
-        # ACQ/BOTH search box smaller than slew error ACA-015
-        if (($type =~ /BOT|ACQ/) and $c->{"HALFW$i"} < $slew_err) {
-            push @warn, sprintf "$alarm [%2d] Search Box Size. Search Box smaller than slew error \n",$i;
-        }
-
+            if (($type =~ /BOT|ACQ/) and ($c->{"HALFW$i"} > 160)
+                and (($mag + $c->{"GS_MAGERR$i"} * 3 / 100) > 9.2)){
+                push @warn, sprintf "$alarm [%2d] Search Box Size. Star too faint for > 160 box. \n",$i;
+            }
+            if (($type =~ /BOT|ACQ/) and ($c->{"HALFW$i"} > 120)
+                and (($mag + $c->{"GS_MAGERR$i"} * 1 / 100) > 10.2)){
+                push @warn, sprintf "$alarm [%2d] Search Box Size. Star too faint for > 120 box. \n",$i;
+            }
 
         # Check that readout sizes are all 6x6 for science observations ACA-027
         if ($is_science && $type =~ /BOT|GUI|ACQ/  && $c->{"SIZE$i"} ne "6x6"){
@@ -3480,10 +3439,10 @@ checks:
 
         # Check that readout sizes are all 8x8 for FID lights ACA-029
         push @warn, sprintf("$alarm [%2d] Readout Size.  %s Should be 8x8\n", $i, $c->{"SIZE$i"})
-  filename: src/lib/Ska/Starcheck/Obsid.pm
-  github_url: https://github.com/sot/starcheck/blob/9f22ad06a785c522e9aafdcebe7335bc303658a3/src/lib/Ska/Starcheck/Obsid.pm#L1335
+  filename: starcheck/src/lib/Ska/Starcheck/Obsid.pm
+  github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/lib/Ska/Starcheck/Obsid.pm#L1356
   id: 089
-  line_number: 1335
+  line_number: 1356
   severity: red
   text: |-
     push @warn, sprintf("$alarm [%2d] Readout Size. %s Should be 6x6\n", $i, $c->{"SIZE$i"});
@@ -3491,8 +3450,8 @@ checks:
   type: aca_check
 - aca_cl_id: 028
   context: |2
-        }
-
+                push @warn, sprintf "$alarm [%2d] Search Box Size. Star too faint for > 120 box. \n",$i;
+            }
 
         # Check that readout sizes are all 6x6 for science observations ACA-027
         if ($is_science && $type =~ /BOT|GUI|ACQ/  && $c->{"SIZE$i"} ne "6x6"){
@@ -3518,10 +3477,10 @@ checks:
         # Check that readout size is 8x8 for monitor windows ACA-030
         push @warn, sprintf("$alarm [%2d] Readout Size. %s Should be 8x8\n", $i, $c->{"SIZE$i"})
             if ($type =~ /MON/  && $c->{"SIZE$i"} ne "8x8");
-  filename: src/lib/Ska/Starcheck/Obsid.pm
-  github_url: https://github.com/sot/starcheck/blob/9f22ad06a785c522e9aafdcebe7335bc303658a3/src/lib/Ska/Starcheck/Obsid.pm#L1341
+  filename: starcheck/src/lib/Ska/Starcheck/Obsid.pm
+  github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/lib/Ska/Starcheck/Obsid.pm#L1362
   id: 090
-  line_number: 1341
+  line_number: 1362
   severity: red
   text: |-
     push @warn, sprintf("$alarm [%2d] Readout Size.  %s Should be 8x8\n", $i, $c->{"SIZE$i"});
@@ -3557,10 +3516,10 @@ checks:
         # Bad Pixels ACA-025
             my @close_pixels;
             my @dr;
-  filename: src/lib/Ska/Starcheck/Obsid.pm
-  github_url: https://github.com/sot/starcheck/blob/9f22ad06a785c522e9aafdcebe7335bc303658a3/src/lib/Ska/Starcheck/Obsid.pm#L1345
+  filename: starcheck/src/lib/Ska/Starcheck/Obsid.pm
+  github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/lib/Ska/Starcheck/Obsid.pm#L1366
   id: 091
-  line_number: 1345
+  line_number: 1366
   severity: red
   text: |-
     push @warn, sprintf("$alarm [%2d] Readout Size.  %s Should be 8x8\n", $i, $c->{"SIZE$i"})
@@ -3597,10 +3556,10 @@ checks:
             foreach my $pixel (@bad_pixels) {
             my $dy = abs($yag-$pixel->{yag});
             my $dz = abs($zag-$pixel->{zag});
-  filename: src/lib/Ska/Starcheck/Obsid.pm
-  github_url: https://github.com/sot/starcheck/blob/9f22ad06a785c522e9aafdcebe7335bc303658a3/src/lib/Ska/Starcheck/Obsid.pm#L1349
+  filename: starcheck/src/lib/Ska/Starcheck/Obsid.pm
+  github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/lib/Ska/Starcheck/Obsid.pm#L1370
   id: 092
-  line_number: 1349
+  line_number: 1370
   severity: red
   text: |-
     push @warn, sprintf("$alarm [%2d] Readout Size. %s Should be 8x8\n", $i, $c->{"SIZE$i"})
@@ -3637,10 +3596,10 @@ checks:
 
         foreach my $star (values %{$self->{agasc_hash}}) {
                 # Skip tests if $star is the same as the catalog star
-  filename: src/lib/Ska/Starcheck/Obsid.pm
-  github_url: https://github.com/sot/starcheck/blob/9f22ad06a785c522e9aafdcebe7335bc303658a3/src/lib/Ska/Starcheck/Obsid.pm#L1367
+  filename: starcheck/src/lib/Ska/Starcheck/Obsid.pm
+  github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/lib/Ska/Starcheck/Obsid.pm#L1388
   id: 093
-  line_number: 1367
+  line_number: 1388
   severity: red
   text: |-
     my $warn = sprintf("$alarm [%2d] Nearby ACA bad pixel. " .
@@ -3677,10 +3636,10 @@ checks:
             next if (  $star->{id} eq $sid ||
                    ( abs($star->{yag} - $yag) < $ID_DIST_LIMIT
                  && abs($star->{zag} - $zag) < $ID_DIST_LIMIT
-  filename: src/lib/Ska/Starcheck/Obsid.pm
-  github_url: https://github.com/sot/starcheck/blob/9f22ad06a785c522e9aafdcebe7335bc303658a3/src/lib/Ska/Starcheck/Obsid.pm#L1370
+  filename: starcheck/src/lib/Ska/Starcheck/Obsid.pm
+  github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/lib/Ska/Starcheck/Obsid.pm#L1391
   id: 094
-  line_number: 1370
+  line_number: 1391
   severity: red
   text: |-
     push @warn, $warn;
@@ -3715,10 +3674,10 @@ checks:
             my $warn = sprintf("$alarm [%2d] Search spoiler. %10d: " .
                        "Y,Z,Radial,Mag seps: %3d %3d %3d %4s\n",$i,$star->{id},$dy,$dz,$dr,$dm_string);
             if ($dm > -0.2)  { push @warn, $warn } # ACA-022 ACA-023
-  filename: src/lib/Ska/Starcheck/Obsid.pm
-  github_url: https://github.com/sot/starcheck/blob/9f22ad06a785c522e9aafdcebe7335bc303658a3/src/lib/Ska/Starcheck/Obsid.pm#L1392
+  filename: starcheck/src/lib/Ska/Starcheck/Obsid.pm
+  github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/lib/Ska/Starcheck/Obsid.pm#L1413
   id: 095
-  line_number: 1392
+  line_number: 1413
   severity: red
   text: |-
     my $warn = sprintf("$alarm [%2d] Fid spoiler.  %10d: " .
@@ -3755,10 +3714,10 @@ checks:
             if ($dm > -0.2)  { push @warn, $warn } # ACA-022 ACA-023
             else { push @yellow_warn, $warn }
             }
-  filename: src/lib/Ska/Starcheck/Obsid.pm
-  github_url: https://github.com/sot/starcheck/blob/9f22ad06a785c522e9aafdcebe7335bc303658a3/src/lib/Ska/Starcheck/Obsid.pm#L1394
+  filename: starcheck/src/lib/Ska/Starcheck/Obsid.pm
+  github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/lib/Ska/Starcheck/Obsid.pm#L1415
   id: 096
-  line_number: 1394
+  line_number: 1415
   severity: red
   text: |-
     if ($dm > -4.0)  { push @warn, $warn }
@@ -3800,10 +3759,10 @@ checks:
             else { push @yellow_warn, $warn }
             }
             # Common column: dz within limit, spoiler is $col_sep_mag brighter than star,
-  filename: src/lib/Ska/Starcheck/Obsid.pm
-  github_url: https://github.com/sot/starcheck/blob/9f22ad06a785c522e9aafdcebe7335bc303658a3/src/lib/Ska/Starcheck/Obsid.pm#L1395
+  filename: starcheck/src/lib/Ska/Starcheck/Obsid.pm
+  github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/lib/Ska/Starcheck/Obsid.pm#L1416
   id: 097
-  line_number: 1395
+  line_number: 1416
   severity: yellow
   text: |-
     else { push @yellow_warn, $warn }
@@ -3844,10 +3803,10 @@ checks:
             and $dz < $col_sep_dist
             and $dm > $col_sep_mag
             and ($star->{yag}/$yag) > 1.0
-  filename: src/lib/Ska/Starcheck/Obsid.pm
-  github_url: https://github.com/sot/starcheck/blob/9f22ad06a785c522e9aafdcebe7335bc303658a3/src/lib/Ska/Starcheck/Obsid.pm#L1400
+  filename: starcheck/src/lib/Ska/Starcheck/Obsid.pm
+  github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/lib/Ska/Starcheck/Obsid.pm#L1421
   id: 098
-  line_number: 1400
+  line_number: 1421
   text: |-
     my $warn = sprintf("$alarm [%2d] Search spoiler. %10d: " .
     "Y,Z,Radial,Mag seps: %3d %3d %3d %4s\n",$i,$star->{id},$dy,$dz,$dr,$dm_string);
@@ -3883,10 +3842,10 @@ checks:
             and ($star->{yag}/$yag) > 1.0
             and abs($star->{yag}) < 2500) {
             push @warn,sprintf("$alarm [%2d] Common Column. %10d " .
-  filename: src/lib/Ska/Starcheck/Obsid.pm
-  github_url: https://github.com/sot/starcheck/blob/9f22ad06a785c522e9aafdcebe7335bc303658a3/src/lib/Ska/Starcheck/Obsid.pm#L1402
+  filename: starcheck/src/lib/Ska/Starcheck/Obsid.pm
+  github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/lib/Ska/Starcheck/Obsid.pm#L1423
   id: 099
-  line_number: 1402
+  line_number: 1423
   severity: red
   text: |-
     if ($dm > -0.2)  { push @warn, $warn } # ACA-022 ACA-023
@@ -3932,10 +3891,10 @@ checks:
             and abs($star->{yag}) < 2500) {
             push @warn,sprintf("$alarm [%2d] Common Column. %10d " .
                        "at Y,Z,Mag: %5d %5d %5.2f\n",$i,$star->{id},$star->{yag},$star->{zag},$star->{mag_aca});
-  filename: src/lib/Ska/Starcheck/Obsid.pm
-  github_url: https://github.com/sot/starcheck/blob/9f22ad06a785c522e9aafdcebe7335bc303658a3/src/lib/Ska/Starcheck/Obsid.pm#L1403
+  filename: starcheck/src/lib/Ska/Starcheck/Obsid.pm
+  github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/lib/Ska/Starcheck/Obsid.pm#L1424
   id: '100'
-  line_number: 1403
+  line_number: 1424
   severity: yellow
   text: |-
     else { push @yellow_warn, $warn }
@@ -3981,10 +3940,10 @@ checks:
     # Find the smallest rectangle size that all acq stars fit in
         my $y_side = sprintf( "%.0f", $max_y - $min_y );
         my $z_side = sprintf( "%.0f", $max_z - $min_z );
-  filename: src/lib/Ska/Starcheck/Obsid.pm
-  github_url: https://github.com/sot/starcheck/blob/9f22ad06a785c522e9aafdcebe7335bc303658a3/src/lib/Ska/Starcheck/Obsid.pm#L1412
+  filename: starcheck/src/lib/Ska/Starcheck/Obsid.pm
+  github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/lib/Ska/Starcheck/Obsid.pm#L1433
   id: '101'
-  line_number: 1412
+  line_number: 1433
   severity: red
   text: |-
     push @warn,sprintf("$alarm [%2d] Common Column. %10d " .
@@ -4020,10 +3979,10 @@ checks:
     #############################################################################################
     sub check_flick_pix_mon {
     #############################################################################################
-  filename: src/lib/Ska/Starcheck/Obsid.pm
-  github_url: https://github.com/sot/starcheck/blob/9f22ad06a785c522e9aafdcebe7335bc303658a3/src/lib/Ska/Starcheck/Obsid.pm#L1423
+  filename: starcheck/src/lib/Ska/Starcheck/Obsid.pm
+  github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/lib/Ska/Starcheck/Obsid.pm#L1444
   id: '102'
-  line_number: 1423
+  line_number: 1444
   severity: yellow
   text: |-
     push @yellow_warn, "$alarm Guide stars fit in $y_side x $z_side square arc-second box\n"
@@ -4058,11 +4017,11 @@ checks:
         my $self = shift;
 
         # this only applies to ERs (and they should have numeric obsids)
-        return unless ( $self->{obsid} =~ /^\d+$/ and $self->{obsid} > 50000 );
-  filename: src/lib/Ska/Starcheck/Obsid.pm
-  github_url: https://github.com/sot/starcheck/blob/9f22ad06a785c522e9aafdcebe7335bc303658a3/src/lib/Ska/Starcheck/Obsid.pm#L1427
+        return unless ( $self->{obsid} =~ /^\d+$/ and $self->{obsid} >= $ER_MIN_OBSID );
+  filename: starcheck/src/lib/Ska/Starcheck/Obsid.pm
+  github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/lib/Ska/Starcheck/Obsid.pm#L1448
   id: '103'
-  line_number: 1427
+  line_number: 1448
   severity: red
   text: |-
     push @{$self->{warn}}, @warn;
@@ -4095,11 +4054,11 @@ checks:
         my $self = shift;
 
         # this only applies to ERs (and they should have numeric obsids)
-        return unless ( $self->{obsid} =~ /^\d+$/ and $self->{obsid} > 50000 );
-  filename: src/lib/Ska/Starcheck/Obsid.pm
-  github_url: https://github.com/sot/starcheck/blob/9f22ad06a785c522e9aafdcebe7335bc303658a3/src/lib/Ska/Starcheck/Obsid.pm#L1428
+        return unless ( $self->{obsid} =~ /^\d+$/ and $self->{obsid} >= $ER_MIN_OBSID );
+  filename: starcheck/src/lib/Ska/Starcheck/Obsid.pm
+  github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/lib/Ska/Starcheck/Obsid.pm#L1449
   id: '104'
-  line_number: 1428
+  line_number: 1449
   severity: yellow
   text: |-
     push @{$self->{yellow_warn}}, @yellow_warn;
@@ -4109,7 +4068,7 @@ checks:
         my $self = shift;
 
         # this only applies to ERs (and they should have numeric obsids)
-        return unless ( $self->{obsid} =~ /^\d+$/ and $self->{obsid} > 50000 );
+        return unless ( $self->{obsid} =~ /^\d+$/ and $self->{obsid} >= $ER_MIN_OBSID );
 
         my $c;
         # Check for existence of a star catalog
@@ -4134,10 +4093,10 @@ checks:
 
             # Verify the DTS is set to self
         push @{$self->{warn}}, sprintf("$alarm [%2d] Monitor Commanding. DTS should be set to self\n", $mon_star)
-  filename: src/lib/Ska/Starcheck/Obsid.pm
-  github_url: https://github.com/sot/starcheck/blob/9f22ad06a785c522e9aafdcebe7335bc303658a3/src/lib/Ska/Starcheck/Obsid.pm#L1449
+  filename: starcheck/src/lib/Ska/Starcheck/Obsid.pm
+  github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/lib/Ska/Starcheck/Obsid.pm#L1470
   id: '105'
-  line_number: 1449
+  line_number: 1470
   severity: info
   text: |-
     push @{$self->{fyi}}, sprintf("$info Obsid contains flickering pixel MON\n", $mon_star);
@@ -4145,7 +4104,7 @@ checks:
   type: aca_check
 - aca_cl_id: '024'
   context: |2-
-        return unless ( $self->{obsid} =~ /^\d+$/ and $self->{obsid} > 50000 );
+        return unless ( $self->{obsid} =~ /^\d+$/ and $self->{obsid} >= $ER_MIN_OBSID );
 
         my $c;
         # Check for existence of a star catalog
@@ -4173,10 +4132,10 @@ checks:
             unless $c->{"DIMDTS${mon_star}"} == $c->{"IMNUM${mon_star}"};
 
         }
-  filename: src/lib/Ska/Starcheck/Obsid.pm
-  github_url: https://github.com/sot/starcheck/blob/9f22ad06a785c522e9aafdcebe7335bc303658a3/src/lib/Ska/Starcheck/Obsid.pm#L1452
+  filename: starcheck/src/lib/Ska/Starcheck/Obsid.pm
+  github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/lib/Ska/Starcheck/Obsid.pm#L1473
   id: '106'
-  line_number: 1452
+  line_number: 1473
   severity: red
   text: |-
     push @{$self->{warn}}, sprintf("$alarm [%2d] Monitor Commanding. Size is not 8x8\n", $mon_star)
@@ -4213,10 +4172,10 @@ checks:
 
 
     }
-  filename: src/lib/Ska/Starcheck/Obsid.pm
-  github_url: https://github.com/sot/starcheck/blob/9f22ad06a785c522e9aafdcebe7335bc303658a3/src/lib/Ska/Starcheck/Obsid.pm#L1455
+  filename: starcheck/src/lib/Ska/Starcheck/Obsid.pm
+  github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/lib/Ska/Starcheck/Obsid.pm#L1476
   id: '107'
-  line_number: 1455
+  line_number: 1476
   severity: red
   text: |-
     push @{$self->{warn}}, sprintf("$alarm [%2d] Monitor Commanding. Monitor Window RESTRK should be 0\n", $mon_star)
@@ -4252,10 +4211,10 @@ checks:
 
     #############################################################################################
     sub check_monitor_commanding {
-  filename: src/lib/Ska/Starcheck/Obsid.pm
-  github_url: https://github.com/sot/starcheck/blob/9f22ad06a785c522e9aafdcebe7335bc303658a3/src/lib/Ska/Starcheck/Obsid.pm#L1459
+  filename: starcheck/src/lib/Ska/Starcheck/Obsid.pm
+  github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/lib/Ska/Starcheck/Obsid.pm#L1480
   id: '108'
-  line_number: 1459
+  line_number: 1480
   severity: red
   text: |-
     push @{$self->{warn}}, sprintf("$alarm [%2d] Monitor Commanding. DTS should be set to self\n", $mon_star)
@@ -4291,10 +4250,10 @@ checks:
         }
 
         # Check all indices
-  filename: src/lib/Ska/Starcheck/Obsid.pm
-  github_url: https://github.com/sot/starcheck/blob/9f22ad06a785c522e9aafdcebe7335bc303658a3/src/lib/Ska/Starcheck/Obsid.pm#L1506
+  filename: starcheck/src/lib/Ska/Starcheck/Obsid.pm
+  github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/lib/Ska/Starcheck/Obsid.pm#L1527
   id: '109'
-  line_number: 1506
+  line_number: 1527
   orvdot: Include monitor window commanding
   severity: red
   text: |-
@@ -4331,10 +4290,10 @@ checks:
           push @{$self->{warn}}, sprintf("$alarm [%2d] Monitor Commanding. Monitor Window is in slot %2d and should be in slot 7.\n"
                          , $idx_hash{idx}, $idx_hash{imnum})
             if $idx_hash{imnum} != 7;
-  filename: src/lib/Ska/Starcheck/Obsid.pm
-  github_url: https://github.com/sot/starcheck/blob/9f22ad06a785c522e9aafdcebe7335bc303658a3/src/lib/Ska/Starcheck/Obsid.pm#L1542
+  filename: starcheck/src/lib/Ska/Starcheck/Obsid.pm
+  github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/lib/Ska/Starcheck/Obsid.pm#L1563
   id: '110'
-  line_number: 1542
+  line_number: 1563
   orvdot: Include monitor window commanding
   severity: red
   text: |-
@@ -4372,10 +4331,10 @@ checks:
         # ACA-038
         push @{$self->{warn}}, sprintf("$alarm [%2d] Monitor Commanding. Monitor Window is set to Convert-to-Track\n", $idx_hash{idx})
           if $idx_hash{restrk} == 1;
-  filename: src/lib/Ska/Starcheck/Obsid.pm
-  github_url: https://github.com/sot/starcheck/blob/9f22ad06a785c522e9aafdcebe7335bc303658a3/src/lib/Ska/Starcheck/Obsid.pm#L1546
+  filename: starcheck/src/lib/Ska/Starcheck/Obsid.pm
+  github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/lib/Ska/Starcheck/Obsid.pm#L1567
   id: '111'
-  line_number: 1546
+  line_number: 1567
   orvdot: Include monitor window commanding
   severity: red
   text: |-
@@ -4413,10 +4372,10 @@ checks:
         # Verify the the designated track star is indeed a guide star. ACA-039
           my $dts_slot = $idx_hash{dimdts};
           my $dts_type = "NULL";
-  filename: src/lib/Ska/Starcheck/Obsid.pm
-  github_url: https://github.com/sot/starcheck/blob/9f22ad06a785c522e9aafdcebe7335bc303658a3/src/lib/Ska/Starcheck/Obsid.pm#L1550
+  filename: starcheck/src/lib/Ska/Starcheck/Obsid.pm
+  github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/lib/Ska/Starcheck/Obsid.pm#L1571
   id: '112'
-  line_number: 1550
+  line_number: 1571
   orvdot: Include monitor window commanding
   text: |-
     push @{$self->{warn}}, sprintf("$alarm [%2d] Monitor Commanding. Monitor Window is in slot %2d and should be in slot 7.\n"
@@ -4454,10 +4413,10 @@ checks:
             next unless $c->{"IMNUM$dts_index"} == $dts_slot and $c->{"TYPE$dts_index"} =~ /GUI|BOT/;
             $dts_type = $c->{"TYPE$dts_index"};
             last;
-  filename: src/lib/Ska/Starcheck/Obsid.pm
-  github_url: https://github.com/sot/starcheck/blob/9f22ad06a785c522e9aafdcebe7335bc303658a3/src/lib/Ska/Starcheck/Obsid.pm#L1554
+  filename: starcheck/src/lib/Ska/Starcheck/Obsid.pm
+  github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/lib/Ska/Starcheck/Obsid.pm#L1575
   id: '113'
-  line_number: 1554
+  line_number: 1575
   orvdot: Include monitor window commanding
   severity: red
   text: |-
@@ -4495,10 +4454,10 @@ checks:
           push @{$self->{fyi}}, sprintf("$info [%2d] Appears to be MON used as GUI/BOT.  Has Magnitude been checked?\n",
                         $idx);
           # if it doesn't match the requested location
-  filename: src/lib/Ska/Starcheck/Obsid.pm
-  github_url: https://github.com/sot/starcheck/blob/9f22ad06a785c522e9aafdcebe7335bc303658a3/src/lib/Ska/Starcheck/Obsid.pm#L1566
+  filename: starcheck/src/lib/Ska/Starcheck/Obsid.pm
+  github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/lib/Ska/Starcheck/Obsid.pm#L1587
   id: '114'
-  line_number: 1566
+  line_number: 1587
   orvdot: Include monitor window commanding
   severity: red
   text: |-
@@ -4536,10 +4495,10 @@ checks:
         }
         if ((not $found_mon) and ($idx_hash{sep} < 2.5)){
           # if there *should* be one there...
-  filename: src/lib/Ska/Starcheck/Obsid.pm
-  github_url: https://github.com/sot/starcheck/blob/9f22ad06a785c522e9aafdcebe7335bc303658a3/src/lib/Ska/Starcheck/Obsid.pm#L1574
+  filename: starcheck/src/lib/Ska/Starcheck/Obsid.pm
+  github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/lib/Ska/Starcheck/Obsid.pm#L1595
   id: '115'
-  line_number: 1574
+  line_number: 1595
   orvdot: Would require MON converted to GUI/BOT.
   severity: info
   text: |-
@@ -4575,10 +4534,10 @@ checks:
         # if I don't have a plain MON or a "stealth" MON, throw a warning
         push @{$self->{warn}}, sprintf("$alarm MON requested in OR, but none found in catalog\n")
           unless ( $found_mon or $stealth_mon );
-  filename: src/lib/Ska/Starcheck/Obsid.pm
-  github_url: https://github.com/sot/starcheck/blob/9f22ad06a785c522e9aafdcebe7335bc303658a3/src/lib/Ska/Starcheck/Obsid.pm#L1585
+  filename: starcheck/src/lib/Ska/Starcheck/Obsid.pm
+  github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/lib/Ska/Starcheck/Obsid.pm#L1606
   id: '117'
-  line_number: 1585
+  line_number: 1606
   severity: info
   text: |-
     push @{$self->{fyi}}, sprintf("$info [%2d] Commanded at intended OR MON position; but not configured for MON\n",
@@ -4613,10 +4572,10 @@ checks:
         # Find the associated maneuver command for this obsid.  Need this to get the
         # exact time of the end of maneuver
         my $manv;
-  filename: src/lib/Ska/Starcheck/Obsid.pm
-  github_url: https://github.com/sot/starcheck/blob/9f22ad06a785c522e9aafdcebe7335bc303658a3/src/lib/Ska/Starcheck/Obsid.pm#L1593
+  filename: starcheck/src/lib/Ska/Starcheck/Obsid.pm
+  github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/lib/Ska/Starcheck/Obsid.pm#L1614
   id: '118'
-  line_number: 1593
+  line_number: 1614
   orvdot: Include monitor window commanding
   severity: red
   text: |-
@@ -4653,10 +4612,10 @@ checks:
         #  The OFP Aspect Camera Process is restarted (AOACRSET) 3 minutes after EOM.
         #  Dither is enabled (AOENDITH) 5 min after EOM
         # ACA-040
-  filename: src/lib/Ska/Starcheck/Obsid.pm
-  github_url: https://github.com/sot/starcheck/blob/9f22ad06a785c522e9aafdcebe7335bc303658a3/src/lib/Ska/Starcheck/Obsid.pm#L1605
+  filename: starcheck/src/lib/Ska/Starcheck/Obsid.pm
+  github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/lib/Ska/Starcheck/Obsid.pm#L1626
   id: '119'
-  line_number: 1605
+  line_number: 1626
   orvdot: Include monitor window commanding
   severity: red
   text: |-
@@ -4691,10 +4650,10 @@ checks:
         my $self = shift;
         my $c = shift;        # Star catalog command
         my $warn = shift;        # Array ref to warnings for this obsid
-  filename: src/lib/Ska/Starcheck/Obsid.pm
-  github_url: https://github.com/sot/starcheck/blob/9f22ad06a785c522e9aafdcebe7335bc303658a3/src/lib/Ska/Starcheck/Obsid.pm#L1636
+  filename: starcheck/src/lib/Ska/Starcheck/Obsid.pm
+  github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/lib/Ska/Starcheck/Obsid.pm#L1657
   id: '120'
-  line_number: 1636
+  line_number: 1657
   orvdot: Include monitor window commanding
   severity: red
   text: |-
@@ -4730,10 +4689,10 @@ checks:
 
         # Make sure we have SI and SIM_OFFSET_Z to be able to calculate fid yang and zang
         unless (defined $self->{SI}) {
-  filename: src/lib/Ska/Starcheck/Obsid.pm
-  github_url: https://github.com/sot/starcheck/blob/9f22ad06a785c522e9aafdcebe7335bc303658a3/src/lib/Ska/Starcheck/Obsid.pm#L1645
+  filename: starcheck/src/lib/Ska/Starcheck/Obsid.pm
+  github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/lib/Ska/Starcheck/Obsid.pm#L1666
   id: '121'
-  line_number: 1645
+  line_number: 1666
   text: "my $warn = shift;\t\t# Array ref to warnings for this obsid"
   title: Code to pass the warnings array by reference to this check function
   type: code
@@ -4766,10 +4725,10 @@ checks:
         @fid_ok = map { 0 } @{$self->{fid}};
 
         # Calculate yang and zang for each commanded fid, then cross-correlate with
-  filename: src/lib/Ska/Starcheck/Obsid.pm
-  github_url: https://github.com/sot/starcheck/blob/9f22ad06a785c522e9aafdcebe7335bc303658a3/src/lib/Ska/Starcheck/Obsid.pm#L1656
+  filename: starcheck/src/lib/Ska/Starcheck/Obsid.pm
+  github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/lib/Ska/Starcheck/Obsid.pm#L1677
   id: '122'
-  line_number: 1656
+  line_number: 1677
   severity: red
   text: |-
     push @{$warn}, "$alarm Unable to check fids because SI undefined\n";
@@ -4804,10 +4763,10 @@ checks:
         foreach my $fid (@{$self->{fidsel}}) {
 
         my ($yag, $zag, $error) = calc_fid_ang($fid, $self->{SI}, $self->{SIM_OFFSET_Z}, $self->{obsid});
-  filename: src/lib/Ska/Starcheck/Obsid.pm
-  github_url: https://github.com/sot/starcheck/blob/9f22ad06a785c522e9aafdcebe7335bc303658a3/src/lib/Ska/Starcheck/Obsid.pm#L1660
+  filename: starcheck/src/lib/Ska/Starcheck/Obsid.pm
+  github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/lib/Ska/Starcheck/Obsid.pm#L1681
   id: '123'
-  line_number: 1660
+  line_number: 1681
   severity: red
   text: |-
     push @{$warn}, "$alarm Unable to check fids because SIM_OFFSET_Z undefined\n";
@@ -4842,10 +4801,10 @@ checks:
 
             # Check if starcat fid matches fidsel fid position to within 10 arcsec
             if (abs($yag - $c->{"YANG$i"}) < 10.0 && abs($zag - $c->{"ZANG$i"}) < 10.0) {
-  filename: src/lib/Ska/Starcheck/Obsid.pm
-  github_url: https://github.com/sot/starcheck/blob/9f22ad06a785c522e9aafdcebe7335bc303658a3/src/lib/Ska/Starcheck/Obsid.pm#L1673
+  filename: starcheck/src/lib/Ska/Starcheck/Obsid.pm
+  github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/lib/Ska/Starcheck/Obsid.pm#L1694
   id: '124'
-  line_number: 1673
+  line_number: 1694
   notes: This is really at https://github.com/sot/starcheck/blob/cef8d8482300904b9335f968a8f852a6ae72b435/src/lib/Ska/Starcheck/Obsid.pm#L1731
   severity: red
   text: |-
@@ -4881,10 +4840,10 @@ checks:
             unless ($fid_ok[$i_fid]);
         }
     }
-  filename: src/lib/Ska/Starcheck/Obsid.pm
-  github_url: https://github.com/sot/starcheck/blob/9f22ad06a785c522e9aafdcebe7335bc303658a3/src/lib/Ska/Starcheck/Obsid.pm#L1691
+  filename: starcheck/src/lib/Ska/Starcheck/Obsid.pm
+  github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/lib/Ska/Starcheck/Obsid.pm#L1712
   id: '125'
-  line_number: 1691
+  line_number: 1712
   severity: red
   text: |-
     push @{$warn}, sprintf("$alarm Fid $self->{SI} FIDSEL $fid not found within 10 arcsec of (%.1f, %.1f)\n",
@@ -4922,10 +4881,10 @@ checks:
     #   Y_ang = fid position angle measured about the ACA z-axis as shown in
     #           Fig. 4.3-5.  In that figure, Y_ang corresponds to the ACA
     #           y angle, or "yag".
-  filename: src/lib/Ska/Starcheck/Obsid.pm
-  github_url: https://github.com/sot/starcheck/blob/9f22ad06a785c522e9aafdcebe7335bc303658a3/src/lib/Ska/Starcheck/Obsid.pm#L1697
+  filename: starcheck/src/lib/Ska/Starcheck/Obsid.pm
+  github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/lib/Ska/Starcheck/Obsid.pm#L1718
   id: '126'
-  line_number: 1697
+  line_number: 1718
   severity: red
   text: |-
     push @{$warn}, "$alarm Fid with IDX=\[$self->{fid}[$i_fid]\] is in star catalog but is not turned on via FIDSEL\n"
@@ -4961,10 +4920,10 @@ checks:
         my $self = shift;
         my $AGASC_DIR = shift;
         my $c;
-  filename: src/lib/Ska/Starcheck/Obsid.pm
-  github_url: https://github.com/sot/starcheck/blob/9f22ad06a785c522e9aafdcebe7335bc303658a3/src/lib/Ska/Starcheck/Obsid.pm#L2108
+  filename: starcheck/src/lib/Ska/Starcheck/Obsid.pm
+  github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/lib/Ska/Starcheck/Obsid.pm#L2129
   id: '127'
-  line_number: 2108
+  line_number: 2129
   severity: red
   text: |-
     push @{$self->{warn}}, ">> WARNING: Guide summary does not match commanded catalog.\n";
@@ -4972,7 +4931,7 @@ checks:
   type: process
 - aca_cl_id: '026'
   context: |2-
-        }
+        });
 
         my $q_aca = Quat->new($self->{ra}, $self->{dec}, $self->{roll});
 
@@ -5000,10 +4959,10 @@ checks:
             mag_aca => $star->mag_aca(),
             bv  => $star->color1(),
             mag_aca_err => $star->mag_aca_err(),
-  filename: src/lib/Ska/Starcheck/Obsid.pm
-  github_url: https://github.com/sot/starcheck/blob/9f22ad06a785c522e9aafdcebe7335bc303658a3/src/lib/Ska/Starcheck/Obsid.pm#L2149
+  filename: starcheck/src/lib/Ska/Starcheck/Obsid.pm
+  github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/lib/Ska/Starcheck/Obsid.pm#L2164
   id: '128'
-  line_number: 2149
+  line_number: 2164
   severity: red
   text: |-
     push @{$self->{warn}}, sprintf("$alarm Star with bad mag %.1f or magerr %.1f at (yag,zag)=%.1f,%.1f\n",
@@ -5039,10 +4998,10 @@ checks:
 
         if (defined $self->{agasc_hash}{$gs_id}){
             my $star = $self->{agasc_hash}{$gs_id};
-  filename: src/lib/Ska/Starcheck/Obsid.pm
-  github_url: https://github.com/sot/starcheck/blob/9f22ad06a785c522e9aafdcebe7335bc303658a3/src/lib/Ska/Starcheck/Obsid.pm#L2199
+  filename: starcheck/src/lib/Ska/Starcheck/Obsid.pm
+  github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/lib/Ska/Starcheck/Obsid.pm#L2214
   id: '129'
-  line_number: 2199
+  line_number: 2214
   severity: red
   text: |-
     push @{$self->{warn}},
@@ -5078,10 +5037,10 @@ checks:
             }
 
             # should I put this in an else statement, or let it stand alone?
-  filename: src/lib/Ska/Starcheck/Obsid.pm
-  github_url: https://github.com/sot/starcheck/blob/9f22ad06a785c522e9aafdcebe7335bc303658a3/src/lib/Ska/Starcheck/Obsid.pm#L2220
+  filename: starcheck/src/lib/Ska/Starcheck/Obsid.pm
+  github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/lib/Ska/Starcheck/Obsid.pm#L2235
   id: '130'
-  line_number: 2220
+  line_number: 2235
   severity: red
   text: |-
     push @{$self->{warn}},
@@ -5118,10 +5077,10 @@ checks:
             $c->{"GS_BV$i"} = $star->{bv};
             $c->{"GS_MAGERR$i"} = $star->{mag_aca_err};
             $c->{"GS_POSERR$i"} = $star->{poserr};
-  filename: src/lib/Ska/Starcheck/Obsid.pm
-  github_url: https://github.com/sot/starcheck/blob/9f22ad06a785c522e9aafdcebe7335bc303658a3/src/lib/Ska/Starcheck/Obsid.pm#L2224
+  filename: starcheck/src/lib/Ska/Starcheck/Obsid.pm
+  github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/lib/Ska/Starcheck/Obsid.pm#L2239
   id: '131'
-  line_number: 2224
+  line_number: 2239
   severity: yellow
   text: |-
     push @{$self->{yellow_warn}},
@@ -5158,10 +5117,10 @@ checks:
         $self->{n100_warm_frac} = $obsid_temps->{$self->{obsid}}->{n100_warm_frac};
         # add warnings for limit violations
         if ($self->{ccd_temp} > $config{ccd_temp_red_limit}){
-  filename: src/lib/Ska/Starcheck/Obsid.pm
-  github_url: https://github.com/sot/starcheck/blob/9f22ad06a785c522e9aafdcebe7335bc303658a3/src/lib/Ska/Starcheck/Obsid.pm#L2558
+  filename: starcheck/src/lib/Ska/Starcheck/Obsid.pm
+  github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/lib/Ska/Starcheck/Obsid.pm#L2594
   id: '132'
-  line_number: 2558
+  line_number: 2594
   severity: red
   text: |-
     push @{$self->{warn}}, "$alarm No CCD temperature prediction for obsid\n";
@@ -5196,10 +5155,10 @@ checks:
         # add warnings for limit violations
         if ($self->{ccd_temp} > $config{ccd_temp_red_limit}){
             push @{$self->{fyi}}, sprintf("$info CCD temperature exceeds %.1f C\n",
-  filename: src/lib/Ska/Starcheck/Obsid.pm
-  github_url: https://github.com/sot/starcheck/blob/9f22ad06a785c522e9aafdcebe7335bc303658a3/src/lib/Ska/Starcheck/Obsid.pm#L2559
+  filename: starcheck/src/lib/Ska/Starcheck/Obsid.pm
+  github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/lib/Ska/Starcheck/Obsid.pm#L2595
   id: '133'
-  line_number: 2559
+  line_number: 2595
   severity: red
   text: |-
     push @{$self->{warn}}, sprintf("$alarm Using %s (planning limit) for t_ccd for mag limits\n",
@@ -5228,10 +5187,10 @@ checks:
                                            $config{ccd_temp_red_limit});
         }
     }
-  filename: src/lib/Ska/Starcheck/Obsid.pm
-  github_url: https://github.com/sot/starcheck/blob/9f22ad06a785c522e9aafdcebe7335bc303658a3/src/lib/Ska/Starcheck/Obsid.pm#L2569
+  filename: starcheck/src/lib/Ska/Starcheck/Obsid.pm
+  github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/lib/Ska/Starcheck/Obsid.pm#L2605
   id: '134'
-  line_number: 2569
+  line_number: 2605
   severity: info
   text: |-
     push @{$self->{fyi}}, sprintf("$info CCD temperature exceeds %.1f C\n",
@@ -5266,10 +5225,10 @@ checks:
         my $c;
         my $self = shift;
         return unless ($c = $self->find_command("MP_STARCAT"));
-  filename: src/lib/Ska/Starcheck/FigureOfMerit.pm
-  github_url: https://github.com/sot/starcheck/blob/9f22ad06a785c522e9aafdcebe7335bc303658a3/src/lib/Ska/Starcheck/FigureOfMerit.pm#L76
+  filename: starcheck/src/lib/Ska/Starcheck/FigureOfMerit.pm
+  github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/lib/Ska/Starcheck/FigureOfMerit.pm#L77
   id: '136'
-  line_number: 76
+  line_number: 77
   severity: red
   text: |-
     push @{$self->{warn}}, ">> WARNING: Probability of 2 or fewer stars > $CUM_PROB_LIMIT\n";
@@ -5304,10 +5263,10 @@ checks:
 
     ##*****************************************************************************************
     sub parse_bad_acq_warning {
-  filename: src/lib/Ska/Starcheck/FigureOfMerit.pm
-  github_url: https://github.com/sot/starcheck/blob/9f22ad06a785c522e9aafdcebe7335bc303658a3/src/lib/Ska/Starcheck/FigureOfMerit.pm#L133
+  filename: starcheck/src/lib/Ska/Starcheck/FigureOfMerit.pm
+  github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/lib/Ska/Starcheck/FigureOfMerit.pm#L134
   id: '137'
-  line_number: 133
+  line_number: 134
   text: |-
     my ($failed, $total) = parse_bad_acq_warning($warning);
   title: Spurious check entry due to unexpected regex match
@@ -5341,8 +5300,8 @@ checks:
     sub get_fid_actions {
     ###############################################################
         my $fs_file = shift;    # Fidsel file name
-  filename: src/lib/Ska/Parse_CM_File.pm
-  github_url: https://github.com/sot/starcheck/blob/9f22ad06a785c522e9aafdcebe7335bc303658a3/src/lib/Ska/Parse_CM_File.pm#L262
+  filename: starcheck/src/lib/Ska/Parse_CM_File.pm
+  github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/lib/Ska/Parse_CM_File.pm#L262
   id: '138'
   line_number: 262
   severity: red
@@ -5380,10 +5339,10 @@ checks:
           push @{$self->{fyi}}, sprintf("$info [%2d] Commanded at intended OR MON position; but not configured for MON\n",
                         $idx);
         }
-  filename: src/lib/Ska/Starcheck/Obsid.pm
-  github_url: https://github.com/sot/starcheck/blob/9f22ad06a785c522e9aafdcebe7335bc303658a3/src/lib/Ska/Starcheck/Obsid.pm#L1577
+  filename: starcheck/src/lib/Ska/Starcheck/Obsid.pm
+  github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/lib/Ska/Starcheck/Obsid.pm#L1598
   id: '139'
-  line_number: 1577
+  line_number: 1598
   orvdot: Would require MON converted to GUI/BOT.
   severity: red
   text: |-
@@ -5391,6 +5350,244 @@ checks:
     , $idx_hash{idx}, $idx_hash{sep})
     if $idx_hash{sep} > 2.5;
   title: Monitor window off from OR specification (guide star version)
+- context: |-
+    import os
+    from chandra_aca.star_probs import set_acq_model_ms_filter
+    import starcheck
+    from starcheck.pcad_att_check import make_pcad_attitude_check_report, check_characteristics_date
+    from starcheck.calc_ccd_temps import get_ccd_temps
+    from starcheck.version import version
+
+    def ccd_temp_wrapper(kwargs):
+        return get_ccd_temps(**kwargs)
+
+    def plot_cat_wrapper(kwargs):
+        try:
+            from starcheck.plot import make_plots_for_obsid
+        except ImportError as err:
+            # write errors to starcheck's global warnings and STDERR
+    # XXXXXXXXXXXXX MARKED WARNING XXXXXXXXXXXXX
+            perl.warning("Error with Inline::Python imports {}\n".format(err))
+    # XXXXXXXXXXXXX MARKED WARNING XXXXXXXXXXXXX
+        return make_plots_for_obsid(**kwargs)
+
+    def starcheck_version():
+        return version
+
+    def get_data_dir():
+        sc_data = os.path.join(os.path.dirname(starcheck.__file__), 'data')
+        return sc_data if os.path.exists(sc_data) else ""
+
+    };
+  filename: starcheck/src/starcheck.pl
+  github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/starcheck.pl#L66
+  id: '000'
+  line_number: 66
+  severity: error
+  title: Error running Python from Perl
+  type: code
+  text: |-
+    perl.warning("Error with Inline::Python imports {}\n".format(err))
+    return make_plots_for_obsid(**kwargs)
+
+    def starcheck_version():
+    return version
+
+    def get_data_dir():
+    sc_data = os.path.join(os.path.dirname(starcheck.__file__), 'data')
+    return sc_data if os.path.exists(sc_data) else ""
+
+    };
+- context: |2-
+        }
+        # Check that the dither state at the end of the observation started 5 minutes before
+        # the end (within time_tol)
+        if ((abs($obs_tstop - $obs_stop_dither->{time} - 300) > $time_tol)){
+            push @{$self->{warn}},
+                sprintf("$alarm Last dither state for Large Dither should start 5 minutes before obs end.\n");
+        }
+        # Check that the dither state at the end of the observation is standard
+        if (not standard_dither($obs_stop_dither)){
+            push @{$self->{warn}},
+                sprintf("$alarm Dither parameters not set to standard values before obs end\n");
+        }
+
+        # If the number of warnings has not changed during this routine, it passed all checks
+        if (scalar(@{$self->{warn}}) == $n_warn){
+    # XXXXXXXXXXXXX MARKED WARNING XXXXXXXXXXXXX
+            push @{$self->{fyi}},
+    # XXXXXXXXXXXXX MARKED WARNING XXXXXXXXXXXXX
+                sprintf("$info Observation passes 'big dither' checks\n");
+        }
+    }
+
+
+
+
+
+    #############################################################################################
+    sub check_bright_perigee{
+  filename: starcheck/src/lib/Ska/Starcheck/Obsid.pm
+  github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/lib/Ska/Starcheck/Obsid.pm#L826
+  id: '140'
+  line_number: 826
+  text: |-
+    push @{$self->{fyi}},
+    sprintf("$info Observation passes 'big dither' checks\n");
+  title: Observation passes 'big dither' checks
+  type: aca_check
+  severity: info
+- context: |2-
+            }
+        }
+
+            # Quandrant boundary interference ACA-013 ACA-014 (and ACA-012 if it were actually a check)
+        push @yellow_warn, sprintf "$alarm [%2d] Quadrant Boundary. \n",$i
+            unless ($type eq 'ACQ' or $type eq 'MON' or
+                (abs($yag-$y0) > $qb_dist + $slot_dither and abs($zag-$z0) > $qb_dist + $slot_dither ));
+
+        # Faint and bright limits ~ACA-009 ACA-010
+        if ($type ne 'MON' and $mag ne '---') {
+
+            if ($mag < $mag_bright or $mag > $self->{mag_faint_red}) {
+            push @warn, sprintf "$alarm [%2d] Magnitude.  %6.3f\n",$i,$mag;
+            }
+                elsif (($type eq 'GUI' or $type eq 'BOT') and $mag > 10.3){
+    # XXXXXXXXXXXXX MARKED WARNING XXXXXXXXXXXXX
+            push @warn, sprintf "$alarm [%2d] Magnitude. Guide star %6.3f\n",$i,$mag;
+    # XXXXXXXXXXXXX MARKED WARNING XXXXXXXXXXXXX
+                }
+            elsif ($mag > $self->{mag_faint_yellow}) {
+            push @yellow_warn, sprintf "$alarm [%2d] Magnitude.  %6.3f\n",$i,$mag;
+            }
+
+        }
+
+        # FID magnitude limits ACA-011
+        if ($type eq 'FID') {
+            if ($mag =~ /---/ or $mag < $fid_bright or $mag > $fid_faint) {
+  filename: starcheck/src/lib/Ska/Starcheck/Obsid.pm
+  github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/lib/Ska/Starcheck/Obsid.pm#L1286
+  id: '141'
+  line_number: 1286
+  text: |-
+    push @warn, sprintf "$alarm [%2d] Magnitude. Guide star %6.3f\n",$i,$mag;
+  type: aca_check
+  severity: red
+  title: Guide star fainter than 10.3 mags
+- context: |2-
+        # Search box too large ACA-018
+        if ($type ne 'MON' and $c->{"HALFW$i"} > 200) {
+            push @warn, sprintf "$alarm [%2d] Search Box Size. Search Box Too Large. \n",$i;
+        }
+
+        # ACQ/BOTH search box smaller than slew error ACA-015
+        if (($type =~ /BOT|ACQ/) and $c->{"HALFW$i"} < $slew_err) {
+            push @warn, sprintf "$alarm [%2d] Search Box Size. Search Box smaller than slew error \n",$i;
+        }
+
+            # Double check that 180 and 160 boxes are only applied to bright stars
+            if (($type =~ /BOT|ACQ/) and ($c->{"HALFW$i"} > 160)
+                and (($mag + $c->{"GS_MAGERR$i"} * 3 / 100) > 9.2)){
+    # XXXXXXXXXXXXX MARKED WARNING XXXXXXXXXXXXX
+                push @warn, sprintf "$alarm [%2d] Search Box Size. Star too faint for > 160 box. \n",$i;
+    # XXXXXXXXXXXXX MARKED WARNING XXXXXXXXXXXXX
+            }
+            if (($type =~ /BOT|ACQ/) and ($c->{"HALFW$i"} > 120)
+                and (($mag + $c->{"GS_MAGERR$i"} * 1 / 100) > 10.2)){
+                push @warn, sprintf "$alarm [%2d] Search Box Size. Star too faint for > 120 box. \n",$i;
+            }
+
+        # Check that readout sizes are all 6x6 for science observations ACA-027
+        if ($is_science && $type =~ /BOT|GUI|ACQ/  && $c->{"SIZE$i"} ne "6x6"){
+          if (($c->{"SIZE$i"} eq "8x8") and ($or->{HAS_MON}) and ($c->{"IMNUM$i"} == 7 )){
+            push @{$self->{fyi}}, sprintf("$info [%2d] Readout Size. 8x8 Stealth MON?", $i);
+  filename: starcheck/src/lib/Ska/Starcheck/Obsid.pm
+  github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/lib/Ska/Starcheck/Obsid.pm#L1343
+  id: '142'
+  line_number: 1343
+  text: |-
+    push @warn, sprintf "$alarm [%2d] Search Box Size. Star too faint for > 160 box. \n",$i;
+  title: Search box greater than 160 not allowed for faint star
+  type: aca_check
+  severity: red
+- context: |2-
+            push @warn, sprintf "$alarm [%2d] Search Box Size. Search Box Too Large. \n",$i;
+        }
+
+        # ACQ/BOTH search box smaller than slew error ACA-015
+        if (($type =~ /BOT|ACQ/) and $c->{"HALFW$i"} < $slew_err) {
+            push @warn, sprintf "$alarm [%2d] Search Box Size. Search Box smaller than slew error \n",$i;
+        }
+
+            # Double check that 180 and 160 boxes are only applied to bright stars
+            if (($type =~ /BOT|ACQ/) and ($c->{"HALFW$i"} > 160)
+                and (($mag + $c->{"GS_MAGERR$i"} * 3 / 100) > 9.2)){
+                push @warn, sprintf "$alarm [%2d] Search Box Size. Star too faint for > 160 box. \n",$i;
+            }
+            if (($type =~ /BOT|ACQ/) and ($c->{"HALFW$i"} > 120)
+                and (($mag + $c->{"GS_MAGERR$i"} * 1 / 100) > 10.2)){
+    # XXXXXXXXXXXXX MARKED WARNING XXXXXXXXXXXXX
+                push @warn, sprintf "$alarm [%2d] Search Box Size. Star too faint for > 120 box. \n",$i;
+    # XXXXXXXXXXXXX MARKED WARNING XXXXXXXXXXXXX
+            }
+
+        # Check that readout sizes are all 6x6 for science observations ACA-027
+        if ($is_science && $type =~ /BOT|GUI|ACQ/  && $c->{"SIZE$i"} ne "6x6"){
+          if (($c->{"SIZE$i"} eq "8x8") and ($or->{HAS_MON}) and ($c->{"IMNUM$i"} == 7 )){
+            push @{$self->{fyi}}, sprintf("$info [%2d] Readout Size. 8x8 Stealth MON?", $i);
+          }
+          else{
+            push @warn, sprintf("$alarm [%2d] Readout Size. %s Should be 6x6\n", $i, $c->{"SIZE$i"});
+          }
+  filename: starcheck/src/lib/Ska/Starcheck/Obsid.pm
+  github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/lib/Ska/Starcheck/Obsid.pm#L1347
+  id: '143'
+  line_number: 1347
+  text: |-
+    push @warn, sprintf "$alarm [%2d] Search Box Size. Star too faint for > 120 box. \n",$i;
+  title: Search box greater than 120 not allowed for faint star
+  type: aca_check
+  severity: red
+- context: |-
+    ###################################################################################
+        my $self = shift;
+        my $c;
+        my $big_box_count = 0;
+        return unless ($c = find_command($self, 'MP_STARCAT'));
+        for my $i (1 .. 16){
+            my $type = $c->{"TYPE$i"};
+            my $hw = $c->{"HALFW$i"};
+            if ($type =~ /ACQ|BOT/){
+                if ($hw >= 160){
+                    $big_box_count++;
+                }
+            }
+        }
+        if ($big_box_count < 3){
+    # XXXXXXXXXXXXX MARKED WARNING XXXXXXXXXXXXX
+            push @{$self->{warn}}, "$alarm Fewer than 3 ACQ stars with boxes >= 160 arcsec\n";
+    # XXXXXXXXXXXXX MARKED WARNING XXXXXXXXXXXXX
+        }
+    }
+
+
+
+    ###################################################################################
+    sub check_idx_warn{
+    ###################################################################################
+
+        my $self = shift;
+
+  filename: starcheck/src/lib/Ska/Starcheck/Obsid.pm
+  title: Not enough big boxes on acquisition stars
+  type: aca_check
+  severity: red
+  github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/lib/Ska/Starcheck/Obsid.pm#L2550
+  id: '144'
+  line_number: 2550
+  text: |-
+    push @{$self->{warn}}, "$alarm Fewer than 3 ACQ stars with boxes >= 160 arcsec\n";
 - aca_cl_id: '045'
   id: m001
   orvdot: Include a dark cal and split dark cal observation
@@ -5398,6 +5595,6 @@ checks:
   title: Dark cal commanding is incorrect
   type: aca_check
 info:
-  starcheck_commit: 9f22ad06a785c522e9aafdcebe7335bc303658a3
+  starcheck_commit: 3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a
   tags:
-  - '11.13'
+  - '11.16'
