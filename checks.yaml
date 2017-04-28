@@ -33,8 +33,6 @@ checks:
   id: '000'
   line_number: 66
   severity: error
-  title: Error running Python from Perl
-  type: code
   text: |-
     perl.warning("Error with Inline::Python imports {}\n".format(err))
     return make_plots_for_obsid(**kwargs)
@@ -47,6 +45,8 @@ checks:
     return sc_data if os.path.exists(sc_data) else ""
 
     };
+  title: Error running Python from Perl
+  type: code
 - context: |-
     my @ps = Ska::Parse_CM_File::PS($ps_file) if ($ps_file);
 
@@ -84,7 +84,7 @@ checks:
     map { warning("$_\n") } @{$error};
   title: Put out errors recorded before creation of warning function
   type: code
-- context: |-
+- context: |2-
 
     # Read OR file and integrate into %obs
     my %or = Ska::Parse_CM_File::OR($or_file) if ($or_file);
@@ -1227,6 +1227,8 @@ checks:
 
         }
     }
+
+
   filename: starcheck/src/lib/Ska/Starcheck/Obsid.pm
   github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/lib/Ska/Starcheck/Obsid.pm#L516
   id: '031'
@@ -5431,12 +5433,12 @@ checks:
   github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/lib/Ska/Starcheck/Obsid.pm#L826
   id: '140'
   line_number: 826
+  severity: info
   text: |-
     push @{$self->{fyi}},
     sprintf("$info Observation passes 'big dither' checks\n");
   title: Observation passes 'big dither' checks
   type: aca_check
-  severity: info
 - context: |2-
             }
         }
@@ -5470,12 +5472,14 @@ checks:
   github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/lib/Ska/Starcheck/Obsid.pm#L1286
   id: '141'
   line_number: 1286
+  severity: red
   text: |-
     push @warn, sprintf "$alarm [%2d] Magnitude. Guide star %6.3f\n",$i,$mag;
-  type: aca_check
-  severity: red
   title: Guide star fainter than 10.3 mags
+  type: aca_check
 - context: |2-
+
+
         # Search box too large ACA-018
         if ($type ne 'MON' and $c->{"HALFW$i"} > 200) {
             push @warn, sprintf "$alarm [%2d] Search Box Size. Search Box Too Large. \n",$i;
@@ -5506,11 +5510,11 @@ checks:
   github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/lib/Ska/Starcheck/Obsid.pm#L1343
   id: '142'
   line_number: 1343
+  severity: red
   text: |-
     push @warn, sprintf "$alarm [%2d] Search Box Size. Star too faint for > 160 box. \n",$i;
   title: Search box greater than 160 not allowed for faint star
   type: aca_check
-  severity: red
 - context: |2-
             push @warn, sprintf "$alarm [%2d] Search Box Size. Search Box Too Large. \n",$i;
         }
@@ -5544,11 +5548,11 @@ checks:
   github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/lib/Ska/Starcheck/Obsid.pm#L1347
   id: '143'
   line_number: 1347
+  severity: red
   text: |-
     push @warn, sprintf "$alarm [%2d] Search Box Size. Star too faint for > 120 box. \n",$i;
   title: Search box greater than 120 not allowed for faint star
   type: aca_check
-  severity: red
 - context: |-
     ###################################################################################
         my $self = shift;
@@ -5578,16 +5582,15 @@ checks:
     ###################################################################################
 
         my $self = shift;
-
   filename: starcheck/src/lib/Ska/Starcheck/Obsid.pm
-  title: Not enough big boxes on acquisition stars
-  type: aca_check
-  severity: red
   github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/lib/Ska/Starcheck/Obsid.pm#L2550
   id: '144'
   line_number: 2550
+  severity: red
   text: |-
     push @{$self->{warn}}, "$alarm Fewer than 3 ACQ stars with boxes >= 160 arcsec\n";
+  title: Not enough big boxes on acquisition stars
+  type: aca_check
 - aca_cl_id: '045'
   id: m001
   orvdot: Include a dark cal and split dark cal observation
