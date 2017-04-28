@@ -1,5 +1,53 @@
 checks:
 - context: |-
+    import os
+    from chandra_aca.star_probs import set_acq_model_ms_filter
+    import starcheck
+    from starcheck.pcad_att_check import make_pcad_attitude_check_report, check_characteristics_date
+    from starcheck.calc_ccd_temps import get_ccd_temps
+    from starcheck.version import version
+
+    def ccd_temp_wrapper(kwargs):
+        return get_ccd_temps(**kwargs)
+
+    def plot_cat_wrapper(kwargs):
+        try:
+            from starcheck.plot import make_plots_for_obsid
+        except ImportError as err:
+            # write errors to starcheck's global warnings and STDERR
+    # XXXXXXXXXXXXX MARKED WARNING XXXXXXXXXXXXX
+            perl.warning("Error with Inline::Python imports {}\n".format(err))
+    # XXXXXXXXXXXXX MARKED WARNING XXXXXXXXXXXXX
+        return make_plots_for_obsid(**kwargs)
+
+    def starcheck_version():
+        return version
+
+    def get_data_dir():
+        sc_data = os.path.join(os.path.dirname(starcheck.__file__), 'data')
+        return sc_data if os.path.exists(sc_data) else ""
+
+    };
+  filename: starcheck/src/starcheck.pl
+  github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/starcheck.pl#L66
+  id: '000'
+  line_number: 66
+  severity: error
+  title: Error running Python from Perl
+  type: code
+  text: |-
+    perl.warning("Error with Inline::Python imports {}\n".format(err))
+    return make_plots_for_obsid(**kwargs)
+
+    def starcheck_version():
+    return version
+
+    def get_data_dir():
+    sc_data = os.path.join(os.path.dirname(starcheck.__file__), 'data')
+    return sc_data if os.path.exists(sc_data) else ""
+
+    };
+- context: |-
     my @ps = Ska::Parse_CM_File::PS($ps_file) if ($ps_file);
 
     # Read mech check file and parse
@@ -5350,54 +5398,6 @@ checks:
     , $idx_hash{idx}, $idx_hash{sep})
     if $idx_hash{sep} > 2.5;
   title: Monitor window off from OR specification (guide star version)
-- context: |-
-    import os
-    from chandra_aca.star_probs import set_acq_model_ms_filter
-    import starcheck
-    from starcheck.pcad_att_check import make_pcad_attitude_check_report, check_characteristics_date
-    from starcheck.calc_ccd_temps import get_ccd_temps
-    from starcheck.version import version
-
-    def ccd_temp_wrapper(kwargs):
-        return get_ccd_temps(**kwargs)
-
-    def plot_cat_wrapper(kwargs):
-        try:
-            from starcheck.plot import make_plots_for_obsid
-        except ImportError as err:
-            # write errors to starcheck's global warnings and STDERR
-    # XXXXXXXXXXXXX MARKED WARNING XXXXXXXXXXXXX
-            perl.warning("Error with Inline::Python imports {}\n".format(err))
-    # XXXXXXXXXXXXX MARKED WARNING XXXXXXXXXXXXX
-        return make_plots_for_obsid(**kwargs)
-
-    def starcheck_version():
-        return version
-
-    def get_data_dir():
-        sc_data = os.path.join(os.path.dirname(starcheck.__file__), 'data')
-        return sc_data if os.path.exists(sc_data) else ""
-
-    };
-  filename: starcheck/src/starcheck.pl
-  github_url: https://github.com/sot/starcheck/blob/3bea225e291a1eebccc9f05a9e92f2f3ae1c4c5a/starcheck/src/starcheck.pl#L66
-  id: '000'
-  line_number: 66
-  severity: error
-  title: Error running Python from Perl
-  type: code
-  text: |-
-    perl.warning("Error with Inline::Python imports {}\n".format(err))
-    return make_plots_for_obsid(**kwargs)
-
-    def starcheck_version():
-    return version
-
-    def get_data_dir():
-    sc_data = os.path.join(os.path.dirname(starcheck.__file__), 'data')
-    return sc_data if os.path.exists(sc_data) else ""
-
-    };
 - context: |2-
         }
         # Check that the dither state at the end of the observation started 5 minutes before
