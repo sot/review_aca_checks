@@ -36,6 +36,7 @@ def change_style(style, representer):
         return scalar
     return new_representer
 
+
 represent_literal_str = change_style('|', SafeRepresenter.represent_str)
 yaml.add_representer(literal_str, represent_literal_str)
 
@@ -94,12 +95,12 @@ def get_sc():
     for f in perl_files:
         lines = open(f).readlines()
         for idx, line in enumerate(lines):
-            if re.match("^\s*#", line):
+            if re.match(r"^\s*#", line):
                 continue
-            re_warns = ['[^\$]warning\s*\(', '\$warn\s*=',
-                        'push @\S*warn', 'push @\{\$error\}', 'push @\S*fyi']
+            re_warns = [r'[^\$]warning\s*\(', r'\$warn\s*=',
+                        r'push @\S*warn', r'push @\{\$error\}', r'push @\S*fyi']
             if any(re.search(re_warn, line) for re_warn in re_warns):
-                    checks.append(get_single_warn(f, lines, idx))
+                checks.append(get_single_warn(f, lines, idx))
     return checks
 
 
@@ -120,7 +121,8 @@ def copy_manual_fields(c, pc):
     """
     fields = pc.keys()
     for field in fields:
-        if field not in ['id', 'line_number', 'filename', 'context', 'text', 'github_url', 'has_match']:
+        if field not in ['id', 'line_number', 'filename', 'context', 'text',
+                         'github_url', 'has_match']:
             c[field] = pc[field]
             pc['copied'] = 1
 
