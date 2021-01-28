@@ -48,7 +48,7 @@ def get_dir_version(dirname):
     with chdir(dirname):
         changes = int(bash("git diff-index --quiet HEAD ; echo $?")[0])
         if changes != 0:
-            print "Warning: {} has changes and git version may not map to code".format(dirname)
+            print("Warning: {} has changes and git version may not map to code".format(dirname))
         commit = bash("git rev-parse HEAD")[0]
         tags = bash("git tag --points-at {}".format(commit))
         return commit, tags
@@ -133,7 +133,7 @@ def assign_ids(checks):
     no_id_checks = [c for c in checks if 'id' not in c]
     for idx, c in enumerate(no_id_checks):
         c['id'] = "{:03d}".format(prev_max + idx)
-        print("Assigning new id {} to check {}".format(c['id'], c['text']))
+        print(("Assigning new id {} to check {}".format(c['id'], c['text'])))
 
 
 def preserve_manual_content(checks, previous_checks):
@@ -152,7 +152,7 @@ def preserve_manual_content(checks, previous_checks):
                     copy_manual_fields(c, pc)
                     break
                 else:
-                    print("Conflict on id {}".format(c['id']))
+                    print(("Conflict on id {}".format(c['id'])))
 
 
 def confirm_no_lost_checks(checks, previous_checks):
@@ -169,7 +169,7 @@ def confirm_no_lost_checks(checks, previous_checks):
             if str(pc['id']).startswith('m'):
                 checks.append(pc)
             else:
-                print("test {} is now missing".format(pc['text']))
+                print(("test {} is now missing".format(pc['text'])))
                 pc['missing'] = 1
                 checks.append(pc)
 
