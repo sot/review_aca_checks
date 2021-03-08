@@ -30,7 +30,7 @@ shutil.copy("prism_ocadia.css", opt.outdir)
 shutil.copy("prism.js", opt.outdir)
 shutil.copy("sorttable.js", opt.outdir)
 
-check_data = yaml.load(open(opt.infile).read())
+check_data = yaml.safe_load(open(opt.infile).read())
 checks = check_data['checks']
 for check in checks:
     check['basename'] = ""
