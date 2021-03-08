@@ -1,4 +1,5 @@
 import os
+from pathlib import Path
 import re
 from operator import itemgetter
 import yaml
@@ -12,8 +13,10 @@ def get_options():
     parser = argparse.ArgumentParser(
         description="Get starcheck checks")
     parser.set_defaults()
-    parser.add_argument("scdir",
+    parser.add_argument("--starcheck-dir",
                         help="starcheck git repo directory")
+    parser.add_argument("--sparkles-dir",
+                        help="sparkles git repo directory")
     parser.add_argument("--infile",
                         default="checks.yaml",
                         help="file of checks (output from previous run of tool)")
@@ -22,9 +25,8 @@ def get_options():
     args = parser.parse_args()
     return args
 
+
 # Add helper code to be able to print certain fields (context) as literal blocks
-
-
 class literal_str(str):
     pass
 
@@ -35,6 +37,7 @@ def change_style(style, representer):
         scalar.style = style
         return scalar
     return new_representer
+
 
 represent_literal_str = change_style('|', SafeRepresenter.represent_str)
 yaml.add_representer(literal_str, represent_literal_str)
@@ -48,13 +51,13 @@ def get_dir_version(dirname):
     with chdir(dirname):
         changes = int(bash("git diff-index --quiet HEAD ; echo $?")[0])
         if changes != 0:
-            print "Warning: {} has changes and git version may not map to code".format(dirname)
+            print("Warning: {} has changes and git version may not map to code".format(dirname))
         commit = bash("git rev-parse HEAD")[0]
         tags = bash("git tag --points-at {}".format(commit))
         return commit, tags
 
 
-def get_single_warn(fname, lines, idx, context_range=[-15, 10]):
+def get_single_warn(fname, project, lines, idx, context_range=[-15, 10]):
     """
     Extract the context and text of a warning
 
@@ -75,31 +78,38 @@ def get_single_warn(fname, lines, idx, context_range=[-15, 10]):
     context_lines.insert(abs(context_range[0]), "# XXXXXXXXXXXXX MARKED WARNING XXXXXXXXXXXXX")
     context_lines.insert(abs(context_range[0]) + 2, "# XXXXXXXXXXXXX MARKED WARNING XXXXXXXXXXXXX")
     return {'filename': fname,
+            'project': project,
             'line_number': idx + 1,
             'text': literal_str("\n".join(warn_text)),
             'context': literal_str("\n".join(context_lines))}
 
 
-def get_sc():
+def get_sc(starcheck_dir, sparkles_dir):
     """
     For a list of source files, get all the indexes of lines that match
     standard warning patterns, and fetch the context about and warning that starts
     with the matching line.
     """
-    perl_files = ['starcheck/src/starcheck.pl',
-                  'starcheck/src/lib/Ska/Starcheck/Obsid.pm',
-                  'starcheck/src/lib/Ska/Starcheck/FigureOfMerit.pm',
-                  'starcheck/src/lib/Ska/Parse_CM_File.pm']
+    files = [{'project': 'starcheck',
+              'dir': starcheck_dir,
+              'file': 'starcheck/src/starcheck.pl'},
+             {'project': 'starcheck',
+              'dir': starcheck_dir,
+              'file': 'starcheck/src/lib/Ska/Starcheck/Obsid.pm'},
+             {'project': 'starcheck',
+              'dir': starcheck_dir,
+              'file': 'starcheck/src/lib/Ska/Parse_CM_File.pm'}]
     checks = []
-    for f in perl_files:
-        lines = open(f).readlines()
+    for f in files:
+        lines = (Path(f['dir']) / f['file']).open().readlines()
         for idx, line in enumerate(lines):
-            if re.match("^\s*#", line):
+            if re.match(r"^\s*#", line):
                 continue
-            re_warns = ['[^\$]warning\s*\(', '\$warn\s*=',
-                        'push @\S*warn', 'push @\{\$error\}', 'push @\S*fyi']
+            re_warns = [r'[^\$]warning\s*\(', r'\$warn\s*=',
+                        r'push @\S*warn', r'push @\{\$error\}', r'push @\S*fyi',
+                        r'NOT OK', r'add_message']
             if any(re.search(re_warn, line) for re_warn in re_warns):
-                    checks.append(get_single_warn(f, lines, idx))
+                checks.append(get_single_warn(f['file'], f['project'], lines, idx))
     return checks
 
 
@@ -108,10 +118,13 @@ def add_github_urls(checks, sha):
     Given the array of warnings/checks, determine the github URL and add to the
     per-warning dict.
     """
-    url = "https://github.com/sot/starcheck/blob/"
+    url = "https://github.com/sot/"
     for check in checks:
-        check['github_url'] = "{url}{sha}/{filename}#L{line_number}".format(
-            url=url, filename=check['filename'], sha=sha, line_number=check['line_number'])
+        project = check['project']
+        line_number = check['line_number']
+        filename = check['filename']
+        check['github_url'] = (
+            f"{url}/{project}/blob/{sha}/{filename}#L{line_number}")
 
 
 def copy_manual_fields(c, pc):
@@ -120,9 +133,9 @@ def copy_manual_fields(c, pc):
     """
     fields = pc.keys()
     for field in fields:
-        if field not in ['id', 'line_number', 'filename', 'context', 'text', 'github_url', 'has_match']:
+        if field not in ['id', 'line_number', 'filename', 'context', 'text',
+                         'github_url', 'has_match']:
             c[field] = pc[field]
-            pc['copied'] = 1
 
 
 def assign_ids(checks):
@@ -133,7 +146,7 @@ def assign_ids(checks):
     no_id_checks = [c for c in checks if 'id' not in c]
     for idx, c in enumerate(no_id_checks):
         c['id'] = "{:03d}".format(prev_max + idx)
-        print("Assigning new id {} to check {}".format(c['id'], c['text']))
+        print(("Assigning new id {} to check {}".format(c['id'], c['text'])))
 
 
 def preserve_manual_content(checks, previous_checks):
@@ -152,7 +165,7 @@ def preserve_manual_content(checks, previous_checks):
                     copy_manual_fields(c, pc)
                     break
                 else:
-                    print("Conflict on id {}".format(c['id']))
+                    print(("Conflict on id {}".format(c['id'])))
 
 
 def confirm_no_lost_checks(checks, previous_checks):
@@ -169,18 +182,19 @@ def confirm_no_lost_checks(checks, previous_checks):
             if str(pc['id']).startswith('m'):
                 checks.append(pc)
             else:
-                print("test {} is now missing".format(pc['text']))
+                print(("test {} is now missing".format(pc['text'])))
                 pc['missing'] = 1
                 checks.append(pc)
 
 
 def main(opt):
-    scversion, tags = get_dir_version(opt.scdir)
-    with chdir(opt.scdir):
-        checks = get_sc()
+    scversion, tags = get_dir_version(opt.starcheck_dir)
+    sparkles_version, sparkles_tags = get_dir_version(opt.sparkles_dir)
+    checks = get_sc(starcheck_dir=opt.starcheck_dir,
+                    sparkles_dir=opt.sparkles_dir)
     add_github_urls(checks, scversion)
     if os.path.exists(opt.infile):
-        previous_checks = yaml.load(open(opt.infile).read())['checks']
+        previous_checks = yaml.safe_load(open(opt.infile).read())['checks']
         assign_ids(previous_checks)
         preserve_manual_content(checks, previous_checks)
         confirm_no_lost_checks(checks, previous_checks)

@@ -17,6 +17,7 @@ def get_options():
     args = parser.parse_args()
     return args
 
+
 jinja_env = jinja2.Environment(
     loader=jinja2.FileSystemLoader('templates'))
 jinja_env.line_comment_prefix = '##'
@@ -30,7 +31,7 @@ shutil.copy("prism_ocadia.css", opt.outdir)
 shutil.copy("prism.js", opt.outdir)
 shutil.copy("sorttable.js", opt.outdir)
 
-check_data = yaml.load(open(opt.infile).read())
+check_data = yaml.safe_load(open(opt.infile).read())
 checks = check_data['checks']
 for check in checks:
     check['basename'] = ""
@@ -41,8 +42,8 @@ headercols = ['id', 'title', 'file',
               'type', 'severity', 'aca_cl_id']
 
 displaycols = ['id', 'title', 'file',
-              'type', 'severity', 'aca_cl_id',
-              'note', 'orvdot']
+               'type', 'severity', 'aca_cl_id',
+               'note', 'orvdot']
 
 details = jinja_env.get_template('details.html')
 detailpage = "details.html"
