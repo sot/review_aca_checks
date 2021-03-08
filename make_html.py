@@ -17,6 +17,7 @@ def get_options():
     args = parser.parse_args()
     return args
 
+
 jinja_env = jinja2.Environment(
     loader=jinja2.FileSystemLoader('templates'))
 jinja_env.line_comment_prefix = '##'
@@ -41,8 +42,8 @@ headercols = ['id', 'title', 'file',
               'type', 'severity', 'aca_cl_id']
 
 displaycols = ['id', 'title', 'file',
-              'type', 'severity', 'aca_cl_id',
-              'note', 'orvdot']
+               'type', 'severity', 'aca_cl_id',
+               'note', 'orvdot']
 
 details = jinja_env.get_template('details.html')
 detailpage = "details.html"
